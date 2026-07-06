@@ -75,8 +75,10 @@
   .frame .fx{font-family:var(--mono);color:var(--sub);font-weight:600;}
 
   /* section label */
-  .seclabel{display:flex;align-items:center;gap:12px;margin:30px 2px 15px;}
-  .seclabel h3{font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--sub);text-transform:uppercase;white-space:nowrap;}
+  .seclabel{display:flex;align-items:center;gap:12px;margin:38px 2px 18px;}
+  .seclabel .mark{width:5px;height:22px;border-radius:3px;flex:none;background:var(--mk,#2a6bef);}
+  .seclabel h3{font-size:18.5px;font-weight:800;color:var(--text);white-space:nowrap;letter-spacing:.3px;}
+  .seclabel h3 .en{font-size:10.5px;font-weight:700;letter-spacing:1.4px;color:var(--faint);text-transform:uppercase;margin-left:10px;vertical-align:2px;}
   .seclabel .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);}
 
   /* grid */
@@ -188,7 +190,7 @@
   </div>
 
   <!-- 盘面信号 -->
-  <div class="seclabel"><h3>盘面信号 · Market Signals</h3><span class="ln"></span></div>
+  <div class="seclabel"><span class="mark" style="background:#2a6bef"></span><h3>盘面信号<span class="en">Market Signals</span></h3><span class="ln"></span></div>
   <div class="grid">
 
     <a class="card a-amber" href="cycle-map/">
@@ -232,7 +234,7 @@
   </div>
 
   <!-- 风险 · 观点 · 研报 -->
-  <div class="seclabel"><h3>风险 · 观点 · 研报 · Research</h3><span class="ln"></span></div>
+  <div class="seclabel"><span class="mark" style="background:#7c56e6"></span><h3>风险 · 观点 · 研报<span class="en">Research</span></h3><span class="ln"></span></div>
   <div class="grid">
 
     <a class="card a-red" href="ai-risk/">
@@ -289,7 +291,7 @@
   </div>
 
   <!-- 团队日报 · Team -->
-  <div class="seclabel"><h3>团队日报 · Team</h3><span class="ln"></span></div>
+  <div class="seclabel"><span class="mark" style="background:#b0842b"></span><h3>团队日报<span class="en">Team</span></h3><span class="ln"></span></div>
   <div class="grid">
 
     <a class="card a-gold" href="daily/">
