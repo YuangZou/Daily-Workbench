@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高手交易行为洞察</title>
+<style>
+  :root{
+    --bg:#0b1020; --card:#141d38; --card2:#18234a; --line:rgba(255,255,255,.09);
+    --text:#e8eefc; --sub:#9aa7c4; --faint:#5f6d90; --teal:#2dd4bf; --link:#5b9dff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:radial-gradient(1200px 600px at 70% -10%, #17244d 0%, var(--bg) 55%) fixed, var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.7; padding:32px 20px 70px;}
+  .wrap{max-width:960px;margin:0 auto;}
+  .back{color:var(--faint);text-decoration:none;font-size:13px;transition:color .15s;}
+  .back:hover{color:var(--teal);}
+  .tag{display:inline-block;margin:18px 0 12px;font-size:11px;font-weight:700;letter-spacing:.6px;
+    padding:4px 12px;border-radius:20px;background:rgba(45,212,191,.16);
+    color:var(--teal);border:1px solid rgba(45,212,191,.35);}
+  h1{font-size:26px;font-weight:800;letter-spacing:.3px;}
+  .metaline{color:var(--sub);font-size:13px;margin-top:8px;}
+  .lead{margin:20px 0 6px;padding:18px 20px;border-radius:14px;
+    background:linear-gradient(135deg,rgba(45,212,191,.13),rgba(45,212,191,.04));
+    border:1px solid rgba(45,212,191,.28);border-left:4px solid var(--teal);
+    font-size:14.5px;color:#d9f5f0;line-height:1.75;}
+  .lead strong{color:#fff;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:26px 0 30px;}
+  .dl{display:block;text-decoration:none;color:inherit;background:linear-gradient(160deg,var(--card2),var(--card));
+    border:1px solid var(--line);border-radius:14px;padding:20px;transition:transform .15s,border-color .15s;}
+  .dl:hover{transform:translateY(-3px);border-color:rgba(45,212,191,.4);}
+  .dl .k{font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--teal);}
+  .dl h3{font-size:17px;margin:8px 0 6px;}
+  .dl p{font-size:13px;color:var(--sub);line-height:1.6;}
+  .dl .go{margin-top:12px;font-size:12.5px;color:var(--faint);}
+  .dl:hover .go{color:var(--teal);}
+  .viewer{margin-top:10px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0e1730;}
+  .viewer .vh{padding:12px 16px;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+  .viewer .vh a{color:var(--link);text-decoration:none;font-size:12.5px;}
+  .viewer object,.viewer iframe{width:100%;height:82vh;min-height:520px;border:none;background:#fff;}
+  .foot{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);
+    color:var(--faint);font-size:12.5px;line-height:1.9;}
+  @media(max-width:600px){
+    body{padding:22px 14px 60px;} h1{font-size:21px;}
+    .viewer object,.viewer iframe{height:70vh;min-height:420px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← 返回研究工作台</a>
+  <div class="tag">分析 · INSIGHT</div>
+  <h1>高手交易行为洞察</h1>
+  <div class="metaline">实盘大赛 · 重量组前20 · 数据快照 2026-07-03</div>
+
+  <div class="lead">
+    从重量组前 20 名高手近 5 日的<strong>当日平仓盈亏与手数</strong>反推「聪明钱在做什么」：
+    <strong>品种热点榜</strong>（谁在被最多人交易）· <strong>赚钱效应榜</strong>（哪些品种最赚钱）·
+    <strong>打法画像</strong> · <strong>品种轮动</strong>。要点：<strong>纯碱</strong>最赚钱、<strong>鸡蛋</strong>最多人做。
+  </div>
+
+  <div class="cards">
+    <a class="dl" href="report.pdf" target="_blank" rel="noopener">
+      <div class="k">完整版 · FULL</div>
+      <h3>高手交易行为洞察（完整版）</h3>
+      <p>四张榜单全解 + 打法画像 + 品种轮动，含明细与解读。</p>
+      <div class="go">打开 / 下载 PDF →</div>
+    </a>
+    <a class="dl" href="brief.pdf" target="_blank" rel="noopener">
+      <div class="k">精简版 · BRIEF</div>
+      <h3>高手洞察 · 精简版</h3>
+      <p>一页速览：核心结论与关键榜单，快速过一眼。</p>
+      <div class="go">打开 / 下载 PDF →</div>
+    </a>
+  </div>
+
+  <div class="viewer">
+    <div class="vh">
+      <span>内嵌预览 · 完整版</span>
+      <a href="report.pdf" target="_blank" rel="noopener">在新标签页打开 ↗</a>
+    </div>
+    <object data="report.pdf" type="application/pdf">
+      <iframe src="report.pdf" title="高手交易行为洞察 完整版"></iframe>
+    </object>
+  </div>
+
+  <footer class="foot">
+    本页数据为对应时点快照（2026-07-03）。仅供内部研究参考，不构成投资建议。<br>
+    <a class="back" href="../">← 返回研究工作台</a>
+  </footer>
+</div>
+</body>
+</html>

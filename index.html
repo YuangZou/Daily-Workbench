@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>研究工作台 · Research Workbench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080c18; --card:#111a33; --card2:#16213f; --line:rgba(255,255,255,.07);
+    --text:#eaf0ff; --sub:#94a2c4; --faint:#5a688c;
+    --amber:#f5b544; --green:#28d17c; --red:#ff5a5f; --blue:#4c8dff; --teal:#2dd4bf; --purple:#b48bff;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    background:
+      radial-gradient(900px 480px at 12% -8%, rgba(76,141,255,.16), transparent 60%),
+      radial-gradient(1000px 520px at 92% 0%, rgba(180,139,255,.12), transparent 55%),
+      linear-gradient(180deg,#0a0f1e,#080c18 40%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    min-height:100vh; padding:44px 30px 64px; position:relative;
+  }
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.4;
+    background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:46px 46px;mask-image:radial-gradient(circle at 50% 30%,#000,transparent 85%);}
+  .wrap{max-width:1200px;margin:0 auto;position:relative;}
+
+  /* header */
+  .masthead{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:18px;}
+  .brand{display:flex;align-items:center;gap:14px;}
+  .logo{width:44px;height:44px;border-radius:12px;flex:none;
+    background:linear-gradient(145deg,#4c8dff,#b48bff);display:grid;place-items:center;
+    box-shadow:0 8px 22px rgba(76,141,255,.4);}
+  .logo svg{width:24px;height:24px;}
+  .brand h1{font-size:29px;font-weight:800;letter-spacing:.3px;line-height:1.1;}
+  .brand h1 .en{color:var(--faint);font-weight:600;font-size:13px;letter-spacing:3px;display:block;margin-top:3px;}
+  .brand-sub{color:var(--sub);font-size:13px;margin-top:9px;}
+  .status{text-align:right;font-size:12.5px;color:var(--sub);line-height:1.95;}
+  .status .live{display:inline-flex;align-items:center;gap:7px;font-weight:600;color:var(--text);}
+  .status .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(40,209,124,.16);}
+  .status .mono{font-family:var(--mono);color:var(--faint);}
+
+  /* overview strip */
+  .overview{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px;}
+  .pill{display:flex;align-items:baseline;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--line);
+    border-radius:11px;padding:9px 14px;font-size:12.5px;color:var(--sub);}
+  .pill b{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--text);}
+
+  .divider{margin:26px 0 26px;height:1px;background:linear-gradient(90deg,transparent,var(--line) 12%,var(--line) 88%,transparent);}
+
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;}
+  .card{position:relative;display:flex;flex-direction:column;text-decoration:none;color:inherit;
+    background:linear-gradient(158deg,var(--card2),var(--card));
+    border:1px solid var(--line);border-radius:18px;padding:20px 22px 18px;overflow:hidden;isolation:isolate;
+    transition:transform .18s cubic-bezier(.2,.7,.3,1),box-shadow .18s,border-color .18s;}
+  .card::after{content:"";position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .18s;
+    background:radial-gradient(400px 160px at 80% 0%, var(--gl), transparent 70%);}
+  .card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(0,0,0,.5);border-color:var(--ac);}
+  .card:hover::after{opacity:.5;}
+  .card:focus-visible{outline:2px solid var(--ac);outline-offset:3px;}
+  .card .edge{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac);}
+
+  .toprow{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;gap:10px;}
+  .tagwrap{display:flex;align-items:center;gap:10px;}
+  .ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none;
+    background:var(--acbg);color:var(--ac);}
+  .ico svg{width:19px;height:19px;}
+  .tag{font-size:10.5px;font-weight:700;letter-spacing:.6px;color:var(--ac);text-transform:uppercase;}
+  .snap{font-size:11px;color:var(--faint);font-family:var(--mono);white-space:nowrap;}
+  .card h3{font-size:19px;font-weight:750;margin-bottom:7px;letter-spacing:.2px;}
+  .card p{color:var(--sub);font-size:12.8px;line-height:1.66;flex:1;}
+
+  .stat{margin-top:16px;display:flex;gap:18px;flex-wrap:wrap;align-items:baseline;}
+  .stat b{font-size:21px;font-weight:800;font-family:var(--mono);}
+  .stat span{font-size:11.5px;color:var(--faint);}
+
+  .viz{margin-top:15px;height:34px;display:flex;align-items:flex-end;gap:3px;}
+  .foot-go{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--faint);display:flex;align-items:center;justify-content:space-between;}
+  .card:hover .foot-go{color:var(--ac);}
+  .foot-go .arrow{transition:transform .18s;}
+  .card:hover .foot-go .arrow{transform:translateX(4px);}
+
+  /* accents */
+  .a-amber{--ac:var(--amber);--acbg:rgba(245,181,68,.13);--gl:rgba(245,181,68,.16);}
+  .a-red{--ac:var(--red);--acbg:rgba(255,90,95,.13);--gl:rgba(255,90,95,.16);}
+  .a-blue{--ac:var(--blue);--acbg:rgba(76,141,255,.14);--gl:rgba(76,141,255,.18);}
+  .a-teal{--ac:var(--teal);--acbg:rgba(45,212,191,.13);--gl:rgba(45,212,191,.16);}
+  .a-purple{--ac:var(--purple);--acbg:rgba(180,139,255,.14);--gl:rgba(180,139,255,.18);}
+  .a-green{--ac:var(--green);--acbg:rgba(40,209,124,.13);--gl:rgba(40,209,124,.16);}
+  .c-green{color:var(--green)}.c-red{color:var(--red)}.c-amber{color:var(--amber)}
+
+  .foot{margin-top:36px;color:var(--faint);font-size:11.5px;line-height:1.85;
+    border-top:1px solid var(--line);padding-top:16px;}
+
+  @media(max-width:560px){
+    body{padding:28px 16px 50px;}
+    .brand h1{font-size:23px;} .masthead{align-items:flex-start;} .status{text-align:left;}
+    .grid{grid-template-columns:1fr;gap:15px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="brand">
+      <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></div>
+      <div>
+        <h1>研究工作台<span class="en">RESEARCH WORKBENCH</span></h1>
+        <div class="brand-sub">日常研究成果 · 统一入口 · 点击面板进入</div>
+      </div>
+    </div>
+    <div class="status">
+      <div class="live"><span class="dot"></span>数据快照</div>
+      <div class="mono">截至 2026-07-06</div>
+      <div style="color:var(--faint)">内部研究参考 · 不构成投资建议</div>
+    </div>
+  </div>
+
+  <div class="overview">
+    <div class="pill">周期地图 <b>64</b><span>品种</span></div>
+    <div class="pill">AI 风险 <b class="c-green">INTACT</b><span>0 红</span></div>
+    <div class="pill">实盘追踪 <b>Top20</b><span>×5 日</span></div>
+    <div class="pill">高手最赚 <b>纯碱</b></div>
+    <div class="pill">公众号主线 <b>AI 分化</b></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="grid">
+
+    <a class="card a-amber" href="cycle-map/">
+      <div class="edge"></div>
+      <div class="toprow">
+        <div class="tagwrap"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M12 3v18"/><circle cx="7.5" cy="8" r="1.6"/><circle cx="16.5" cy="16" r="1.6"/><circle cx="16" cy="7" r="1.6"/></svg></span><span class="tag">技术面 · Tech</span></div>
+        <span class="snap">快照 07-06</span>
+      </div>
+      <h3>商品周期分歧地图</h3>
+      <p>64 个商品/金融品种按「中长方向 × 短周期偏离」落四象限，看多空共振与分歧、状态机分布。</p>
+      <div class="stat"><b>64</b><span>品种</span><b>MA10/60</b><span>口径</span></div>
+      <svg class="viz" viewBox="0 0 120 34" preserveAspectRatio="none">
+        <line x1="60" y1="2" x2="60" y2="32" stroke="rgba(255,255,255,.08)"/><line x1="4" y1="17" x2="116" y2="17" stroke="rgba(255,255,255,.08)"/>
+        <circle cx="90" cy="8" r="3" fill="#28d17c"/><circle cx="102" cy="12" r="2.4" fill="#28d17c"/><circle cx="80" cy="11" r="2" fill="#28d17c"/>
+        <circle cx="26" cy="26" r="3.4" fill="#ff5a5f"/><circle cx="16" cy="23" r="2.4" fill="#ff5a5f"/><circle cx="34" cy="28" r="2" fill="#ff5a5f"/>
+        <circle cx="40" cy="10" r="2.2" fill="#f5b544"/><circle cx="95" cy="25" r="2.2" fill="#f5b544"/>
+      </svg>
+      <div class="foot-go"><span>进入面板</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card a-red" href="ai-risk/">
+      <div class="edge"></div>
+      <div class="toprow">
+        <div class="tagwrap"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M12 8v4"/><circle cx="12" cy="15.5" r=".6" fill="currentColor"/></svg></span><span class="tag">风险 · Risk</span></div>
+        <span class="snap">快照 07-06</span>
+      </div>
+      <h3>AI 基建风险监控</h3>
+      <p>4 支柱 22 指标监控 AI 基建泡沫风险，红黄绿灯 + 股价 + 新闻舆情 + 每日研判。</p>
+      <div class="stat"><b class="c-green">INTACT</b><span>今日</span><b>16<span style="color:var(--amber)"> / 6 / </span><span class="c-red">0</span></b><span>绿/黄/红</span></div>
+      <svg class="viz" viewBox="0 0 120 34"><g>
+        <circle cx="16" cy="17" r="7" fill="#28d17c"/><circle cx="16" cy="17" r="11" fill="none" stroke="#28d17c" stroke-opacity=".25"/>
+        <circle cx="40" cy="17" r="7" fill="#f5b544"/><circle cx="64" cy="17" r="7" fill="#3a4666"/><circle cx="88" cy="17" r="7" fill="#3a4666"/><circle cx="108" cy="17" r="5" fill="#3a4666"/>
+      </g></svg>
+      <div class="foot-go"><span>进入面板</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card a-blue" href="contest/">
+      <div class="edge"></div>
+      <div class="toprow">
+        <div class="tagwrap"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="tag">资金面 · Flow</span></div>
+        <span class="snap">快照 07-03</span>
+      </div>
+      <h3>实盘大赛 · 重量组前20追踪</h3>
+      <p>前 20 名高手近 5 日「当日平仓盈亏 + 手数」，看他们在做哪些品种、赚亏与仓位。</p>
+      <div class="stat"><b>Top 20</b><span>重量组</span><b>5</b><span>交易日</span></div>
+      <svg class="viz" viewBox="0 0 120 34" preserveAspectRatio="none">
+        <rect x="4" y="6" width="12" height="28" rx="2" fill="#28d17c"/><rect x="22" y="14" width="12" height="20" rx="2" fill="#28d17c"/>
+        <rect x="40" y="10" width="12" height="24" rx="2" fill="#28d17c"/><rect x="58" y="20" width="12" height="14" rx="2" fill="#ff5a5f"/>
+        <rect x="76" y="16" width="12" height="18" rx="2" fill="#28d17c"/><rect x="94" y="24" width="12" height="10" rx="2" fill="#ff5a5f"/>
+      </svg>
+      <div class="foot-go"><span>进入面板</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card a-teal" href="insight/">
+      <div class="edge"></div>
+      <div class="toprow">
+        <div class="tagwrap"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/><path d="M11 8v6M8 11h6"/></svg></span><span class="tag">分析 · Insight</span></div>
+        <span class="snap">快照 07-03</span>
+      </div>
+      <h3>高手交易行为洞察</h3>
+      <p>品种热点榜 · 赚钱效应榜 · 打法画像 · 品种轮动，提炼「聪明钱在做什么」。</p>
+      <div class="stat"><b>纯碱</b><span>最赚钱</span><b>鸡蛋</b><span>最多人做</span></div>
+      <svg class="viz" viewBox="0 0 120 34" preserveAspectRatio="none">
+        <rect x="4" y="8" width="70" height="6" rx="3" fill="#2dd4bf"/><rect x="4" y="17" width="50" height="6" rx="3" fill="#2dd4bf" opacity=".8"/><rect x="4" y="26" width="34" height="6" rx="3" fill="#2dd4bf" opacity=".55"/>
+      </svg>
+      <div class="foot-go"><span>打开报告 (PDF)</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card a-purple" href="wechat/">
+      <div class="edge"></div>
+      <div class="toprow">
+        <div class="tagwrap"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span><span class="tag">观点面 · View</span></div>
+        <span class="snap">快照 07-06</span>
+      </div>
+      <h3>宏观公众号综述</h3>
+      <p>宏观公众号每日「判断驱动版」综述：核心观点、与市场共识的背离、交易启发，带来源链接。</p>
+      <div class="stat"><b>AI 决定一切</b><span>今日主线</span><b>K 型分化</b></div>
+      <svg class="viz" viewBox="0 0 120 34" preserveAspectRatio="none">
+        <path d="M6 24 L30 14 L54 18 L78 8 L102 12 L114 6" fill="none" stroke="#b48bff" stroke-width="2.2"/>
+        <circle cx="30" cy="14" r="2.4" fill="#b48bff"/><circle cx="78" cy="8" r="2.4" fill="#b48bff"/><circle cx="114" cy="6" r="2.4" fill="#b48bff"/>
+      </svg>
+      <div class="foot-go"><span>进入综述</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card a-green" href="reports/">
+      <div class="edge"></div>
+      <div class="toprow">
+        <div class="tagwrap"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></span><span class="tag">研报 · Report</span></div>
+        <span class="snap">快照 06-23</span>
+      </div>
+      <h3>中信半年报 · 矛盾汇总</h3>
+      <p>44 个品种「方向 ｜ 核心观点 ｜ 主要矛盾」一览，按矛盾突出度排序，附关键催化剂日历。</p>
+      <div class="stat"><b>44</b><span>品种</span><b>方向/突出度</b><span>排序</span></div>
+      <svg class="viz" viewBox="0 0 120 34" preserveAspectRatio="none">
+        <rect x="4" y="6" width="52" height="9" rx="2" fill="#ff5a5f" opacity=".85"/><rect x="4" y="19" width="80" height="9" rx="2" fill="#28d17c" opacity=".85"/>
+        <rect x="90" y="6" width="26" height="9" rx="2" fill="#f5b544" opacity=".7"/><rect x="90" y="19" width="18" height="9" rx="2" fill="#4c8dff" opacity=".7"/>
+      </svg>
+      <div class="foot-go"><span>进入汇总</span><span class="arrow">→</span></div>
+    </a>
+
+  </div>
+
+  <div class="foot">
+    研究工作台 · 汇集日常研究成果的统一入口。各面板数据为对应时点快照，更新以各面板内标注日期为准。<br/>
+    仅供内部研究参考，不构成投资建议。
+  </div>
+
+</div>
+</body>
+</html>

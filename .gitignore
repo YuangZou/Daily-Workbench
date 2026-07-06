@@ -1,0 +1,26 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# python
+__pycache__/
+*.pyc
+
+# caches / temp / data intermediates
+.series_cache*.json
+*.log
+*.tmp
+tmp/
+scratch/
+
+# credentials / config — never publish
+config.json
+*token*
+*cookie*
+*secret*
+*.pem
+*.key
+.env
+.env.*
