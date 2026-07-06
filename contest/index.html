@@ -4,19 +4,21 @@
 <title>期货实盘大赛 · 重量组前20 · 近5日品种追踪</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
 <style>
-:root{--bg:#0e1117;--panel:#161b22;--panel2:#1c2230;--line:#2a3140;--txt:#e6edf3;--sub:#8b949e;
---up:#26a35c;--down:#e5484d;--warn:#f5a623;--warnbg:rgba(245,166,35,.14);--danger:#e5484d;
---dangerbg:rgba(229,72,77,.16);--accent:#4c8dff;--upbg:rgba(38,163,92,.14);}
+:root{--bg:#f4f6fb;--panel:#ffffff;--panel2:#eef1f8;--line:rgba(20,29,55,.10);--txt:#141c31;--sub:#5a6478;--sub2:#2b3450;
+--up:#26a35c;--down:#e5484d;--warn:#f5a623;--warnbg:rgba(245,166,35,.16);--danger:#e5484d;
+--dangerbg:rgba(229,72,77,.14);--accent:#2a6bef;--upbg:rgba(38,163,92,.14);}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;font-size:14px;line-height:1.5}
 .wrap{max-width:1320px;margin:0 auto;padding:24px 20px 60px}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--sub);text-decoration:none;font-size:13px;font-weight:600;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:7px 13px;margin-bottom:16px;transition:all .15s;box-shadow:0 1px 2px rgba(20,29,55,.04)}
+.back:hover{color:var(--accent);border-color:var(--accent);transform:translateX(-2px)}
 h1{font-size:22px;margin:0 0 4px;font-weight:700}
 h2{font-size:16px;margin:32px 0 12px;font-weight:700;display:flex;align-items:center;gap:8px}
 h2 .tag{font-size:11px;font-weight:600;color:var(--sub);background:var(--panel2);padding:2px 8px;border-radius:20px}
 .meta{color:var(--sub);font-size:13px;margin-bottom:16px}.meta b{color:var(--txt)}
-.disc{background:var(--warnbg);border:1px solid rgba(245,166,35,.35);border-radius:10px;padding:12px 16px;font-size:13px;color:#f0d9a8;margin-bottom:20px;line-height:1.65}.disc b{color:var(--warn)}
+.disc{background:var(--warnbg);border:1px solid rgba(245,166,35,.45);border-radius:10px;padding:12px 16px;font-size:13px;color:#8a5a00;margin-bottom:20px;line-height:1.65}.disc b{color:#a86a00}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-bottom:8px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:0 2px 8px rgba(20,29,55,.04)}
 .card h3{margin:0 0 10px;font-size:13px;color:var(--sub);font-weight:600}
 .chart{width:100%;height:260px}
 .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
@@ -32,10 +34,10 @@ tbody.main tr.row{cursor:pointer}tbody.main tr.row:hover td{background:rgba(76,1
 .nick{font-weight:600}.company{color:var(--sub);font-size:12px}
 .num{font-variant-numeric:tabular-nums}.pos{color:var(--up)}.neg{color:var(--down)}
 .risk-pill{display:inline-block;padding:2px 8px;border-radius:20px;font-weight:600;font-variant-numeric:tabular-nums}
-.risk-hi{background:var(--dangerbg);color:#ff8085;border:1px solid rgba(229,72,77,.4)}
-.risk-mid{background:var(--warnbg);color:#f5c37a;border:1px solid rgba(245,166,35,.3)}.risk-lo{color:var(--sub)}
+.risk-hi{background:var(--dangerbg);color:#c0261e;border:1px solid rgba(229,72,77,.5)}
+.risk-mid{background:var(--warnbg);color:#9a6400;border:1px solid rgba(245,166,35,.5)}.risk-lo{color:var(--sub)}
 .chip{display:inline-block;padding:1px 7px;border-radius:6px;font-size:11px;margin:1px 2px;border:1px solid var(--line);background:var(--panel2)}
-.chip.act{border-color:var(--accent);color:#a9c7ff}.chip.prof{border-color:var(--up);color:#7ee2a8}
+.chip.act{border-color:var(--accent);color:#2a6bef}.chip.prof{border-color:var(--up);color:#0f7a44}
 .exp{color:var(--sub);font-size:11px;transition:transform .15s}
 tr.open .exp{transform:rotate(90deg)}
 .detail td{background:var(--bg);padding:0;border-bottom:1px solid var(--line)}
@@ -47,12 +49,13 @@ tr.open .exp{transform:rotate(90deg)}
 .nodata{color:var(--sub);font-style:italic}
 .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--sub);margin:10px 0 4px}
 .legend span{display:inline-flex;align-items:center;gap:5px}.dot{width:10px;height:10px;border-radius:3px}
-.foot{margin-top:26px;color:var(--sub);font-size:12px;line-height:1.7}.foot code{background:var(--panel2);padding:1px 6px;border-radius:4px;color:#a9c7ff}
+.foot{margin-top:26px;color:var(--sub);font-size:12px;line-height:1.7}.foot code{background:var(--panel2);padding:1px 6px;border-radius:4px;color:#2a6bef}
 .big{font-size:20px;font-weight:700}
 .kpi{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:6px}
 .kpi .box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 16px;min-width:130px}
 .kpi .box .l{font-size:11px;color:var(--sub)}.kpi .box .v{font-size:18px;font-weight:700;margin-top:2px}
 </style></head><body><div class="wrap">
+<a class="back" href="../">← 返回研究工作台</a>
 <h1>期货实盘大赛 · 重量组 前20名 · 近5日交易品种追踪</h1>
 <div class="meta">数据源：期货日报实盘排行公开接口（重量组 groupType=2，总榜）　·　交易日：<b id="dateRange"></b>　·　基准榜：<b id="todayD"></b> 当日前20</div>
 <div class="disc">⚠️ <b>口径说明（必读）</b>：<b>重量组前20名</b>；本看板数据 = <b>当日"平仓盈亏"（按品种）+ 平仓手数</b>，
@@ -109,12 +112,12 @@ function barChart(id,items,valFn,labelFn,colorFn){
   c.setOption({animation:false,grid:{left:70,right:70,top:8,bottom:8},
    xAxis:{type:'value',show:false},
    yAxis:{type:'category',data:names.slice().reverse(),axisLine:{show:false},axisTick:{show:false},
-     axisLabel:{color:'#c9d1d9',fontSize:12}},
-   tooltip:{trigger:'axis',axisPointer:{type:'shadow'},backgroundColor:'#1c2230',borderColor:'#2a3140',textStyle:{color:'#e6edf3',fontSize:12},
+     axisLabel:{color:'#2b3450',fontSize:12}},
+   tooltip:{trigger:'axis',axisPointer:{type:'shadow',shadowStyle:{color:'rgba(20,29,55,.05)'}},backgroundColor:'rgba(255,255,255,.98)',borderColor:'rgba(20,29,55,.12)',textStyle:{color:'#141c31',fontSize:12},extraCssText:'box-shadow:0 6px 22px rgba(20,29,55,.14);',
      formatter:p=>{const it=items.slice().reverse()[p[0].dataIndex];return labelFn(it);}},
    series:[{type:'bar',data:data.slice().reverse(),barWidth:'62%',
      itemStyle:{color:p=>colorFn(items.slice().reverse()[p.dataIndex]),borderRadius:[0,4,4,0]},
-     label:{show:true,position:'right',color:'#8b949e',fontSize:11,
+     label:{show:true,position:'right',color:'#5a6478',fontSize:11,
        formatter:p=>labelFn(items.slice().reverse()[p.dataIndex],true)}}]});
 }
 const freq=G.slice().sort((a,b)=>b.appear-a.appear||b.hands-a.hands).slice(0,10);
