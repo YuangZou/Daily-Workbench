@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>永安期货2026半年报·矛盾汇总</title>
+<style>
+
+:root{
+  --bg:#f4f6fb; --panel:#ffffff; --soft:#eef1f8; --line:rgba(20,29,55,.10); --line2:rgba(20,29,55,.06);
+  --text:#141c31; --sub:#5a6478; --faint:#98a1b5; --tag:#0f9d58;
+  --up:#0f9d58; --down:#dc3d3d; --flat:#c07d0a; --link:#2a6bef;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:radial-gradient(900px 460px at 12% -10%, rgba(42,107,239,.06), transparent 60%) fixed, var(--bg);
+  color:var(--text);
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  line-height:1.7; padding:26px 20px 70px; -webkit-text-size-adjust:100%;}
+.wrap{max-width:960px;margin:0 auto;}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--sub);text-decoration:none;font-size:13px;font-weight:600;
+  background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:7px 13px;transition:all .15s;
+  box-shadow:0 1px 2px rgba(20,29,55,.04);}
+.back:hover{color:var(--tag);border-color:var(--tag);transform:translateX(-2px);}
+.tag{display:inline-block;margin:18px 0 12px;font-size:11px;font-weight:800;letter-spacing:.6px;
+  padding:4px 12px;border-radius:20px;background:color-mix(in srgb,var(--tag) 12%,white);
+  color:var(--tag);border:1px solid color-mix(in srgb,var(--tag) 30%,white);}
+.pagetitle{font-size:26px;font-weight:800;line-height:1.35;letter-spacing:.3px;}
+.metaline{color:var(--sub);font-size:13px;margin-top:8px;}
+.conclusion{margin:22px 0 6px;padding:18px 20px;border-radius:14px;background:var(--panel);
+  border:1px solid var(--line);border-left:4px solid var(--tag);box-shadow:0 4px 18px rgba(20,29,55,.06);}
+.cl-label{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--tag);margin-bottom:7px;}
+.cl-body{font-size:15px;line-height:1.75;color:var(--text);}
+.cl-body strong{color:var(--text);font-weight:750;}
+.content{margin-top:26px;}
+.content h1{font-size:22px;margin:30px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+.content h2{font-size:19px;margin:30px 0 12px;padding-left:12px;border-left:4px solid var(--tag);}
+.content h3{font-size:16px;margin:22px 0 10px;color:#2b3654;}
+.content h4{font-size:14px;margin:18px 0 8px;color:var(--sub);}
+.content p{margin:12px 0;color:#2b3450;font-size:14.5px;}
+.content ul{margin:12px 0 12px 4px;padding-left:20px;}
+.content li{margin:8px 0;color:#2b3450;font-size:14.5px;}
+.content strong{color:var(--text);font-weight:700;}
+.content a{color:var(--link);text-decoration:none;border-bottom:1px solid rgba(42,107,239,.35);
+  word-break:break-word;}
+.content a:hover{border-bottom-color:var(--link);}
+.content code{background:var(--soft);padding:1px 6px;border-radius:5px;
+  font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+.content hr{border:none;border-top:1px solid var(--line);margin:26px 0;}
+blockquote{margin:16px 0;padding:12px 16px;border-radius:10px;
+  background:var(--soft);border-left:3px solid var(--faint);
+  color:var(--sub);font-size:13.5px;line-height:1.7;}
+.tablewrap{overflow-x:auto;margin:16px 0;border-radius:12px;border:1px solid var(--line);
+  -webkit-overflow-scrolling:touch;background:var(--panel);}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px;}
+thead th{background:var(--soft);color:#2b3654;font-weight:700;text-align:left;
+  padding:11px 13px;border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0;}
+tbody td{padding:10px 13px;border-bottom:1px solid var(--line2);
+  color:#2b3450;vertical-align:top;}
+tbody tr:nth-child(even){background:rgba(20,29,55,.015);}
+tbody tr:hover{background:rgba(42,107,239,.05);}
+.dir{font-weight:700;white-space:nowrap;}
+.dir.up{color:var(--up);} .dir.down{color:var(--down);} .dir.flat{color:var(--flat);}
+.hot{font-weight:700;padding:1px 8px;border-radius:6px;font-size:12px;white-space:nowrap;}
+.hot-3{background:rgba(220,61,61,.12);color:#c0271f;}
+.hot-2{background:rgba(192,125,10,.14);color:#9a6208;}
+.hot-1{background:var(--soft);color:var(--sub);}
+.hot-0{background:rgba(20,29,55,.04);color:var(--faint);}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--faint);font-size:12.5px;line-height:1.9;}
+.foot .back{margin-top:10px;}
+@media(max-width:600px){
+  body{padding:20px 14px 60px;}
+  .pagetitle{font-size:21px;}
+  .content h1{font-size:19px;} .content h2{font-size:17px;}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← 返回研究工作台</a>
+  <div class="tag">研报 · REPORT</div>
+  <h1 class="pagetitle">永安期货2026半年报·矛盾汇总</h1>
+  <div class="metaline">永安期货 · 数据快照 2026-07-07</div>
+  <div class="conclusion"><div class="cl-label">一句话结论</div><div class="cl-body">永安下半年整体偏谨慎、以震荡磨底与结构分化为主，单边机会稀少——明确偏空集中在供需双弱的铅/铁矿石/铁合金/氯碱，明确偏多仅铜（供应极紧）与沥青（原料断供）；三条贯穿主线：AI对资金与需求的虹吸、供给扰动+成本托底 vs 终端需求疲弱、政策/新国标/中东油价成为关键摆动变量。</div></div>
+  <article class="content">
+  <h1>永安期货 2026 半年报 · 矛盾汇总</h1>
+<blockquote>永安期货 2026 半年度策略报告 <strong>23 篇</strong>精简整理（工作流F四段式），按板块分类、板块内按矛盾突出度排序。方向＝偏多/偏空/震荡/分化/中性。数字与结论均来自各篇原文，缺失处标「原文未明确」。<strong>仅供内部研究参考，不构成投资建议。</strong></blockquote>
+<h2>一句话综述（结论先行）</h2>
+<p><strong>永安下半年整体基调偏谨慎，以「震荡磨底 / 结构分化」为主，罕有单边</strong>：明确<strong>偏空</strong>集中在供需双弱的 <strong>铅、铁矿石、铁合金、氯碱</strong>；明确<strong>偏多</strong>仅 <strong>铜</strong>（供应极紧、TCRC 负值）与 <strong>沥青</strong>（马瑞原料断供、供应断崖）。贯穿多品种的三条主线——① <strong>AI 产业对资金与需求的虹吸</strong>（铜、锌、股指均点及）；② <strong>供给扰动 / 成本抬升托底 vs 终端需求疲弱</strong>的普遍矛盾；③ <strong>政策（新国标、降碳、进口政策）与中东地缘油价</strong>成为关键摆动变量。（本段为综合 23 篇判断）</p>
+<h2>矛盾汇总表</h2>
+<h3>宏观金融</h3>
+<div class="tablewrap"><table><thead><tr><th>品种</th><th>方向</th><th>突出度</th><th>核心观点</th><th>主要矛盾</th></tr></thead><tbody><tr><td>股指</td><td><span class="dir flat">分化</span></td><td><span class="hot hot-2">中高</span></td><td>行业产业链而非风格驱动，科技成长仍是主线但转入盈利验证+估值消化、波动加大</td><td>上涨高度依赖 AI 硬件链、动能单一 vs 内需/地产/非银缺持续买盘</td></tr><tr><td>国债期货</td><td><span class="dir up">偏多</span></td><td><span class="hot hot-2">中高</span></td><td>「政策定锚、市场寻位」，天平略偏多但赔率优先，10Y 主区间 1.60–1.80%、中枢下移，波段操作</td><td>再通胀+供给放量+风险资产压制 vs 弱复苏+资金宽松+机构需求</td></tr><tr><td>非美宏观</td><td><span class="dir flat">分化</span></td><td><span class="hot hot-2">中高</span></td><td>油价风险暂缓、非美资产短线修复，但央行「转鹰难退」，反弹持续性难外推</td><td>能源冲击是否从一次性价格冲击转为持久的工资/服务/财政二轮效应</td></tr></tbody></table></div>
+<h3>贵金属</h3>
+<div class="tablewrap"><table><thead><tr><th>品种</th><th>方向</th><th>突出度</th><th>核心观点</th><th>主要矛盾</th></tr></thead><tbody><tr><td>贵金属(金银)</td><td><span class="dir down">震荡偏空</span></td><td><span class="hot hot-2">中高</span></td><td>避险属性下降、与实际利率相关性回归，降息预期归零+非美加息承压；金宽幅震荡有央行购金托底、银偏弱</td><td>流动性/实际利率定价压过地缘与通胀溢价</td></tr><tr><td>铂钯</td><td><span class="dir flat">分化</span></td><td><span class="hot hot-2">中高</span></td><td>铂强钯弱、以「多铂空钯」为主；铂有供应缺口支撑但需宏观配合，钯受需求长期下行拖累</td><td>破局在中东地缘实质缓和与美联储路径变化</td></tr></tbody></table></div>
+<h3>有色金属</h3>
+<div class="tablewrap"><table><thead><tr><th>品种</th><th>方向</th><th>突出度</th><th>核心观点</th><th>主要矛盾</th></tr></thead><tbody><tr><td>铜</td><td><span class="dir up">偏多</span></td><td><span class="hot hot-2">中高</span></td><td>供给受限+需求韧性，供应极紧（TCRC 负值、废铜断流）叠加 AI/关税支撑高位</td><td>供应刚性紧绷 vs 传统淡季恐高、高库存</td></tr><tr><td>铝</td><td><span class="dir flat">分化</span></td><td><span class="hot hot-2">中高</span></td><td>电解铝高位震荡（终点明确路径模糊）、氧化铝宽松、铝合金淡季偏空</td><td>海外缺口支撑 vs 高利润复产/新产能释放</td></tr><tr><td>锌</td><td><span class="dir flat">震荡</span></td><td><span class="hot hot-2">中高</span></td><td>成本支撑稳、上行催化不足，高位宽幅震荡，内外反套确定性更高</td><td>矿端紧缺（TC 倒挂） vs 锭端过剩（社库高企），外紧内松</td></tr><tr><td>铅</td><td><span class="dir down">偏空</span></td><td><span class="hot hot-2">中高</span></td><td>供需双弱难扭转，逢高偏空、兼顾内外正套</td><td>再生铅深亏减产(-20%) vs 原生满产对冲，需求被新国标前置透支</td></tr><tr><td>硅产业</td><td><span class="dir flat">分化</span></td><td><span class="hot hot-2">中高</span></td><td>工业硅底部支撑、多晶硅低位震荡，政策为最关键变量</td><td>丰水期增量 vs 能耗新标落地+光伏降速，高库存压制上方</td></tr></tbody></table></div>
+<h3>黑色</h3>
+<div class="tablewrap"><table><thead><tr><th>品种</th><th>方向</th><th>突出度</th><th>核心观点</th><th>主要矛盾</th></tr></thead><tbody><tr><td>钢材</td><td><span class="dir flat">震荡</span></td><td><span class="hot hot-2">中高</span></td><td>震荡磨底、等待破局，弹性来自内外价差修复与宏观情绪、非自主单边；卷螺差中枢上移至 180 元/吨</td><td>弱内需 vs 成本与出口托底；建材弱、板材韧的需求结构分化</td></tr><tr><td>铁矿石</td><td><span class="dir down">偏空</span></td><td><span class="hot hot-2">中高</span></td><td>全年过剩未改，下半年供需进一步宽松、海运费溢价回落，普氏区间下移 85–105 美元，逢高做空</td><td>供给释放确定性显著高于需求改善（供增需减），港口库存冲击历史高点</td></tr><tr><td>铁合金</td><td><span class="dir down">偏空</span></td><td><span class="hot hot-2">中高</span></td><td>上半年脉冲上涨昙花一现，下半年转向估值回归，中枢仍存下探但斜率放缓</td><td>长期过剩（库存中高位）vs 阶段性反弹驱动（限产/政策/海外扰动）</td></tr><tr><td>动力煤</td><td><span class="dir flat">震荡</span></td><td><span class="hot hot-2">中高</span></td><td>先强后弱，5500 大卡预计 750–900 元/吨，高温兑现旺季或触 900</td><td>补库窗口后夏季能否维持紧平衡，核心看厄尔尼诺高温是否兑现</td></tr><tr><td>煤焦</td><td><span class="dir flat">分化</span></td><td><span class="hot hot-2">中高</span></td><td>底部抬升但难言单边牛，焦煤优于焦炭、近月强于远月，做区间波动</td><td>需求未打开上方、供应未跌回成本；焦煤看安全监管下有效产量释放</td></tr></tbody></table></div>
+<h3>能源化工</h3>
+<div class="tablewrap"><table><thead><tr><th>品种</th><th>方向</th><th>突出度</th><th>核心观点</th><th>主要矛盾</th></tr></thead><tbody><tr><td>沥青</td><td><span class="dir up">偏多</span></td><td><span class="hot hot-3">高</span></td><td>矛盾集中在供应端，1–6 月产量同比 -33%、地炼受马瑞断供制约，近月偏强、月间正套</td><td>供应断崖收缩 vs 油价下跌后利润修复+炼厂复产带来的供应回归预期</td></tr><tr><td>甲醇</td><td><span class="dir flat">震荡</span></td><td><span class="hot hot-2">中高</span></td><td>主逻辑由现货紧缺、去库切换至进口增量与港口需求弹性博弈，低库存上温和累库</td><td>进口增量斜率 vs 港口需求向上弹性；进口修复受船运运力约束</td></tr><tr><td>氯碱</td><td><span class="dir down">偏空</span></td><td><span class="hot hot-2">中高</span></td><td>地缘与政策外部驱动退坡后回归供需宽松弱基本面，底部区间磨底</td><td>出口退税+美伊地缘退坡后，PVC 供增需减、烧碱扩产遇需求疲软</td></tr><tr><td>纯苯·苯乙烯</td><td><span class="dir flat">分化</span></td><td><span class="hot hot-2">中高</span></td><td>供需双弱，苯乙烯偏过剩、震荡趋弱逢高空配，纯苯强于苯乙烯，EB-BZ 逢高缩</td><td>供应回升（长停重启+检修回归+新产能）叠加终端内需疲软</td></tr><tr><td>天然橡胶</td><td><span class="dir flat">震荡</span></td><td><span class="hot hot-2">中高</span></td><td>供应减量预期与需求疲弱对撞，胶价高位震荡、跟随宏观</td><td>厄尔尼诺供应减量预期 vs 轮胎成品库存高企下的需求疲弱</td></tr><tr><td>纸浆</td><td><span class="dir flat">震荡</span></td><td><span class="hot hot-1">中</span></td><td>上半年震荡走弱、针阔价差收窄，下半年重心或由需求侧决定、有望企稳回升</td><td>成品纸终端需求偏弱压制 vs 针叶减产不及、阔叶减产超预期的供应预期差</td></tr></tbody></table></div>
+<h3>农产品</h3>
+<div class="tablewrap"><table><thead><tr><th>品种</th><th>方向</th><th>突出度</th><th>核心观点</th><th>主要矛盾</th></tr></thead><tbody><tr><td>白糖</td><td><span class="dir flat">震荡</span></td><td><span class="hot hot-1">中</span></td><td>弱现实与远期预期改善双重作用，区间震荡；进口政策收紧预期支撑、丰产高库存压制</td><td>国内看进口政策收紧力度，国际看厄尔尼诺对印泰单产的减产风险</td></tr></tbody></table></div>
+<h3>航运</h3>
+<div class="tablewrap"><table><thead><tr><th>品种</th><th>方向</th><th>突出度</th><th>核心观点</th><th>主要矛盾</th></tr></thead><tbody><tr><td>欧线(集运)</td><td><span class="dir flat">震荡</span></td><td><span class="hot hot-2">中高</span></td><td>短期旺季寻顶（拐点初步预计 7 月中下旬）、中期成本筑底（运营成本抬至 1450 点附近）</td><td>近月旺季拐点+地缘（长协托底 vs 高运价反噬 FAK 货量），远月淡季跌价斜率 vs 成本底</td></tr></tbody></table></div>
+<h2>关键催化剂日历（仅收录原文给了明确时点者）</h2>
+<div class="tablewrap"><table><thead><tr><th>时点</th><th>品种</th><th>事件</th></tr></thead><tbody><tr><td>已发生·6/11</td><td>非美宏观</td><td>ECB 加息 25bp</td></tr><tr><td>已发生·6/16</td><td>非美宏观</td><td>BOJ 隔夜拆借利率升至 1.0%（1995 年以来最高）</td></tr><tr><td>已发生·6/18</td><td>非美宏观</td><td>印尼 BI 利率升至 5.75%</td></tr><tr><td>6/30 前后</td><td>铜</td><td>美国商务部关税调查最终落地</td></tr><tr><td>7/1 起</td><td>动力煤</td><td>印尼煤炭出口国有化新政进入过渡期（2027/1/1 全面实施）</td></tr><tr><td>7/6–7/7</td><td>欧线</td><td>美国 301 听证会（书面评论 7/6 截止，拟加征关税最快 7 月下旬落地）</td></tr><tr><td>7 月</td><td>氯碱</td><td>印度恢复 7.5% PVC 进口关税</td></tr><tr><td>7 月中下旬</td><td>欧线</td><td>运价拐点初步预计出现</td></tr><tr><td>7–8 月</td><td>股指</td><td>AI 链中报密集披露期（结束后看政策扩散或收敛）</td></tr><tr><td>7–8 月</td><td>纯苯·苯乙烯</td><td>综合库存转折点（先去后累）</td></tr><tr><td>三季度起</td><td>铝</td><td>中东约 220 万吨主动减产产能逐步恢复</td></tr><tr><td>三季度</td><td>硅产业</td><td>新国标能耗与碳排放标准预计正式发布</td></tr><tr><td>三季度末至四季度初</td><td>锌</td><td>猪拱塘放量、火烧云第二产线逐月爬坡</td></tr><tr><td>至 9/30</td><td>白糖</td><td>印度食糖出口禁令持续</td></tr><tr><td>2026/12/31</td><td>纸浆</td><td>玖龙重庆 70 万吨针叶浆计划投产</td></tr><tr><td>持续跟踪（条件型）</td><td>钢材/煤焦</td><td>煤矿事故对双焦供应影响、粗钢降碳政策力度</td></tr><tr><td>持续跟踪（条件型）</td><td>天然橡胶/白糖/动力煤</td><td>厄尔尼诺强度与主产区天气兑现</td></tr></tbody></table></div>
+<hr>
+<h2>各篇笔记（完整版见知识库对应板块目录）</h2>
+<ul><li>宏观金融：股指、国债期货、非美宏观</li><li>贵金属：贵金属(金银)、铂钯</li><li>有色金属：铜、铝、锌、铅、硅产业</li><li>黑色：钢材、铁矿石、铁合金、动力煤、煤焦</li><li>能源化工：沥青、甲醇、氯碱、纯苯苯乙烯、天然橡胶、纸浆</li><li>农产品：白糖</li><li>航运：欧线</li></ul>
+<p>*整理于 2026-07-07。数字/结论仅来自各篇原文；跨品种综述与分类为综合判断。部分报告 PDF 为图片型、供需平衡表转文本严重乱码，各篇已规避乱码数字、只采用正文明确数值。*</p>
+  </article>
+  <footer class="foot">
+    本页数据为对应时点快照（2026-07-07）。仅供内部研究参考，不构成投资建议。<br>
+    <a class="back" href="../">← 返回研究工作台</a>
+  </footer>
+</div>
+</body>
+</html>
