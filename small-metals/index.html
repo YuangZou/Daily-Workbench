@@ -3,9 +3,9 @@
 <title>小金属 · AI半导体产业链跟踪面板</title>
 <script src='https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js'></script>
 <style>
-:root{--bg:#0b0f1a;--panel:#121826;--panel2:#0f1521;--line:#1f2a3d;--txt:#e6edf6;--mut:#8aa0bd;--up:#ff5a6a;--down:#16c784;}
+:root{--bg:#f4f6fb;--panel:#ffffff;--panel2:#f1f3f7;--line:#e5e7eb;--txt:#111827;--mut:#6b7280;--up:#dc2626;--down:#16a34a;}
 *{box-sizing:border-box}
-body{margin:0;background:linear-gradient(180deg,#0b0f1a,#0a0e17);color:var(--txt);font:14px/1.5 -apple-system,'Segoe UI','Microsoft YaHei',sans-serif}
+body{margin:0;background:#f4f6fb;color:var(--txt);font:14px/1.5 -apple-system,'Segoe UI','Microsoft YaHei',sans-serif}
 .wrap{max-width:1520px;margin:0 auto;padding:28px 22px 60px}
 h1{font-size:24px;margin:0 0 4px;letter-spacing:.5px}
 .sub{color:var(--mut);font-size:13px;margin-bottom:14px}
@@ -15,8 +15,8 @@ h1{font-size:24px;margin:0 0 4px;letter-spacing:.5px}
 table{width:100%;border-collapse:collapse;font-size:13px}
 thead th{background:var(--panel2);color:var(--mut);font-weight:600;padding:11px 9px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
 thead th.l{text-align:left}
-td{padding:10px 9px;border-bottom:1px solid #161f2e;vertical-align:top;text-align:right}
-tbody tr:hover{background:#0e1626}
+td{padding:10px 9px;border-bottom:1px solid #eef1f5;vertical-align:top;text-align:right}
+tbody tr:hover{background:#f3f5f9}
 .metal{text-align:left;font-weight:600;font-size:15px;white-space:nowrap}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle}
 .cat{font-weight:400;font-size:11px;color:var(--mut);margin-top:2px}
@@ -25,8 +25,8 @@ tbody tr:hover{background:#0e1626}
 .up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--mut)}
 .stk{text-align:left;font-weight:600;white-space:nowrap}
 .code{font-weight:400;font-size:11px;color:var(--mut);margin-top:2px;white-space:normal;max-width:200px}
-.app{text-align:left;color:#c7d4e6;font-size:12px;line-height:1.45;min-width:250px}
-.divcol{border-left:2px solid #25324a}
+.app{text-align:left;color:#374151;font-size:12px;line-height:1.45;min-width:250px}
+.divcol{border-left:2px solid #e5e7eb}
 .charts{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
 .chart{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 6px 4px}
 .chart h4{margin:4px 0 2px 10px;font-size:13px;display:flex;align-items:center;gap:7px}
@@ -34,11 +34,11 @@ tbody tr:hover{background:#0e1626}
 .cbox{width:100%;height:180px}
 .news{display:flex;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 17px;margin-bottom:11px}
 .news.high{border-left:3px solid var(--up)} .news.med{border-left:3px solid #f59e0b}
-.nrank{font-size:26px;font-weight:700;color:#33415c;min-width:30px}
+.nrank{font-size:26px;font-weight:700;color:#cbd5e1;min-width:30px}
 .ntitle{font-weight:600;font-size:15px;margin-bottom:5px}
 .nimp{font-size:11px;font-weight:600;padding:1px 7px;border-radius:20px;margin-left:8px;vertical-align:middle}
 .nimp.high{background:rgba(255,90,106,.15);color:var(--up)} .nimp.med{background:rgba(245,158,11,.15);color:#f59e0b}
-.ntext{color:#bccadb;font-size:13px}
+.ntext{color:#4b5563;font-size:13px}
 .foot{color:var(--mut);font-size:11px;margin-top:24px;line-height:1.7}
 .legend{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 6px;font-size:12px;color:var(--mut)}
 .legend span{display:flex;align-items:center;gap:6px}
@@ -93,9 +93,9 @@ DATA.forEach(function(d){
  ch.setOption({grid:{left:54,right:10,top:12,bottom:22},
   tooltip:{trigger:'axis',backgroundColor:'#0f1521',borderColor:'#28344a',textStyle:{color:'#e6edf6',fontSize:12},
    formatter:function(p){return p[0].axisValue+'<br/>'+d.name+'：'+Number(p[0].data).toLocaleString()+' '+d.unit}},
-  xAxis:{type:'category',data:dates,boundaryGap:false,axisLine:{lineStyle:{color:'#28344a'}},
+  xAxis:{type:'category',data:dates,boundaryGap:false,axisLine:{lineStyle:{color:'#e5e7eb'}},
    axisLabel:{color:'#6f86a6',fontSize:10,interval:Math.floor(dates.length/4)}},
-  yAxis:{type:'value',scale:true,axisLine:{show:false},splitLine:{lineStyle:{color:'#172132'}},
+  yAxis:{type:'value',scale:true,axisLine:{show:false},splitLine:{lineStyle:{color:'#eef1f5'}},
    axisLabel:{color:'#6f86a6',fontSize:10,formatter:function(v){return v>=10000?(v/10000).toFixed(1)+'w':v}}},
   series:[{type:'line',data:vals,showSymbol:false,lineStyle:{color:d.color,width:1.8},
    areaStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:d.color+'55'},{offset:1,color:d.color+'00'}])}}]});
