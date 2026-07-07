@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美国半导体研报速览</title>
+<style>
+
+:root{
+  --bg:#f4f6fb; --panel:#ffffff; --soft:#eef1f8; --line:rgba(20,29,55,.10); --line2:rgba(20,29,55,.06);
+  --text:#141c31; --sub:#5a6478; --faint:#98a1b5; --tag:#0f9d58;
+  --up:#0f9d58; --down:#dc3d3d; --flat:#c07d0a; --link:#2a6bef;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:radial-gradient(900px 460px at 12% -10%, rgba(42,107,239,.06), transparent 60%) fixed, var(--bg);
+  color:var(--text);
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  line-height:1.7; padding:26px 20px 70px; -webkit-text-size-adjust:100%;}
+.wrap{max-width:960px;margin:0 auto;}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--sub);text-decoration:none;font-size:13px;font-weight:600;
+  background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:7px 13px;transition:all .15s;
+  box-shadow:0 1px 2px rgba(20,29,55,.04);}
+.back:hover{color:var(--tag);border-color:var(--tag);transform:translateX(-2px);}
+.tag{display:inline-block;margin:18px 0 12px;font-size:11px;font-weight:800;letter-spacing:.6px;
+  padding:4px 12px;border-radius:20px;background:color-mix(in srgb,var(--tag) 12%,white);
+  color:var(--tag);border:1px solid color-mix(in srgb,var(--tag) 30%,white);}
+.pagetitle{font-size:26px;font-weight:800;line-height:1.35;letter-spacing:.3px;}
+.metaline{color:var(--sub);font-size:13px;margin-top:8px;}
+.conclusion{margin:22px 0 6px;padding:18px 20px;border-radius:14px;background:var(--panel);
+  border:1px solid var(--line);border-left:4px solid var(--tag);box-shadow:0 4px 18px rgba(20,29,55,.06);}
+.cl-label{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--tag);margin-bottom:7px;}
+.cl-body{font-size:15px;line-height:1.75;color:var(--text);}
+.cl-body strong{color:var(--text);font-weight:750;}
+.content{margin-top:26px;}
+.content h1{font-size:22px;margin:30px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+.content h2{font-size:19px;margin:30px 0 12px;padding-left:12px;border-left:4px solid var(--tag);}
+.content h3{font-size:16px;margin:22px 0 10px;color:#2b3654;}
+.content h4{font-size:14px;margin:18px 0 8px;color:var(--sub);}
+.content p{margin:12px 0;color:#2b3450;font-size:14.5px;}
+.content ul{margin:12px 0 12px 4px;padding-left:20px;}
+.content li{margin:8px 0;color:#2b3450;font-size:14.5px;}
+.content strong{color:var(--text);font-weight:700;}
+.content a{color:var(--link);text-decoration:none;border-bottom:1px solid rgba(42,107,239,.35);
+  word-break:break-word;}
+.content a:hover{border-bottom-color:var(--link);}
+.content code{background:var(--soft);padding:1px 6px;border-radius:5px;
+  font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+.content hr{border:none;border-top:1px solid var(--line);margin:26px 0;}
+blockquote{margin:16px 0;padding:12px 16px;border-radius:10px;
+  background:var(--soft);border-left:3px solid var(--faint);
+  color:var(--sub);font-size:13.5px;line-height:1.7;}
+.tablewrap{overflow-x:auto;margin:16px 0;border-radius:12px;border:1px solid var(--line);
+  -webkit-overflow-scrolling:touch;background:var(--panel);}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px;}
+thead th{background:var(--soft);color:#2b3654;font-weight:700;text-align:left;
+  padding:11px 13px;border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0;}
+tbody td{padding:10px 13px;border-bottom:1px solid var(--line2);
+  color:#2b3450;vertical-align:top;}
+tbody tr:nth-child(even){background:rgba(20,29,55,.015);}
+tbody tr:hover{background:rgba(42,107,239,.05);}
+.dir{font-weight:700;white-space:nowrap;}
+.dir.up{color:var(--up);} .dir.down{color:var(--down);} .dir.flat{color:var(--flat);}
+.hot{font-weight:700;padding:1px 8px;border-radius:6px;font-size:12px;white-space:nowrap;}
+.hot-3{background:rgba(220,61,61,.12);color:#c0271f;}
+.hot-2{background:rgba(192,125,10,.14);color:#9a6208;}
+.hot-1{background:var(--soft);color:var(--sub);}
+.hot-0{background:rgba(20,29,55,.04);color:var(--faint);}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--faint);font-size:12.5px;line-height:1.9;}
+.foot .back{margin-top:10px;}
+@media(max-width:600px){
+  body{padding:20px 14px 60px;}
+  .pagetitle{font-size:21px;}
+  .content h1{font-size:19px;} .content h2{font-size:17px;}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← 返回研究工作台</a>
+  <div class="tag">研报 · REPORT</div>
+  <h1 class="pagetitle">美国半导体研报速览</h1>
+  <div class="metaline">高盛 / 瑞银 / 摩根士丹利 · 数据快照 2026-07-06</div>
+  <div class="conclusion"><div class="cl-label">一句话结论</div><div class="cl-body">四家一致看多AI驱动的半导体上行周期，存储（DRAM/HBM）供需最紧、是最强主线；分歧不在方向而在「是否已被price in」——2Q股价大涨后估值抬高，超大厂capex与付款能力的可持续性成为核心风险。</div></div>
+  <article class="content">
+  <h1>美国半导体研报速览</h1>
+<blockquote>领导发的 4 篇美国半导体研报（高盛 / 瑞银 / 大摩×2，2026-07-03 至 07-06）精简汇总。数字与结论均来自各家原文，缺失处标「原文未明确」。<strong>仅供内部研究参考，不构成投资建议。</strong></blockquote>
+<h2>一句话综述（结论先行）</h2>
+<p><strong>四家方向一致——AI 驱动的半导体上行周期仍在延续，存储（DRAM/HBM）是供需最紧、能见度最高的主线</strong>；真正的分歧不在「涨不涨」，而在<strong>「涨幅是否已被 price in」</strong>：2Q 板块股价大涨（高盛口径 SOX +88% vs SPX +14%）后，估值与预期门槛被抬高，大摩已把设备股估值锚移到 2028、并拒绝背书 $250bn WFE 情景；共同的最大风险是<strong>超大规模厂商 capex 的付款/融资能力能否支撑这轮空前的存储涨价</strong>。（本段为综合 4 篇判断）</p>
+<h2>速览表</h2>
+<div class="tablewrap"><table><thead><tr><th>机构</th><th>主题</th><th>核心观点</th><th>主要矛盾</th><th>关注指标</th></tr></thead><tbody><tr><td><strong>高盛</strong></td><td>美国半导体 2Q 前瞻</td><td>各子板块 2Q 普遍有超预期空间，但股价已大涨、风险回报转差；战术看多 <strong>AMAT/AMD/ON</strong>、看空 <strong>KLAC/ARM/Q</strong></td><td>基本面上修空间 vs 股价已大幅跑赢、门槛抬高</td><td>hyperscaler CapEx、WFE 轨迹（8 季度能见度）、NAND/HDD 供给、ISM</td></tr><tr><td><strong>瑞银</strong></td><td>美国半导体月度·存储</td><td>上调 2H26 存储价格；<strong>DRAM 至少缺货到 2Q28</strong>；行业收入 2026 US$992bn→2027 US$1,763bn；维持全线 <strong>Buy</strong></td><td>供需极度失衡 vs 客户付款/融资能力（affordability）是最大风险</td><td>DDR/NAND 合约价 QoQ、DRAM 充足率(-8.1%→-13.6%)、HBM bit 需求、LTA 绑定比例</td></tr><tr><td><strong>大摩</strong></td><td>半导体周刊·META 的 GPU</td><td>Meta 拟做云=GPU <strong>需求过剩非供给过剩</strong>；转租趋势利好 <strong>NVDA</strong> 份额；内存仍是最紧瓶颈</td><td>「需求过剩」 vs 市场担忧的「超大厂算力过剩」</td><td>5 月 SIA（整体 +16.1%、DRAM +27.7%）、CY26 内存 US$847bn、库存天数(DOI)</td></tr><tr><td><strong>大摩</strong></td><td>半导体设备 2028 展望</td><td>估值锚移到 2028、$200bn WFE 已被充分定价；首选被低估的 <strong>MKS、ONTO</strong>；不背书 $250bn 情景</td><td>市场已为 2028 $250bn WFE 定价 vs 大摩不愿背书</td><td>WFE 规模(2026e $155bn→2028e $227bn)、DRAM/NAND WFE、EUV 供应(~130 台)、毛利率</td></tr></tbody></table></div>
+<h2>各篇笔记（完整版见知识库 AI半导体/）</h2>
+<ul><li>[高盛：美国半导体 2 季度前瞻（20260705）](高盛_美国半导体2季度前瞻_20260705.md)</li><li>[瑞银：美国半导体月度·存储（20260703）](瑞银_美国半导体月度存储_20260703.md)</li><li>[摩根士丹利：半导体周刊·META 的 GPU（20260706）](摩根士丹利_半导体周刊META的GPU_20260706.md)</li><li>[摩根士丹利：半导体设备 2028 展望（20260706）](摩根士丹利_半导体设备2028_20260706.md)</li></ul>
+<hr>
+<p>*整理于 2026-07-07。数字/结论仅来自各家原文；跨机构综述为综合判断，已标注。*</p>
+  </article>
+  <footer class="foot">
+    本页数据为对应时点快照（2026-07-06）。仅供内部研究参考，不构成投资建议。<br>
+    <a class="back" href="../">← 返回研究工作台</a>
+  </footer>
+</div>
+</body>
+</html>
