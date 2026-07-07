@@ -38,6 +38,8 @@ def inline(s):
         lambda m: f'<a href="{m.group(2)}" target="_blank" rel="noopener">{m.group(1)}</a>',
         s,
     )
+    # 其余相对链接（如知识库 .md 笔记）网页端无法解析：只保留文字，去掉链接语法，避免露出原始括号
+    s = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', s)
     # 加粗
     s = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', s)
     # 行内 code
