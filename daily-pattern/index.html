@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>期货形态 · 研究工作台</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{display:flex;flex-direction:column;background:#f4f6fb;
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:#111827;}
+  .bar{flex:none;display:flex;align-items:center;gap:12px;background:#fff;
+    border-bottom:1px solid rgba(20,29,55,.10);padding:11px 18px;box-shadow:0 1px 3px rgba(20,29,55,.04);}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a6478;text-decoration:none;font-size:13px;font-weight:600;
+    background:#f4f6fb;border:1px solid rgba(20,29,55,.10);border-radius:9px;padding:7px 13px;transition:all .15s;}
+  .back:hover{color:#2a6bef;border-color:#2a6bef;transform:translateX(-2px);}
+  .ttl{font-size:14px;font-weight:600;}
+  .ttl .sub{color:#98a1b5;font-weight:500;font-size:12px;margin-left:6px;}
+  .badge{margin-left:auto;font-size:11px;color:#98a1b5;display:inline-flex;align-items:center;gap:6px;}
+  .badge b{color:#2a6bef;font-weight:700;}
+  iframe{flex:1;width:100%;border:0;background:#fff;}
+</style>
+</head>
+<body>
+  <div class="bar">
+    <a class="back" href="../capital/">← 返回资金分析</a>
+    <span class="ttl">期货形态<span class="sub">同事 WINDRISE · 交互终端</span></span>
+    <span class="badge"><b>同事维护</b> · 每日更新</span>
+  </div>
+  <iframe src="https://spritegreenyy.github.io/Daily-Reports/%E6%97%A5%E6%8A%A5%E7%AB%99/%E5%BD%A2%E6%80%81/"
+          title="WINDRISE 期货形态" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</body>
+</html>
