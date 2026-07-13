@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="Sign in · Research Workbench">登录 · 研究工作台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f4f6fb;--panel:#fff;--line:rgba(17,24,39,.10);--text:#111827;--sub:#6b7280;--faint:#9ca3af;--accent:#4f46e5;--red:#dc2626;--green:#0f9d58;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+    background:radial-gradient(900px 500px at 50% -10%,rgba(79,70,229,.07),transparent 60%),var(--bg);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);}
+  .card{width:100%;max-width:380px;background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:30px 28px;box-shadow:0 10px 40px rgba(17,24,39,.08);position:relative;}
+  .lang-toggle{position:absolute;top:16px;right:16px;display:inline-flex;background:#eef0f5;border-radius:8px;padding:2px;}
+  .lang-toggle .lang-btn{border:0;background:none;padding:4px 9px;border-radius:6px;font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;font-family:inherit;line-height:1.4;}
+  .lang-toggle .lang-btn.active{background:#fff;color:var(--accent);box-shadow:0 1px 2px rgba(17,24,39,.10);}
+  .brand{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:6px;}
+  .logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(145deg,#2a6bef,#7c56e6);display:grid;place-items:center;}
+  .brand b{font-size:17px;font-weight:600;}
+  .tagline{text-align:center;color:var(--sub);font-size:12.5px;margin-bottom:22px;}
+  .tabs{display:flex;background:#eef0f5;border-radius:10px;padding:3px;margin-bottom:20px;}
+  .tabs button{flex:1;border:0;background:none;padding:9px;border-radius:8px;font-size:14px;font-weight:600;color:var(--sub);cursor:pointer;font-family:inherit;}
+  .tabs button.active{background:#fff;color:var(--accent);box-shadow:0 1px 3px rgba(17,24,39,.08);}
+  label{display:block;font-size:12.5px;font-weight:600;color:var(--sub);margin:14px 0 6px;}
+  input{width:100%;height:42px;border:1px solid var(--line);border-radius:10px;padding:0 13px;font-size:14px;font-family:inherit;
+    transition:border-color .15s;}
+  input:focus{outline:none;border-color:var(--accent);}
+  input#code{letter-spacing:8px;text-align:center;font-size:20px;font-weight:600;}
+  .submit{width:100%;height:44px;margin-top:22px;border:0;border-radius:10px;background:var(--accent);color:#fff;
+    font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .15s;}
+  .submit:hover{opacity:.92;} .submit:disabled{opacity:.5;cursor:default;}
+  .msg{margin-top:14px;font-size:12.5px;text-align:center;min-height:16px;}
+  .msg.err{color:var(--red);} .msg.ok{color:var(--green);}
+  .verify-hint{font-size:13px;color:var(--sub);line-height:1.6;text-align:center;margin-bottom:4px;}
+  .verify-hint b{color:var(--text);font-weight:600;word-break:break-all;}
+  .linkrow{margin-top:16px;display:flex;justify-content:space-between;font-size:12px;}
+  .linkrow a{color:var(--accent);cursor:pointer;text-decoration:none;}
+  .linkrow a.disabled{color:var(--faint);cursor:default;pointer-events:none;}
+  .hidden{display:none!important;}
+  .foot{margin-top:20px;text-align:center;font-size:11px;color:var(--faint);line-height:1.6;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="lang-toggle">
+      <button class="lang-btn" data-lang="zh" type="button" onclick="setLang('zh')">中</button>
+      <button class="lang-btn" data-lang="en" type="button" onclick="setLang('en')">EN</button>
+    </div>
+    <div class="brand">
+      <span class="logo"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span>
+      <b data-en="Research Workbench">研究工作台</b>
+    </div>
+    <div class="tagline" data-en="Sign in to view internal research">登录后查看内部研究内容</div>
+
+    <!-- 登录 / 注册（邮箱+密码） -->
+    <div id="view-auth">
+      <div class="tabs">
+        <button id="tab-login" class="active" type="button" onclick="setMode('login')" data-en="Sign in">登录</button>
+        <button id="tab-reg" type="button" onclick="setMode('register')" data-en="Register">注册</button>
+      </div>
+
+      <form id="form" onsubmit="return submitAuth(event)">
+        <label data-en="Email">邮箱</label>
+        <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        <label data-en="Password">密码</label>
+        <input id="password" type="password" autocomplete="current-password" placeholder="至少 8 位" data-ph-en="At least 8 characters" required minlength="8">
+        <button class="submit" id="submit" type="submit" data-en="Sign in">登录</button>
+        <div class="msg" id="msg"></div>
+      </form>
+    </div>
+
+    <!-- 输入验证码 -->
+    <div id="view-verify" class="hidden">
+      <div class="verify-hint" data-en="A 6-digit code was sent to">验证码已发送至</div>
+      <div class="verify-hint"><b id="verify-email"></b></div>
+      <form id="form-verify" onsubmit="return submitVerify(event)">
+        <label data-en="Verification code">验证码</label>
+        <input id="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="______" required pattern="\d{6}">
+        <button class="submit" id="verify-submit" type="submit" data-en="Verify & create account">验证并注册</button>
+        <div class="msg" id="verify-msg"></div>
+      </form>
+      <div class="linkrow">
+        <a id="resend" onclick="resendCode()" data-en="Resend code">重新发送</a>
+        <a onclick="backToAuth()" data-en="Change email">换个邮箱</a>
+      </div>
+    </div>
+
+    <div class="foot" data-en="Internal research reference · Not investment advice">内部研究参考 · 不构成投资建议</div>
+  </div>
+
+<script>
+  // —— 语言 ——
+  var LANG_KEY = 'wr_lang';
+  var T = {
+    zh: {
+      signingIn:'登录中…', registering:'发送验证码…', verifying:'验证中…', resending:'重新发送中…',
+      loginErr:'邮箱或密码错误', regErr:'注册失败，请重试', verifyErr:'验证失败，请重试',
+      neterr:'网络错误，请重试', codeSent:'验证码已发送，请查收邮箱', enterInto:'成功，正在进入…',
+      resendOk:'验证码已重新发送', cooldown:'秒后可重发'
+    },
+    en: {
+      signingIn:'Signing in…', registering:'Sending code…', verifying:'Verifying…', resending:'Resending…',
+      loginErr:'Wrong email or password', regErr:'Registration failed, please retry', verifyErr:'Verification failed, please retry',
+      neterr:'Network error, please retry', codeSent:'Code sent, check your inbox', enterInto:'Success, entering…',
+      resendOk:'Code resent', cooldown:'s until you can resend'
+    }
+  };
+  function lang(){ return localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'zh'; }
+  function t(k){ return T[lang()][k]; }
+  function applyLang(){
+    var l = lang();
+    document.documentElement.lang = (l === 'en' ? 'en' : 'zh-CN');
+    document.querySelectorAll('[data-en]').forEach(function(el){
+      if (el.dataset.zh === undefined) el.dataset.zh = el.innerHTML;
+      el.innerHTML = (l === 'en') ? el.dataset.en : el.dataset.zh;
+    });
+    document.querySelectorAll('[data-ph-en]').forEach(function(el){
+      if (el.dataset.phZh === undefined) el.dataset.phZh = el.getAttribute('placeholder') || '';
+      el.setAttribute('placeholder', (l === 'en') ? el.dataset.phEn : el.dataset.phZh);
+    });
+    document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+    updateSubmitLabel();
+  }
+  function setLang(l){ localStorage.setItem(LANG_KEY, l); applyLang(); }
+
+  // —— 登录 / 注册 ——
+  var mode = 'login', pendingEmail = '';
+  function updateSubmitLabel(){
+    // 登录/注册按钮文案随 mode + 语言变化（覆盖 data-en 的静态值）
+    var btn = document.getElementById('submit');
+    var en = lang() === 'en';
+    if (mode === 'login') btn.textContent = en ? 'Sign in' : '登录';
+    else btn.textContent = en ? 'Send code' : '发送验证码';
+  }
+  function setMode(m){
+    mode = m;
+    document.getElementById('tab-login').classList.toggle('active', m === 'login');
+    document.getElementById('tab-reg').classList.toggle('active', m === 'register');
+    document.getElementById('password').setAttribute('autocomplete', m === 'login' ? 'current-password' : 'new-password');
+    setMsg('');
+    updateSubmitLabel();
+  }
+  function setMsg(text, ok){ var el = document.getElementById('msg'); el.textContent = text; el.className = 'msg' + (text ? (ok ? ' ok' : ' err') : ''); }
+  function setVMsg(text, ok){ var el = document.getElementById('verify-msg'); el.textContent = text; el.className = 'msg' + (text ? (ok ? ' ok' : ' err') : ''); }
+
+  async function submitAuth(e){
+    e.preventDefault();
+    var btn = document.getElementById('submit'); btn.disabled = true;
+    var email = document.getElementById('email').value.trim();
+    var password = document.getElementById('password').value;
+    setMsg(mode === 'login' ? t('signingIn') : t('registering'), true);
+    try {
+      var r = await fetch('/api/' + mode, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ email, password }) });
+      var d = await r.json().catch(function(){ return {}; });
+      if (mode === 'login') {
+        if (r.ok && d.ok) { setMsg(t('enterInto'), true); location.href = '/'; }
+        else { setMsg(d.error || t('loginErr')); btn.disabled = false; }
+      } else {
+        // 注册：后端返回 pending，进入验证码步骤
+        if (r.ok && d.pending) { pendingEmail = email; goVerify(); }
+        else { setMsg(d.error || t('regErr')); btn.disabled = false; }
+      }
+    } catch (err) { setMsg(t('neterr')); btn.disabled = false; }
+    return false;
+  }
+
+  function goVerify(){
+    document.getElementById('view-auth').classList.add('hidden');
+    document.getElementById('view-verify').classList.remove('hidden');
+    document.getElementById('verify-email').textContent = pendingEmail;
+    setVMsg(t('codeSent'), true);
+    document.getElementById('code').focus();
+    startCooldown(60);
+  }
+  function backToAuth(){
+    document.getElementById('view-verify').classList.add('hidden');
+    document.getElementById('view-auth').classList.remove('hidden');
+    document.getElementById('submit').disabled = false;
+    document.getElementById('code').value = '';
+    setMsg('');
+  }
+
+  async function submitVerify(e){
+    e.preventDefault();
+    var btn = document.getElementById('verify-submit'); btn.disabled = true;
+    var code = document.getElementById('code').value.trim();
+    setVMsg(t('verifying'), true);
+    try {
+      var r = await fetch('/api/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ email: pendingEmail, code }) });
+      var d = await r.json().catch(function(){ return {}; });
+      if (r.ok && d.ok) { setVMsg(t('enterInto'), true); location.href = '/'; }
+      else { setVMsg(d.error || t('verifyErr')); btn.disabled = false; }
+    } catch (err) { setVMsg(t('neterr')); btn.disabled = false; }
+    return false;
+  }
+
+  // 重发（复用 /api/register，后端有 60 秒频率限制）
+  var cooldownTimer = null;
+  function startCooldown(sec){
+    var link = document.getElementById('resend');
+    var remaining = sec;
+    link.classList.add('disabled');
+    if (cooldownTimer) clearInterval(cooldownTimer);
+    function tick(){
+      if (remaining <= 0) { clearInterval(cooldownTimer); cooldownTimer = null; link.classList.remove('disabled'); link.textContent = (lang()==='en'?'Resend code':'重新发送'); return; }
+      link.textContent = remaining + (lang()==='en' ? T.en.cooldown : ' 秒后可重发');
+      remaining--;
+    }
+    tick(); cooldownTimer = setInterval(tick, 1000);
+  }
+  async function resendCode(){
+    var link = document.getElementById('resend');
+    if (link.classList.contains('disabled')) return;
+    var password = document.getElementById('password').value;
+    setVMsg(t('resending'), true);
+    try {
+      var r = await fetch('/api/register', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ email: pendingEmail, password }) });
+      var d = await r.json().catch(function(){ return {}; });
+      if (r.ok && d.pending) { setVMsg(t('resendOk'), true); startCooldown(60); }
+      else { setVMsg(d.error || t('regErr')); }
+    } catch (err) { setVMsg(t('neterr')); }
+  }
+
+  applyLang();
+</script>
+</body>
+</html>

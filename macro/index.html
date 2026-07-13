@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>宏观 · 研究工作台</title>
+<title data-en="Macro · Research Workbench">宏观 · 研究工作台</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
@@ -22,56 +22,61 @@
     <a href="../sentiment/">舆情分析</a>
     <a href="../knowledge/">知识库</a>
   </div>
+  <div class="lang-toggle">
+    <button class="lang-btn" data-lang="zh" type="button" onclick="WRLang.set('zh')">中</button>
+    <button class="lang-btn" data-lang="en" type="button" onclick="WRLang.set('en')">EN</button>
+  </div>
   <span class="nav-status"><span class="dot"></span>数据截至 2026-07-06</span>
 </nav>
 
 <div class="wrap">
-  <div class="crumb"><a href="../">研究工作台</a> · 宏观</div>
+  <div class="crumb" data-en="<a href='../'>Research Workbench</a> · Macro"><a href="../">研究工作台</a> · 宏观</div>
   <div class="sec-head">
-    <h1>宏观</h1>
-    <div class="sub">宏观日报、中美宏观、AI 科技与工业品表观供需。</div>
+    <h1 data-en="Macro">宏观</h1>
+    <div class="sub" data-en="Macro daily, China/US macro, AI tech and industrial apparent supply-demand.">宏观日报、中美宏观、AI 科技与工业品表观供需。</div>
   </div>
 
   <div class="grid">
 
     <a class="card" href="../macro-daily/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></span><span class="badge on">有内容</span></div>
-      <h3>日报</h3>
-      <p>宏观日报：每日宏观要点、关键数据与市场综述。</p>
-      <div class="card-foot"><span class="meta">更新 07-06</span><span class="go">查看 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="Daily">日报</h3>
+      <p data-en="Macro daily: key macro takeaways, data and market wrap-up.">宏观日报：每日宏观要点、关键数据与市场综述。</p>
+      <div class="card-foot"><span class="meta" data-en="Updated 07-06">更新 07-06</span><span class="go" data-en="View →">查看 →</span></div>
     </a>
 
     <a class="card" href="../ai-risk/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></span><span class="badge on">有内容</span></div>
-      <h3>AI 科技</h3>
-      <p>AI 基建风险监控：4 支柱 22 指标，红黄绿灯 + 股价 + 舆情 + 每日研判。</p>
-      <div class="card-foot"><span class="meta">更新 07-06</span><span class="go">查看 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="AI Tech">AI 科技</h3>
+      <p data-en="AI infrastructure risk monitor: 4 pillars, 22 indicators, red/amber/green lights + stocks + news + daily read.">AI 基建风险监控：4 支柱 22 指标，红黄绿灯 + 股价 + 舆情 + 每日研判。</p>
+      <div class="card-foot"><span class="meta" data-en="Updated 07-06">更新 07-06</span><span class="go" data-en="View →">查看 →</span></div>
     </a>
 
     <a class="card" href="../macro-us/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg></span><span class="badge on">有内容</span></div>
-      <h3>美国宏观</h3>
-      <p>美国宏观数据季节性：关键指标的季节性规律与当前位置。</p>
-      <div class="card-foot"><span class="meta">更新 07-05</span><span class="go">查看 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="US Macro">美国宏观</h3>
+      <p data-en="US macro data seasonality: seasonal patterns of key indicators and current position.">美国宏观数据季节性：关键指标的季节性规律与当前位置。</p>
+      <div class="card-foot"><span class="meta" data-en="Updated 07-05">更新 07-05</span><span class="go" data-en="View →">查看 →</span></div>
     </a>
 
     <a class="card" href="../macro-cn/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg></span><span class="badge on">有内容</span></div>
-      <h3>中国宏观</h3>
-      <p>中国宏观数据季节性：关键指标的季节性规律与当前位置。</p>
-      <div class="card-foot"><span class="meta">更新 07-05</span><span class="go">查看 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="China Macro">中国宏观</h3>
+      <p data-en="China macro data seasonality: seasonal patterns of key indicators and current position.">中国宏观数据季节性：关键指标的季节性规律与当前位置。</p>
+      <div class="card-foot"><span class="meta" data-en="Updated 07-05">更新 07-05</span><span class="go" data-en="View →">查看 →</span></div>
     </a>
 
-    <div class="card todo">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 8h14"/><path d="M5 8l-3 6h6z"/><path d="M19 8l-3 6h6z"/></svg></span><span class="badge todo">待补充</span></div>
-      <h3>工业品表需</h3>
-      <p>主要工业品表观供需平衡表跟踪（规划中）。</p>
-      <div class="card-foot"><span class="meta">规划中</span><span>敬请期待</span></div>
-    </div>
+    <a class="card" href="../supply-demand/">
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 8h14"/><path d="M5 8l-3 6h6z"/><path d="M19 8l-3 6h6z"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="Industrial Supply-Demand">工业品表需</h3>
+      <p data-en="Metals apparent-demand seasonality: seasonal patterns of major metals' apparent demand and current position.">金属表观需求季节性图：主要金属表需的季节性规律与当前位置。</p>
+      <div class="card-foot"><span class="meta" data-en="Updated 07">更新 07</span><span class="go" data-en="View →">查看 →</span></div>
+    </a>
 
   </div>
 
-  <div class="foot">研究工作台 · 宏观。「待补充」分类为规划中。仅供内部研究参考，不构成投资建议。</div>
+  <div class="foot" data-en="Research Workbench · Macro. 'Coming soon' categories are planned. Internal research reference only, not investment advice.">研究工作台 · 宏观。「待补充」分类为规划中。仅供内部研究参考，不构成投资建议。</div>
 </div>
+<script src="../assets/i18n.js"></script>
 </body>
 </html>

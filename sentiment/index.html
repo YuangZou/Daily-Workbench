@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>舆情分析 · 研究工作台</title>
+<title data-en="Sentiment · Research Workbench">舆情分析 · 研究工作台</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
@@ -22,35 +22,40 @@
     <a href="../sentiment/" class="active">舆情分析</a>
     <a href="../knowledge/">知识库</a>
   </div>
+  <div class="lang-toggle">
+    <button class="lang-btn" data-lang="zh" type="button" onclick="WRLang.set('zh')">中</button>
+    <button class="lang-btn" data-lang="en" type="button" onclick="WRLang.set('en')">EN</button>
+  </div>
   <span class="nav-status"><span class="dot"></span>数据截至 2026-07-06</span>
 </nav>
 
 <div class="wrap">
-  <div class="crumb"><a href="../">研究工作台</a> · 舆情分析</div>
+  <div class="crumb" data-en="<a href='../'>Research Workbench</a> · Sentiment"><a href="../">研究工作台</a> · 舆情分析</div>
   <div class="sec-head">
-    <h1>舆情分析</h1>
-    <div class="sub">KOL 与公众号观点跟踪，提炼判断与共识背离。</div>
+    <h1 data-en="Sentiment">舆情分析</h1>
+    <div class="sub" data-en="Tracking KOL and WeChat-account views, distilling judgments and divergence from consensus.">KOL 与公众号观点跟踪，提炼判断与共识背离。</div>
   </div>
 
   <div class="grid">
 
     <a class="card" href="../wechat/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span><span class="badge on">有内容</span></div>
-      <h3>微信公众号跟踪</h3>
-      <p>宏观公众号每日「判断驱动版」综述：核心观点、与共识背离、交易启发，带来源链接。</p>
-      <div class="card-foot"><span class="meta">更新 07-06</span><span class="go">查看 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="WeChat Account Tracking">微信公众号跟踪</h3>
+      <p data-en="Daily judgment-driven digest of macro WeChat accounts: key views, divergence from consensus, trading takeaways, with source links.">宏观公众号每日「判断驱动版」综述：核心观点、与共识背离、交易启发，带来源链接。</p>
+      <div class="card-foot"><span class="meta" data-en="Updated 07-06">更新 07-06</span><span class="go" data-en="View →">查看 →</span></div>
     </a>
 
     <a class="card" href="../daily-kol/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><span class="badge on">有内容</span></div>
-      <h3>KOL 跟踪</h3>
-      <p>同事 WINDRISE 的 KOL 终端：每日 KOL 观点跟踪，站内内嵌。</p>
-      <div class="card-foot"><span class="meta">每日更新</span><span class="go">查看 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="KOL Tracking">KOL 跟踪</h3>
+      <p data-en="Colleague's WINDRISE KOL terminal: daily KOL view tracking, embedded on-site.">同事 WINDRISE 的 KOL 终端：每日 KOL 观点跟踪，站内内嵌。</p>
+      <div class="card-foot"><span class="meta" data-en="Daily">每日更新</span><span class="go" data-en="View →">查看 →</span></div>
     </a>
 
   </div>
 
-  <div class="foot">研究工作台 · 舆情分析。「KOL 跟踪」引用同事维护的 WINDRISE 日报台。仅供内部研究参考，不构成投资建议。</div>
+  <div class="foot" data-en="Research Workbench · Sentiment. 'KOL Tracking' embeds the WINDRISE daily board maintained by a colleague. Internal research reference only, not investment advice.">研究工作台 · 舆情分析。「KOL 跟踪」引用同事维护的 WINDRISE 日报台。仅供内部研究参考，不构成投资建议。</div>
 </div>
+<script src="../assets/i18n.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>研究工作台 · Research Workbench</title>
+<title data-en="Research Workbench">研究工作台 · Research Workbench</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
@@ -22,66 +22,71 @@
     <a href="sentiment/">舆情分析</a>
     <a href="knowledge/">知识库</a>
   </div>
+  <div class="lang-toggle">
+    <button class="lang-btn" data-lang="zh" type="button" onclick="WRLang.set('zh')">中</button>
+    <button class="lang-btn" data-lang="en" type="button" onclick="WRLang.set('en')">EN</button>
+  </div>
   <span class="nav-status"><span class="dot"></span>数据截至 2026-07-06</span>
 </nav>
 
 <div class="wrap">
 
   <div class="hero">
-    <h1>今日全局</h1>
-    <div class="sub">日常研究成果 · 一眼看懂今日全局 · 内部研究参考，不构成投资建议</div>
+    <h1 data-en="Today at a Glance">今日全局</h1>
+    <div class="sub" data-en="Daily research output · The whole picture at a glance · Internal research reference, not investment advice">日常研究成果 · 一眼看懂今日全局 · 内部研究参考，不构成投资建议</div>
   </div>
 
   <div class="brief">
-    <div class="kick">Daily Brief · 今日研究简报</div>
-    <p>商品中长趋势<b class="up">偏空</b>（60 日线上方仅 12/64）；AI 基建风险 <b class="ok">INTACT</b>，但 CoreWeave 信用现裂缝需盯；资金面高手赚钱效应集中<b>纯碱</b>；宏观主线仍是「AI 决定一切」的 <b>K 型分化</b>。</p>
+    <div class="kick" data-en="Daily Brief">Daily Brief · 今日研究简报</div>
+    <p data-en="Commodity medium-to-long trend is <b class='up'>bearish</b> (only 12/64 above the 60-day line); AI infrastructure risk is <b class='ok'>INTACT</b>, but cracks in CoreWeave's credit warrant watching; top traders' profit effect is concentrated in <b>soda ash</b>; the macro theme is still the <b>K-shaped divergence</b> where 'AI decides everything'.">商品中长趋势<b class="up">偏空</b>（60 日线上方仅 12/64）；AI 基建风险 <b class="ok">INTACT</b>，但 CoreWeave 信用现裂缝需盯；资金面高手赚钱效应集中<b>纯碱</b>；宏观主线仍是「AI 决定一切」的 <b>K 型分化</b>。</p>
   </div>
 
-  <div class="label">五大板块</div>
+  <div class="label" data-en="Five Sections">五大板块</div>
   <div class="grid">
 
     <a class="card" href="macro/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg></span><span class="badge on">4 项有内容</span></div>
-      <h3>宏观</h3>
-      <p>日报 · 美国宏观 · 中国宏观 · AI科技 · 工业品表需</p>
-      <div class="card-foot"><span class="meta">5 个分类</span><span class="go">进入 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg></span><span class="badge on" data-en="5 sections · all live">5 项全有内容</span></div>
+      <h3 data-en="Macro">宏观</h3>
+      <p data-en="Daily · US Macro · China Macro · AI Tech · Industrial Supply-Demand">日报 · 美国宏观 · 中国宏观 · AI科技 · 工业品表需</p>
+      <div class="card-foot"><span class="meta" data-en="5 categories">5 个分类</span><span class="go" data-en="Enter →">进入 →</span></div>
     </a>
 
     <a class="card" href="fundamentals/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 3v18"/><path d="M20 7.5L12 12 4 7.5"/></svg></span><span class="badge on">4 项全有内容</span></div>
-      <h3>工业品基本面</h3>
-      <p>有色金属 · 黑色金属 · 厄尔尼诺 · AI相关小金属</p>
-      <div class="card-foot"><span class="meta">4 个分类</span><span class="go">进入 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 3v18"/><path d="M20 7.5L12 12 4 7.5"/></svg></span><span class="badge on" data-en="6 sections · all live">6 项全有内容</span></div>
+      <h3 data-en="Industrial Fundamentals">工业品基本面</h3>
+      <p data-en="Base-metal balances · Non-ferrous / Ferrous data · ENSO · AI minor metals · Long-short score">有色金属平衡表 · 有色/黑色数据 · 厄尔尼诺 · AI相关小金属 · 多空评分</p>
+      <div class="card-foot"><span class="meta" data-en="6 categories">6 个分类</span><span class="go" data-en="Enter →">进入 →</span></div>
     </a>
 
     <a class="card" href="capital/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="badge on">4 项有内容</span></div>
-      <h3>资金分析</h3>
-      <p>期货形态 · 中国期货席位持仓 · CFTC持仓 · 期货大赛分析 · 周期分歧地图</p>
-      <div class="card-foot"><span class="meta">5 个分类</span><span class="go">进入 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="badge on" data-en="4 sections live">4 项有内容</span></div>
+      <h3 data-en="Capital / Flow">资金分析</h3>
+      <p data-en="Futures patterns · China seat positions · CFTC positions · Trading-contest analysis · Cycle divergence map">期货形态 · 中国期货席位持仓 · CFTC持仓 · 期货大赛分析 · 周期分歧地图</p>
+      <div class="card-foot"><span class="meta" data-en="5 categories">5 个分类</span><span class="go" data-en="Enter →">进入 →</span></div>
     </a>
 
     <a class="card" href="sentiment/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span><span class="badge on">2 项有内容</span></div>
-      <h3>舆情分析</h3>
-      <p>KOL跟踪 · 微信公众号跟踪</p>
-      <div class="card-foot"><span class="meta">2 个分类</span><span class="go">进入 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span><span class="badge on" data-en="2 sections live">2 项有内容</span></div>
+      <h3 data-en="Sentiment">舆情分析</h3>
+      <p data-en="KOL tracking · WeChat account tracking">KOL跟踪 · 微信公众号跟踪</p>
+      <div class="card-foot"><span class="meta" data-en="2 categories">2 个分类</span><span class="go" data-en="Enter →">进入 →</span></div>
     </a>
 
     <a class="card" href="knowledge/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2z"/><path d="M9 8h6M9 12h6"/></svg></span><span class="badge on">3 项有内容</span></div>
-      <h3>知识库</h3>
-      <p>中信半年报 · 永安半年报 · AI半导体 · 宏观</p>
-      <div class="card-foot"><span class="meta">4 个分类</span><span class="go">进入 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2z"/><path d="M9 8h6M9 12h6"/></svg></span><span class="badge on" data-en="3 sections live">3 项有内容</span></div>
+      <h3 data-en="Knowledge Base">知识库</h3>
+      <p data-en="CITIC semi-annual · Yong'an semi-annual · AI semiconductors · Macro">中信半年报 · 永安半年报 · AI半导体 · 宏观</p>
+      <div class="card-foot"><span class="meta" data-en="4 categories">4 个分类</span><span class="go" data-en="Enter →">进入 →</span></div>
     </a>
 
   </div>
 
-  <div class="foot">
+  <div class="foot" data-en="Research Workbench · Daily research organized into five sections; click any section for its categories and content.<br/>The daily brief is a point-in-time snapshot; 'coming soon' categories are planned. Internal research reference only, not investment advice.">
     研究工作台 · 按五大板块组织日常研究成果，点击进入各板块查看分类与内容。<br/>
     今日简报为对应时点快照；「待补充」分类为规划中。仅供内部研究参考，不构成投资建议。
   </div>
 
 </div>
+<script src="assets/i18n.js"></script>
 </body>
 </html>

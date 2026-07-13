@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>主要金属及新能源金属表需季节性图（最近5年）</title>
+<style>
+  :root{
+    --c2022:#b7b7b7;
+    --c2023:#5b9bd5;
+    --c2024:#ed9c4c;
+    --c2025:#6fbf73;
+    --c2026:#d0021b;
+    --grid:#ececec;
+    --axis:#bcbcbc;
+    --text:#333;
+    --muted:#8a8a8a;
+    --bg:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;padding:24px 20px 40px;background:#f4f6f9;color:var(--text);
+    font-family:"Microsoft YaHei","PingFang SC","Segoe UI",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .card{
+    max-width:1720px;margin:0 auto;background:var(--bg);
+    border:1px solid #e2e6ec;border-radius:12px;
+    box-shadow:0 3px 14px rgba(20,50,90,.07);
+    padding:26px 28px 22px;
+  }
+  h1{
+    text-align:center;font-size:22px;margin:0 0 16px;color:#1a1a1a;letter-spacing:.5px;
+  }
+  .legend{
+    display:flex;justify-content:center;gap:26px;flex-wrap:wrap;margin-bottom:22px;
+    font-size:13.5px;color:#555;
+  }
+  .legend span{display:inline-flex;align-items:center;gap:7px;}
+  .legend i{width:26px;height:0;border-top-width:3px;border-top-style:solid;display:inline-block;border-radius:2px;}
+  .legend .l26 i{border-top-width:5px;}
+  .grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px 18px;
+  }
+  .panel{min-width:0;}
+  .panel svg{width:100%;height:auto;display:block;}
+  .src{
+    text-align:center;margin-top:18px;font-size:12px;color:var(--muted);
+    border-top:1px solid #eee;padding-top:12px;
+  }
+  @media(max-width:1280px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:680px){.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>主要金属及新能源金属表需季节性图（最近5年）</h1>
+  <div class="legend">
+    <span class="l22"><i style="border-color:var(--c2022)"></i>2022</span>
+    <span class="l23"><i style="border-color:var(--c2023)"></i>2023</span>
+    <span class="l24"><i style="border-color:var(--c2024)"></i>2024</span>
+    <span class="l25"><i style="border-color:var(--c2025)"></i>2025</span>
+    <span class="l26"><i style="border-color:var(--c2026)"></i>2026</span>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="src">数据来源：SMM 供需平衡表月度数据（图形为原图数字化复刻，数值为目测估计，仅供参考）｜ 红色实线为今年(2026)，方框标注为今年 1 月至最新月份的累计同比增速</div>
+</div>
+
+<script>
+const COLORS = {2022:'#b7b7b7',2023:'#5b9bd5',2024:'#ed9c4c',2025:'#6fbf73',2026:'#d0021b'};
+
+// 数据：每年12个月（2026仅1-5月）。数值为从原图目测数字化，含误差。
+const PANELS = [
+  { title:'铜（万吨）', min:103, max:146, step:10, ticks:[110,120,130,140],
+    d:{2022:[109,109,110,103,108,120,110,111,124,114,131,121],
+       2023:[111,109,114,120,122,117,119,129,132,124,130,130],
+       2024:[132,119,127,124,126,113,123,123,131,134,135,145],
+       2025:[127,129,136,130,136,136,135,138,143,136,123,134],
+       2026:[129,122,138,124,143]}, yoy:'+2.6%'},
+  { title:'锡（万吨）', min:0.6, max:2.25, step:0.2, ticks:[0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.2],
+    d:{2022:[1.45,1.3,1.75,1.8,1.9,1.55,0.65,1.5,1.2,1.85,1.75,1.7],
+       2023:[0.98,1.05,1.3,1.8,1.6,1.35,1.35,1.85,1.5,1.75,2.15,1.75],
+       2024:[1.72,0.8,1.3,1.55,1.35,1.7,1.8,1.7,1.45,1.7,2.18,1.55],
+       2025:[1.48,1.5,1.35,1.5,1.55,1.6,1.5,1.35,1.1,1.35,1.35,1.55],
+       2026:[1.3,1.02,2.0,1.62,1.53]}, yoy:'+0.9%'},
+  { title:'国内电解铝（除铝材和制品出口）（万吨）', min:200, max:342, step:20, ticks:[200,220,240,260,280,300,320,340],
+    d:{2022:[248,205,270,263,268,278,280,283,283,290,285,295],
+       2023:[233,244,300,305,305,292,300,305,310,313,305,323],
+       2024:[305,272,320,308,306,288,300,305,315,317,290,315],
+       2025:[318,268,315,308,335,320,316,308,308,330,300,312],
+       2026:[302,258,320,308,318]}, yoy:'-3.9%'},
+  { title:'锌（万吨）', min:46.5, max:66, step:2.5, ticks:[47.5,50,52.5,55,57.5,60,62.5,65],
+    d:{2022:[54,47.5,51.5,50,50,49,49,46.8,47,50.5,53.5,53.5],
+       2023:[51,50.5,55.5,55,57.5,55,58,65.5,55.5,65.5,61.5,61],
+       2024:[58.5,52.5,55.5,58,57,55,50.5,51,58,58,54.5,56],
+       2025:[57,54.5,62,62,62,62,58,65.5,61.5,62.5,58.5,53.5],
+       2026:[58,53.7,59,58.5,57.2]}, yoy:'+2.5%'},
+  { title:'镍（万吨）', min:1.55, max:2.65, step:0.2, ticks:[1.6,1.8,2.0,2.2,2.4,2.6],
+    d:{2022:[1.85,1.95,2.05,1.85,1.85,2.07,1.98,1.97,2.08,2.05,2.02,2.08],
+       2023:[1.63,1.58,1.7,1.85,1.83,1.88,1.87,1.86,1.86,1.97,1.96,1.99],
+       2024:[1.85,1.95,2.05,2.07,2.07,2.07,1.99,1.97,2.08,2.0,2.02,2.08],
+       2025:[2.0,2.05,2.18,2.15,2.18,2.27,2.05,2.07,2.63,2.55,2.55,2.4],
+       2026:[2.31,2.06,2.33,2.14,2.34]}, yoy:'+6.1%'},
+  { title:'不锈钢（万吨）', min:210, max:345, step:20, ticks:[220,240,260,280,300,320,340],
+    d:{2022:[230,250,290,281,290,280,210,278,290,305,285,272],
+       2023:[218,258,272,285,290,285,303,295,320,325,323,304],
+       2024:[265,251,285,281,281,282,278,285,300,290,293,297],
+       2025:[265,285,320,318,311,285,287,312,320,320,323,312],
+       2026:[290,305,328,332,341]}, yoy:'+6.4%'},
+  { title:'碳酸锂（万吨）', min:3, max:15.2, step:2, ticks:[4,6,8,10,12,14],
+    d:{2022:[3.2,3.0,3.5,3.0,3.5,6.5,4.5,4.6,5.0,5.5,5.5,4.5],
+       2023:[3.2,3.0,3.5,4.0,5.0,6.5,6.1,6.0,5.3,5.5,5.6,4.4],
+       2024:[4.5,3.5,5.6,6.0,6.5,7.2,6.7,7.4,8.5,11.6,9.0,9.0],
+       2025:[8.1,7.0,8.0,8.5,9.0,10.0,10.3,11.0,11.6,12.6,13.2,13.0],
+       2026:[12.5,11.2,13.2,14.0,14.7]}, yoy:'+53.2%'},
+  { title:'多晶硅（万吨）', min:5.5, max:16.5, step:2, ticks:[6,8,10,12,14,16],
+    d:{2022:[5.8,5.8,6.4,6.3,6.5,6.5,6.4,6.6,7.5,7.9,9.0,6.4],
+       2023:[7.7,8.2,10.9,10.8,11.3,11.2,13.0,13.9,13.9,11.2,13.7,13.7],
+       2024:[13.2,13.9,15.8,15.5,11.2,11.2,12.4,12.9,10.7,10.8,8.0,9.7],
+       2025:[9.7,8.2,11.0,10.8,11.3,11.2,10.6,9.5,10.7,10.8,10.7,10.8],
+       2026:[8.1,8.2,9.2,8.4,9.4]}, yoy:'-18.3%'},
+];
+
+const W=460, H=300, M={t:34,r:16,b:34,l:44};
+const PW=W-M.l-M.r, PH=H-M.t-M.b;
+
+function fmt(v,step){ return step<1 ? v.toFixed(1) : String(v); }
+
+function panelSVG(p){
+  const xOf = m => M.l + (m-1)/11*PW;
+  const yOf = v => M.t + (1-(v-p.min)/(p.max-p.min))*PH;
+  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="inherit">`;
+
+  // gridlines + y ticks
+  for(const t of p.ticks){
+    const y=yOf(t);
+    s+=`<line x1="${M.l}" y1="${y.toFixed(1)}" x2="${W-M.r}" y2="${y.toFixed(1)}" stroke="var(--grid)" stroke-width="1"/>`;
+    s+=`<text x="${M.l-7}" y="${(y+3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9a9a9a">${fmt(t,p.step)}</text>`;
+  }
+  // x ticks 1..12
+  for(let m=1;m<=12;m++){
+    const x=xOf(m);
+    s+=`<text x="${x.toFixed(1)}" y="${H-M.b+16}" text-anchor="middle" font-size="10.5" fill="#9a9a9a">${m}</text>`;
+  }
+  // axes
+  s+=`<line x1="${M.l}" y1="${M.t}" x2="${M.l}" y2="${H-M.b}" stroke="var(--axis)" stroke-width="1"/>`;
+  s+=`<line x1="${M.l}" y1="${H-M.b}" x2="${W-M.r}" y2="${H-M.b}" stroke="var(--axis)" stroke-width="1"/>`;
+
+  // background series (2022-2025)
+  for(const yr of [2022,2023,2024,2025]){
+    const arr=p.d[yr]; const col=COLORS[yr];
+    let path=''; arr.forEach((v,i)=>{ path+=(i?'L':'M')+xOf(i+1).toFixed(1)+' '+yOf(v).toFixed(1)+' '; });
+    s+=`<path d="${path}" fill="none" stroke="${col}" stroke-width="1.6" stroke-linejoin="round" opacity="0.9"/>`;
+    arr.forEach((v,i)=>{ s+=`<circle cx="${xOf(i+1).toFixed(1)}" cy="${yOf(v).toFixed(1)}" r="1.9" fill="${col}"/>`; });
+  }
+  // 2026 highlight
+  const a26=p.d[2026]; const c26=COLORS[2026];
+  let hp=''; a26.forEach((v,i)=>{ hp+=(i?'L':'M')+xOf(i+1).toFixed(1)+' '+yOf(v).toFixed(1)+' '; });
+  s+=`<path d="${hp}" fill="none" stroke="${c26}" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/>`;
+  a26.forEach((v,i)=>{
+    const last = i===a26.length-1;
+    s+=`<circle cx="${xOf(i+1).toFixed(1)}" cy="${yOf(v).toFixed(1)}" r="${last?4.6:2.6}" fill="${c26}"/>`;
+  });
+
+  // title
+  s+=`<text x="${W/2}" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#222">${p.title}</text>`;
+
+  // yoy annotation box (top-left of plot)
+  const boxX=M.l+6, boxY=M.t+6, boxW=96, boxH=32;
+  s+=`<rect x="${boxX}" y="${boxY}" width="${boxW}" height="${boxH}" rx="4" fill="#fdecec" stroke="#f2c2c2" stroke-width="1"/>`;
+  s+=`<text x="${boxX+8}" y="${boxY+13}" font-size="10.5" fill="#c0392b">2026年累计同比</text>`;
+  s+=`<text x="${boxX+8}" y="${boxY+26}" font-size="12.5" font-weight="700" fill="#c0392b">${p.yoy}</text>`;
+
+  s+='</svg>';
+  return s;
+}
+
+const grid=document.getElementById('grid');
+grid.innerHTML = PANELS.map(p=>`<div class="panel">${panelSVG(p)}</div>`).join('');
+</script>
+</body>
+</html>

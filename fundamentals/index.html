@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>工业品基本面 · 研究工作台</title>
+<title data-en="Industrial Fundamentals · Research Workbench">工业品基本面 · 研究工作台</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
@@ -22,49 +22,68 @@
     <a href="../sentiment/">舆情分析</a>
     <a href="../knowledge/">知识库</a>
   </div>
+  <div class="lang-toggle">
+    <button class="lang-btn" data-lang="zh" type="button" onclick="WRLang.set('zh')">中</button>
+    <button class="lang-btn" data-lang="en" type="button" onclick="WRLang.set('en')">EN</button>
+  </div>
   <span class="nav-status"><span class="dot"></span>数据截至 2026-07-06</span>
 </nav>
 
 <div class="wrap">
-  <div class="crumb"><a href="../">研究工作台</a> · 工业品基本面</div>
+  <div class="crumb" data-en="<a href='../'>Research Workbench</a> · Industrial Fundamentals"><a href="../">研究工作台</a> · 工业品基本面</div>
   <div class="sec-head">
-    <h1>工业品基本面</h1>
-    <div class="sub">分板块的供需基本面：有色、黑色、天气与 AI 相关小金属。</div>
+    <h1 data-en="Industrial Fundamentals">工业品基本面</h1>
+    <div class="sub" data-en="Supply-demand fundamentals by sector: non-ferrous, ferrous, weather and AI-related minor metals.">分板块的供需基本面：有色、黑色、天气与 AI 相关小金属。</div>
   </div>
 
   <div class="grid">
 
+    <a class="card" href="../nonferrous-balance/">
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 12h16M4 19h16"/><circle cx="9" cy="5" r="1.4"/><circle cx="15" cy="12" r="1.4"/><circle cx="7" cy="19" r="1.4"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="Base-Metal Balances">有色金属平衡表</h3>
+      <p data-en="Base-metal supply-demand balances: surplus/deficit estimates for copper, aluminium, zinc and more.">有色金属供需平衡表：铜、铝、锌等的供需平衡与缺口测算。</p>
+      <div class="card-foot"><span class="meta" data-en="Updated 07">更新 07</span><span class="go" data-en="View →">查看 →</span></div>
+    </a>
+
     <a class="card" href="../nonferrous/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg></span><span class="badge on">有内容</span></div>
-      <h3>有色金属</h3>
-      <p>有色数据季节性图谱：铜、铝、锌、镍等关键数据的季节性规律与当前位置。</p>
-      <div class="card-foot"><span class="meta">更新 07</span><span class="go">查看 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="Non-ferrous Data">有色金属数据</h3>
+      <p data-en="Non-ferrous seasonality atlas: seasonal patterns and current position of copper, aluminium, zinc, nickel and more.">有色数据季节性图谱：铜、铝、锌、镍等关键数据的季节性规律与当前位置。</p>
+      <div class="card-foot"><span class="meta" data-en="Updated 07">更新 07</span><span class="go" data-en="View →">查看 →</span></div>
     </a>
 
     <a class="card" href="../ferrous/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8v8H8z"/></svg></span><span class="badge on">有内容</span></div>
-      <h3>黑色金属</h3>
-      <p>黑色数据季节性图谱：螺纹、热卷、铁矿、双焦等关键数据的季节性规律与当前位置。</p>
-      <div class="card-foot"><span class="meta">更新 07</span><span class="go">查看 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8v8H8z"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="Ferrous Data">黑色金属数据</h3>
+      <p data-en="Ferrous seasonality atlas: seasonal patterns and current position of rebar, hot-rolled coil, iron ore and coking coal/coke.">黑色数据季节性图谱：螺纹、热卷、铁矿、双焦等关键数据的季节性规律与当前位置。</p>
+      <div class="card-foot"><span class="meta" data-en="Updated 07">更新 07</span><span class="go" data-en="View →">查看 →</span></div>
     </a>
 
     <a class="card" href="../enso/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg></span><span class="badge on">有内容</span></div>
-      <h3>厄尔尼诺</h3>
-      <p>ENSO 监测面板：厄尔尼诺/拉尼娜状态与对农产品、软商品供给的影响跟踪。</p>
-      <div class="card-foot"><span class="meta">更新 07</span><span class="go">查看 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="ENSO">厄尔尼诺</h3>
+      <p data-en="ENSO monitor: El Niño / La Niña status and its impact on agricultural and soft-commodity supply.">ENSO 监测面板：厄尔尼诺/拉尼娜状态与对农产品、软商品供给的影响跟踪。</p>
+      <div class="card-foot"><span class="meta" data-en="Updated 07">更新 07</span><span class="go" data-en="View →">查看 →</span></div>
     </a>
 
     <a class="card" href="../small-metals/">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></span><span class="badge on">有内容</span></div>
-      <h3>AI 相关小金属</h3>
-      <p>17 种 AI/半导体产业链小金属跟踪：价格与 A 股龙头、近三年走势 + AI 应用、重点舆情。</p>
-      <div class="card-foot"><span class="meta">更新 07-07</span><span class="go">查看 →</span></div>
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="AI Minor Metals">AI 相关小金属</h3>
+      <p data-en="17 AI/semiconductor supply-chain minor metals: prices and A-share leaders, 3-year trends + AI uses and key news.">17 种 AI/半导体产业链小金属跟踪：价格与 A 股龙头、近三年走势 + AI 应用、重点舆情。</p>
+      <div class="card-foot"><span class="meta" data-en="Updated 07-07">更新 07-07</span><span class="go" data-en="View →">查看 →</span></div>
+    </a>
+
+    <a class="card" href="../ls-score/">
+      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15l4-4 3 3 5-6 4 4"/><path d="M4 20h16"/></svg></span><span class="badge on" data-en="Live">有内容</span></div>
+      <h3 data-en="Long-Short Score">多空评分</h3>
+      <p data-en="Daily long-short score: per-variety long/short signal scoring to gauge the balance at a glance.">每日多空评分：分品种的多空信号打分，快速看多空强弱分布。</p>
+      <div class="card-foot"><span class="meta" data-en="Daily">每日更新</span><span class="go" data-en="View →">查看 →</span></div>
     </a>
 
   </div>
 
-  <div class="foot">研究工作台 · 工业品基本面。本板块分类均在规划中，将逐步接入基本面数据与笔记。仅供内部研究参考，不构成投资建议。</div>
+  <div class="foot" data-en="Research Workbench · Industrial Fundamentals. Includes base-metal balances, non-ferrous/ferrous data, ENSO, AI minor metals and the daily long-short score. Internal research reference only, not investment advice.">研究工作台 · 工业品基本面。含有色金属平衡表、有色/黑色数据、厄尔尼诺、AI 相关小金属与每日多空评分。仅供内部研究参考，不构成投资建议。</div>
 </div>
+<script src="../assets/i18n.js"></script>
 </body>
 </html>
