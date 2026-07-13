@@ -18,16 +18,75 @@
   .ttl .sub{color:#98a1b5;font-weight:500;font-size:12px;margin-left:6px;}
   .badge{margin-left:auto;font-size:11px;color:#98a1b5;display:inline-flex;align-items:center;gap:6px;}
   .badge b{color:#2a6bef;font-weight:700;}
+  .langsw{display:inline-flex;align-items:center;gap:4px;margin-left:10px;border:1px solid rgba(20,29,55,.10);border-radius:999px;background:#f4f6fb;padding:3px}
+  .langsw button{border:0;background:transparent;color:#5a6478;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;cursor:pointer}
+  .langsw button[data-on="1"]{background:#2a6bef;color:#fff}
   iframe{flex:1;width:100%;border:0;background:#fff;}
 </style>
 </head>
 <body>
   <div class="bar">
-    <a class="back" href="../capital/">← 返回资金分析</a>
-    <span class="ttl">资金潮汐<span class="sub">同事 WINDRISE · 盘后主力资金流向</span></span>
-    <span class="badge"><b>同事维护</b> · 每日更新</span>
+    <a class="back" id="back" href="../capital/">← 返回资金分析</a>
+    <span class="ttl" id="ttl">资金潮汐<span class="sub" id="sub">同事 WINDRISE · 盘后主力资金流向</span></span>
+    <span class="badge" id="badge"><b id="badgeb">同事维护</b><span id="badgex"> · 每日更新</span></span>
+    <div class="langsw" aria-label="Language switch">
+      <button type="button" data-lang="zh">中</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
   </div>
-  <iframe src="https://spritegreenyy.github.io/Daily-Reports/%E6%97%A5%E6%8A%A5%E7%AB%99/%E8%B5%84%E9%87%91%E6%BD%AE%E6%B1%90/"
+  <iframe id="frame" src="https://spritegreenyy.github.io/Daily-Reports/%E6%97%A5%E6%8A%A5%E7%AB%99/%E8%B5%84%E9%87%91%E6%BD%AE%E6%B1%90/"
           title="WINDRISE 资金潮汐" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<script>
+  const LANG_KEY = "windrise_lang";
+  const BASE_SRC = "https://spritegreenyy.github.io/Daily-Reports/%E6%97%A5%E6%8A%A5%E7%AB%99/%E8%B5%84%E9%87%91%E6%BD%AE%E6%B1%90/";
+  const COPY = {
+    zh: {
+      title: "资金潮汐 · 研究工作台",
+      back: "← 返回资金分析",
+      ttl: "资金潮汐",
+      sub: "同事 WINDRISE · 盘后主力资金流向",
+      badgeb: "同事维护",
+      badgex: " · 每日更新",
+      iframe: "WINDRISE 资金潮汐"
+    },
+    en: {
+      title: "Capital Tide · Research Workbench",
+      back: "← Back to Capital Analysis",
+      ttl: "Capital Tide",
+      sub: "WINDRISE · Post-Close Lead-Seat Fund Flow",
+      badgeb: "Team-maintained",
+      badgex: " · Updated daily",
+      iframe: "WINDRISE Capital Tide"
+    }
+  };
+  const frame = document.getElementById("frame");
+  const buttons = [...document.querySelectorAll(".langsw button")];
+  function getLang() {
+    const q = new URLSearchParams(location.search).get("lang");
+    return q === "en" || q === "zh" ? q : (localStorage.getItem(LANG_KEY) || "zh");
+  }
+  function frameSrc(lang) {
+    return `${BASE_SRC}?lang=${lang}`;
+  }
+  function applyLang(lang) {
+    const t = COPY[lang] || COPY.zh;
+    localStorage.setItem(LANG_KEY, lang);
+    document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
+    document.title = t.title;
+    document.getElementById("back").textContent = t.back;
+    document.getElementById("ttl").childNodes[0].nodeValue = t.ttl;
+    document.getElementById("sub").textContent = t.sub;
+    document.getElementById("badgeb").textContent = t.badgeb;
+    document.getElementById("badgex").textContent = t.badgex;
+    frame.title = t.iframe;
+    if (frame.dataset.lang !== lang) {
+      frame.src = frameSrc(lang);
+      frame.dataset.lang = lang;
+    }
+    buttons.forEach((btn) => btn.setAttribute("data-on", btn.dataset.lang === lang ? "1" : ""));
+  }
+  buttons.forEach((btn) => btn.addEventListener("click", () => applyLang(btn.dataset.lang)));
+  applyLang(getLang());
+</script>
 </body>
 </html>
