@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>主要金属及新能源金属表需季节性图（最近5年）</title>
+<title data-en="Seasonality of Apparent Demand — Major &amp; New-Energy Metals (Last 5 Years)">主要金属及新能源金属表需季节性图（最近5年）</title>
 <style>
   :root{
     --c2022:#b7b7b7;
@@ -53,8 +53,10 @@
 </style>
 </head>
 <body>
+<style>.wr-lang{position:fixed;top:12px;right:14px;z-index:9999;display:inline-flex;background:rgba(255,255,255,.92);border:1px solid rgba(20,29,55,.14);border-radius:8px;padding:2px;box-shadow:0 1px 5px rgba(0,0,0,.1)}.wr-lang .lang-btn{border:0;background:none;padding:4px 10px;border-radius:6px;font:600 12px/1.4 inherit;color:#5a6478;cursor:pointer}.wr-lang .lang-btn.active{background:#2a6bef;color:#fff}</style>
+<div class="wr-lang"><button class="lang-btn" data-lang="zh" type="button" onclick="WRLang.set('zh')">中</button><button class="lang-btn" data-lang="en" type="button" onclick="WRLang.set('en')">EN</button></div>
 <div class="card">
-  <h1>主要金属及新能源金属表需季节性图（最近5年）</h1>
+  <h1 data-en="Seasonality of Apparent Demand — Major &amp; New-Energy Metals (Last 5 Years)">主要金属及新能源金属表需季节性图（最近5年）</h1>
   <div class="legend">
     <span class="l22"><i style="border-color:var(--c2022)"></i>2022</span>
     <span class="l23"><i style="border-color:var(--c2023)"></i>2023</span>
@@ -63,11 +65,27 @@
     <span class="l26"><i style="border-color:var(--c2026)"></i>2026</span>
   </div>
   <div class="grid" id="grid"></div>
-  <div class="src">数据来源：SMM 供需平衡表月度数据（图形为原图数字化复刻，数值为目测估计，仅供参考）｜ 红色实线为今年(2026)，方框标注为今年 1 月至最新月份的累计同比增速</div>
+  <div class="src" data-en="Source: SMM monthly supply-demand balance data (charts are a digitized reproduction of the original; values are visual estimates, for reference only) ｜ Red solid line is the current year (2026); the boxed label is the year-to-date (Jan to latest month) cumulative YoY growth">数据来源：SMM 供需平衡表月度数据（图形为原图数字化复刻，数值为目测估计，仅供参考）｜ 红色实线为今年(2026)，方框标注为今年 1 月至最新月份的累计同比增速</div>
 </div>
 
+<script src="../assets/i18n.js"></script>
 <script>
 const COLORS = {2022:'#b7b7b7',2023:'#5b9bd5',2024:'#ed9c4c',2025:'#6fbf73',2026:'#d0021b'};
+
+// 本地中英助手
+function L(zh,en){ return WRLang.lang()==='en' ? en : zh; }
+// 面板标题中英映射（数值/单位不变，仅译名）
+const TITLE_EN = {
+  '铜（万吨）':'Copper (10k t)',
+  '锡（万吨）':'Tin (10k t)',
+  '国内电解铝（除铝材和制品出口）（万吨）':'Domestic Electrolytic Aluminum (excl. aluminum products & exports) (10k t)',
+  '锌（万吨）':'Zinc (10k t)',
+  '镍（万吨）':'Nickel (10k t)',
+  '不锈钢（万吨）':'Stainless Steel (10k t)',
+  '碳酸锂（万吨）':'Lithium Carbonate (10k t)',
+  '多晶硅（万吨）':'Polysilicon (10k t)'
+};
+function panelTitle(p){ return WRLang.lang()==='en' ? (TITLE_EN[p.title]||p.title) : p.title; }
 
 // 数据：每年12个月（2026仅1-5月）。数值为从原图目测数字化，含误差。
 const PANELS = [
@@ -163,12 +181,12 @@ function panelSVG(p){
   });
 
   // title
-  s+=`<text x="${W/2}" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#222">${p.title}</text>`;
+  s+=`<text x="${W/2}" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#222">${panelTitle(p)}</text>`;
 
   // yoy annotation box (top-left of plot)
   const boxX=M.l+6, boxY=M.t+6, boxW=96, boxH=32;
   s+=`<rect x="${boxX}" y="${boxY}" width="${boxW}" height="${boxH}" rx="4" fill="#fdecec" stroke="#f2c2c2" stroke-width="1"/>`;
-  s+=`<text x="${boxX+8}" y="${boxY+13}" font-size="10.5" fill="#c0392b">2026年累计同比</text>`;
+  s+=`<text x="${boxX+8}" y="${boxY+13}" font-size="10.5" fill="#c0392b">${L('2026年累计同比','2026 YTD YoY')}</text>`;
   s+=`<text x="${boxX+8}" y="${boxY+26}" font-size="12.5" font-weight="700" fill="#c0392b">${p.yoy}</text>`;
 
   s+='</svg>';
@@ -176,7 +194,11 @@ function panelSVG(p){
 }
 
 const grid=document.getElementById('grid');
-grid.innerHTML = PANELS.map(p=>`<div class="panel">${panelSVG(p)}</div>`).join('');
+function renderAll(){
+  grid.innerHTML = PANELS.map(p=>`<div class="panel">${panelSVG(p)}</div>`).join('');
+}
+// 注册后立即渲染一次，并在中/EN 切换时重绘全部图表
+WRLang.onChange(function(){ renderAll(); });
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>有色金属供需平衡表（锌 / 铜 / 锡）</title>
+<title data-en="Base-Metal Supply-Demand Balance Tables (Zinc / Copper / Tin)">有色金属供需平衡表（锌 / 铜 / 锡）</title>
 <style>
   :root{
     --blue:#1f5fb0;
@@ -146,112 +146,114 @@
 </style>
 </head>
 <body>
+<style>.wr-lang{position:fixed;top:12px;right:14px;z-index:9999;display:inline-flex;background:rgba(255,255,255,.92);border:1px solid rgba(20,29,55,.14);border-radius:8px;padding:2px;box-shadow:0 1px 5px rgba(0,0,0,.1)}.wr-lang .lang-btn{border:0;background:none;padding:4px 10px;border-radius:6px;font:600 12px/1.4 inherit;color:#5a6478;cursor:pointer}.wr-lang .lang-btn.active{background:#2a6bef;color:#fff}</style>
+<div class="wr-lang"><button class="lang-btn" data-lang="zh" type="button" onclick="WRLang.set('zh')">中</button><button class="lang-btn" data-lang="en" type="button" onclick="WRLang.set('en')">EN</button></div>
 <div class="wrap">
 
   <header class="page">
-    <h1>有色金属供需平衡表汇总</h1>
-    <p>品种：锌 · 铜 · 铝 · 锡 &nbsp;|&nbsp; 每个品种按「矿投产进度 → 矿平衡表 → 成品平衡表」排列 · 单位见各表</p>
+    <h1 data-en="Base-Metal Supply-Demand Balance Tables">有色金属供需平衡表汇总</h1>
+    <p data-en="Varieties: Zinc · Copper · Aluminum · Tin &nbsp;|&nbsp; Each variety arranged as &lsquo;Mine ramp-up schedule &rarr; Concentrate balance &rarr; Refined-product balance&rsquo; · Units shown per table">品种：锌 · 铜 · 铝 · 锡 &nbsp;|&nbsp; 每个品种按「矿投产进度 → 矿平衡表 → 成品平衡表」排列 · 单位见各表</p>
   </header>
 
   <div class="legend">
-    <span><i style="background:var(--gray-soft)"></i>区域/供需平衡行</span>
-    <span><i style="background:var(--yellow)"></i>全球平衡行</span>
-    <span><i style="background:var(--blue)"></i>表头 / 分段标题</span>
-    <span><i style="background:#fff"></i>红色数字为负值</span>
+    <span><i style="background:var(--gray-soft)"></i><span data-en="Regional / supply-demand balance row">区域/供需平衡行</span></span>
+    <span><i style="background:var(--yellow)"></i><span data-en="Global balance row">全球平衡行</span></span>
+    <span><i style="background:var(--blue)"></i><span data-en="Table header / section title">表头 / 分段标题</span></span>
+    <span><i style="background:#fff"></i><span data-en="Red figures are negative">红色数字为负值</span></span>
   </div>
 
   <!-- ============================ 锌 ZINC ============================ -->
   <section class="commodity">
-    <h2>锌 &nbsp;Zinc</h2>
-    <p class="subtitle">含锌矿投产进度、锌精矿供需平衡、精炼锌成品平衡三张表</p>
+    <h2 data-en="Zinc">锌 &nbsp;Zinc</h2>
+    <p class="subtitle" data-en="Three tables: zinc-mine ramp-up schedule, zinc-concentrate balance, refined-zinc product balance">含锌矿投产进度、锌精矿供需平衡、精炼锌成品平衡三张表</p>
 
     <!-- 1. 锌矿投产进度 -->
     <div class="block">
-      <p class="block-title"><span class="tag">① 矿投产进度</span>2026 年全球锌矿增量大概率在 5–15 万吨左右（按投产进度及生产指引预估，不考虑超预期减量）</p>
+      <p class="block-title"><span class="tag" data-en="&#9312; Mine Ramp-Up Schedule">① 矿投产进度</span><span data-en="2026 global zinc-mine growth most likely around +50k&ndash;150k t (estimated from ramp-up schedules and production guidance, excluding larger-than-expected cuts)">2026 年全球锌矿增量大概率在 5–15 万吨左右（按投产进度及生产指引预估，不考虑超预期减量）</span></p>
       <div class="scroll">
         <table>
           <thead>
             <tr>
-              <th>序号</th><th>公司（万吨,%）</th>
+              <th data-en="No.">序号</th><th data-en="Company (10k t, %)">公司（万吨,%）</th>
               <th>25Q1</th><th>25Q2</th><th>25Q3</th><th>25Q4</th><th>2025Y</th>
-              <th>26Q1</th><th>同比增减</th><th>2026E</th><th>同比增减</th><th>备注</th>
+              <th>26Q1</th><th data-en="YoY chg">同比增减</th><th>2026E</th><th data-en="YoY chg">同比增减</th><th data-en="Notes">备注</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>1</td><td class="rowhead">Vedanta</td><td>36.00</td><td>22.20</td><td>21.80</td><td>33.50</td><td>133.50</td><td>36.40</td><td>0.40</td><td>137.50</td><td>4.00</td><td style="text-align:left">二期爬坡逐渐达产</td></tr>
-            <tr><td>2</td><td class="rowhead">Glencore</td><td>21.36</td><td>25.16</td><td>24.42</td><td>26.00</td><td>96.94</td><td>17.69</td><td class="neg">-3.67</td><td>72.00</td><td class="neg">-24.94</td><td style="text-align:left">Antamina 减量 & McArthur 资源枯竭</td></tr>
-            <tr><td>3</td><td class="rowhead">Teck</td><td>13.73</td><td>16.90</td><td>15.05</td><td>10.88</td><td>86.54</td><td>12.08</td><td class="neg">-1.70</td><td>43.50</td><td class="neg">-13.04</td><td style="text-align:left">Antamina 减量</td></tr>
-            <tr><td>4</td><td class="rowhead">紫金矿业</td><td>8.82</td><td>9.14</td><td>9.14</td><td>12.89</td><td>40.00</td><td>8.45</td><td class="neg">-0.37</td><td>40.00</td><td>0.00</td><td></td></tr>
+            <tr><td>1</td><td class="rowhead">Vedanta</td><td>36.00</td><td>22.20</td><td>21.80</td><td>33.50</td><td>133.50</td><td>36.40</td><td>0.40</td><td>137.50</td><td>4.00</td><td style="text-align:left" data-en="Phase-2 ramp-up gradually reaching capacity">二期爬坡逐渐达产</td></tr>
+            <tr><td>2</td><td class="rowhead">Glencore</td><td>21.36</td><td>25.16</td><td>24.42</td><td>26.00</td><td>96.94</td><td>17.69</td><td class="neg">-3.67</td><td>72.00</td><td class="neg">-24.94</td><td style="text-align:left" data-en="Antamina cut & McArthur resource depletion">Antamina 减量 & McArthur 资源枯竭</td></tr>
+            <tr><td>3</td><td class="rowhead">Teck</td><td>13.73</td><td>16.90</td><td>15.05</td><td>10.88</td><td>86.54</td><td>12.08</td><td class="neg">-1.70</td><td>43.50</td><td class="neg">-13.04</td><td style="text-align:left" data-en="Antamina cut">Antamina 减量</td></tr>
+            <tr><td>4</td><td class="rowhead" data-en="Zijin Mining">紫金矿业</td><td>8.82</td><td>9.14</td><td>9.14</td><td>12.89</td><td>40.00</td><td>8.45</td><td class="neg">-0.37</td><td>40.00</td><td>0.00</td><td></td></tr>
             <tr><td>5</td><td class="rowhead">Nexa</td><td>8.73</td><td>7.38</td><td>8.37</td><td>9.12</td><td>31.57</td><td>7.94</td><td>1.21</td><td>33.50</td><td>1.93</td><td></td></tr>
-            <tr><td>6</td><td class="rowhead">Peñoles</td><td>8.77</td><td>6.01</td><td>6.32</td><td>6.92</td><td>25.08</td><td>6.67</td><td>0.90</td><td>—</td><td>3.00</td><td style="text-align:left">Tizapa 22 年 6 月底复产</td></tr>
-            <tr><td>7</td><td class="rowhead">Volcan</td><td>3.23</td><td>5.88</td><td>5.98</td><td>5.94</td><td>23.53</td><td>5.07</td><td class="neg">-0.66</td><td>28.25</td><td>4.72</td><td style="text-align:left">Romina 复产</td></tr>
+            <tr><td>6</td><td class="rowhead">Peñoles</td><td>8.77</td><td>6.01</td><td>6.32</td><td>6.92</td><td>25.08</td><td>6.67</td><td>0.90</td><td>—</td><td>3.00</td><td style="text-align:left" data-en="Tizapa restart end-Jun 2022">Tizapa 22 年 6 月底复产</td></tr>
+            <tr><td>7</td><td class="rowhead">Volcan</td><td>3.23</td><td>5.88</td><td>5.98</td><td>5.94</td><td>23.53</td><td>5.07</td><td class="neg">-0.66</td><td>28.25</td><td>4.72</td><td style="text-align:left" data-en="Romina restart">Romina 复产</td></tr>
             <tr><td>8</td><td class="rowhead">MMG</td><td>3.18</td><td>5.80</td><td>5.87</td><td>6.54</td><td>23.19</td><td>5.08</td><td class="neg">-0.15</td><td>22.50</td><td class="neg">-0.69</td><td></td></tr>
-            <tr><td>9</td><td class="rowhead">Boliden</td><td>10.49</td><td>10.27</td><td>10.90</td><td>9.18</td><td>40.94</td><td>8.91</td><td class="neg">-1.78</td><td>34.97</td><td class="neg">-5.97</td><td style="text-align:left">Garpenberg 罢工</td></tr>
-            <tr><td>10</td><td class="rowhead">Lundin</td><td>4.99</td><td>0.33</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td style="text-align:left">评估资产剥离</td></tr>
-            <tr><td>11</td><td class="rowhead">BHP</td><td>2.00</td><td>4.44</td><td>3.60</td><td>2.70</td><td>12.94</td><td>1.77</td><td class="neg">-0.83</td><td>10.00</td><td class="neg">-2.94</td><td style="text-align:left">Antamina 减量</td></tr>
+            <tr><td>9</td><td class="rowhead">Boliden</td><td>10.49</td><td>10.27</td><td>10.90</td><td>9.18</td><td>40.94</td><td>8.91</td><td class="neg">-1.78</td><td>34.97</td><td class="neg">-5.97</td><td style="text-align:left" data-en="Garpenberg strike">Garpenberg 罢工</td></tr>
+            <tr><td>10</td><td class="rowhead">Lundin</td><td>4.99</td><td>0.33</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td style="text-align:left" data-en="Evaluating divestment">评估资产剥离</td></tr>
+            <tr><td>11</td><td class="rowhead">BHP</td><td>2.00</td><td>4.44</td><td>3.60</td><td>2.70</td><td>12.94</td><td>1.77</td><td class="neg">-0.83</td><td>10.00</td><td class="neg">-2.94</td><td style="text-align:left" data-en="Antamina cut">Antamina 减量</td></tr>
             <tr><td>12</td><td class="rowhead">Fresnillo</td><td>2.52</td><td>2.34</td><td>2.47</td><td>2.75</td><td>10.59</td><td>2.61</td><td>0.09</td><td>9.00</td><td class="neg">-1.59</td><td></td></tr>
             <tr><td>13</td><td class="rowhead">Newmont</td><td>5.60</td><td>6.70</td><td>5.90</td><td>4.60</td><td>23.10</td><td>5.30</td><td>0.30</td><td>21.77</td><td class="neg">-1.33</td><td></td></tr>
             <tr><td>14</td><td class="rowhead">Sibanye Stillwater</td><td>3.30</td><td>2.60</td><td>2.40</td><td>4.60</td><td>10.10</td><td>2.00</td><td class="neg">-0.50</td><td>9.23</td><td class="neg">-1.57</td><td></td></tr>
-            <tr><td>15</td><td class="rowhead">Southern Copper</td><td>3.94</td><td>4.59</td><td>4.55</td><td>4.62</td><td>17.70</td><td>4.02</td><td class="neg">-0.08</td><td>16.68</td><td class="neg">-0.02</td><td style="text-align:left">Buenavista 挥发量</td></tr>
+            <tr><td>15</td><td class="rowhead">Southern Copper</td><td>3.94</td><td>4.59</td><td>4.55</td><td>4.62</td><td>17.70</td><td>4.02</td><td class="neg">-0.08</td><td>16.68</td><td class="neg">-0.02</td><td style="text-align:left" data-en="Buenavista fume volume">Buenavista 挥发量</td></tr>
             <tr><td>16</td><td class="rowhead">South32</td><td>1.10</td><td>1.16</td><td>0.33</td><td>1.04</td><td>4.08</td><td>0.91</td><td class="neg">-0.19</td><td>4.00</td><td class="neg">-0.03</td><td></td></tr>
             <tr><td>17</td><td class="rowhead">NAZ Minerals</td><td>0.53</td><td>1.11</td><td>1.38</td><td>1.08</td><td>5.38</td><td>1.04</td><td>0.11</td><td>—</td><td>—</td><td></td></tr>
             <tr><td>18</td><td class="rowhead">Pan American Silver</td><td>1.40</td><td>1.25</td><td>1.28</td><td>1.67</td><td>5.58</td><td>1.52</td><td>0.12</td><td>5.68</td><td>0.10</td><td></td></tr>
             <tr><td>19</td><td class="rowhead">Newbay</td><td>0.93</td><td>0.27</td><td>0.05</td><td>0.57</td><td>1.76</td><td>0.06</td><td class="neg">-0.17</td><td>1.85</td><td>0.09</td><td></td></tr>
             <tr><td>20</td><td class="rowhead">Buenaventura</td><td>0.88</td><td>0.77</td><td>0.64</td><td>0.91</td><td>2.90</td><td>0.74</td><td>0.16</td><td>2.94</td><td>0.04</td><td></td></tr>
-            <tr><td>21</td><td class="rowhead">Sierra Metals</td><td>0.39</td><td>—</td><td>—</td><td>—</td><td>2.54</td><td>—</td><td>—</td><td>—</td><td>—</td><td style="text-align:left">未有化钽市</td></tr>
-            <tr><td>22</td><td class="rowhead">Ivanhoe</td><td>6.27</td><td>4.18</td><td>5.72</td><td>6.14</td><td>20.31</td><td>6.60</td><td>2.23</td><td>26.50</td><td>6.19</td><td style="text-align:left">复产增列</td></tr>
-            <tr><td>23</td><td class="rowhead">Adriatic Metals</td><td>0.34</td><td>0.38</td><td>0.55</td><td>0.37</td><td>1.94</td><td>0.77</td><td>0.53</td><td>2.95</td><td>1.11</td><td style="text-align:left">关注 Vares 复产</td></tr>
-            <tr><td></td><td class="rowhead">Almina</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>7.50</td><td></td><td style="text-align:left">2026 Aljustrel 复产</td></tr>
-            <tr><td></td><td class="rowhead">Mehdiabad</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="neg">-1.50</td><td></td><td style="text-align:left">下调预期</td></tr>
-            <tr><td></td><td class="rowhead">Glencore（新）</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>2.00</td><td></td><td style="text-align:left">下调预期</td></tr>
-            <tr><td></td><td class="rowhead">其他（预留）</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>5.00</td><td></td><td></td></tr>
-            <tr class="bal-gray"><td></td><td class="rowhead">同比增量合计</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>30.00</td><td></td><td style="text-align:left">大概率增量</td></tr>
-            <tr class="bal-global"><td></td><td class="rowhead">合计</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>11.76</td><td></td><td></td></tr>
+            <tr><td>21</td><td class="rowhead">Sierra Metals</td><td>0.39</td><td>—</td><td>—</td><td>—</td><td>2.54</td><td>—</td><td>—</td><td>—</td><td>—</td><td style="text-align:left" data-en="(illegible in source)">未有化钽市</td></tr>
+            <tr><td>22</td><td class="rowhead">Ivanhoe</td><td>6.27</td><td>4.18</td><td>5.72</td><td>6.14</td><td>20.31</td><td>6.60</td><td>2.23</td><td>26.50</td><td>6.19</td><td style="text-align:left" data-en="Added on restart">复产增列</td></tr>
+            <tr><td>23</td><td class="rowhead">Adriatic Metals</td><td>0.34</td><td>0.38</td><td>0.55</td><td>0.37</td><td>1.94</td><td>0.77</td><td>0.53</td><td>2.95</td><td>1.11</td><td style="text-align:left" data-en="Watch Vares restart">关注 Vares 复产</td></tr>
+            <tr><td></td><td class="rowhead">Almina</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>7.50</td><td></td><td style="text-align:left" data-en="2026 Aljustrel restart">2026 Aljustrel 复产</td></tr>
+            <tr><td></td><td class="rowhead">Mehdiabad</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="neg">-1.50</td><td></td><td style="text-align:left" data-en="Downgraded outlook">下调预期</td></tr>
+            <tr><td></td><td class="rowhead" data-en="Glencore (new)">Glencore（新）</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>2.00</td><td></td><td style="text-align:left" data-en="Downgraded outlook">下调预期</td></tr>
+            <tr><td></td><td class="rowhead" data-en="Others (reserved)">其他（预留）</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>5.00</td><td></td><td></td></tr>
+            <tr class="bal-gray"><td></td><td class="rowhead" data-en="Total YoY increment">同比增量合计</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>30.00</td><td></td><td style="text-align:left" data-en="Likely increment">大概率增量</td></tr>
+            <tr class="bal-global"><td></td><td class="rowhead" data-en="Total">合计</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>11.76</td><td></td><td></td></tr>
           </tbody>
         </table>
       </div>
-      <p class="note">注：Vedanta 2025Y、部分公司 2026E 数据源自公司公告及生产指引；表末几行为下调/新增项，单位万吨。</p>
+      <p class="note" data-en="Note: Vedanta 2025Y and some companies&rsquo; 2026E figures are from company announcements and production guidance; the last few rows are downgrade/addition items. Unit: 10k t.">注：Vedanta 2025Y、部分公司 2026E 数据源自公司公告及生产指引；表末几行为下调/新增项，单位万吨。</p>
     </div>
 
     <!-- 2. 锌精矿供需平衡（矿平衡表） -->
     <div class="block">
-      <p class="block-title"><span class="tag">② 矿平衡表</span>全球矿平衡转为缺口，给予锌价底部支撑（单位：万金属吨）</p>
+      <p class="block-title"><span class="tag" data-en="&#9313; Concentrate Balance">② 矿平衡表</span><span data-en="Global concentrate balance turns to deficit, supporting a floor under zinc prices (unit: 10k metal tonnes)">全球矿平衡转为缺口，给予锌价底部支撑（单位：万金属吨）</span></p>
       <div class="scroll">
         <table>
           <thead>
             <tr>
-              <th>项目</th>
+              <th data-en="Item">项目</th>
               <th>2014</th><th>2015</th><th>2016</th><th>2017</th><th>2018</th><th>2019</th><th>2020</th>
               <th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>2026E</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="section-band"><td colspan="14">中国锌精矿供需平衡</td></tr>
-            <tr><td class="rowhead">中国锌精矿产量</td><td>454</td><td>403</td><td>413</td><td>412</td><td>416</td><td>392</td><td>339</td><td>375</td><td>371</td><td>377</td><td>362</td><td>366</td><td>376</td></tr>
-            <tr><td class="rowhead">锌精矿净进口量</td><td>100</td><td>147</td><td>91</td><td>111</td><td>135</td><td>145</td><td>174</td><td>166</td><td>188</td><td>215</td><td>186</td><td>249</td><td>236</td></tr>
-            <tr><td class="rowhead">中国锌精矿总供给</td><td>554</td><td>550</td><td>504</td><td>523</td><td>551</td><td>536</td><td>513</td><td>541</td><td>559</td><td>591</td><td>548</td><td>608</td><td>612</td></tr>
-            <tr><td class="rowhead">中国精炼锌产量</td><td>512</td><td>549</td><td>546</td><td>546</td><td>533</td><td>594</td><td>610</td><td>609</td><td>598</td><td>662</td><td>619</td><td>678</td><td>688</td></tr>
-            <tr><td class="rowhead">中国再生锌产量</td><td>18</td><td>26</td><td>28</td><td>47</td><td>55</td><td>79</td><td>88</td><td>85</td><td>82</td><td>85</td><td>82</td><td>93</td><td>89</td></tr>
-            <tr><td class="rowhead">中国原生锌产量</td><td>494</td><td>523</td><td>518</td><td>499</td><td>478</td><td>505</td><td>522</td><td>524</td><td>516</td><td>577</td><td>577</td><td>588</td><td>594</td></tr>
-            <tr><td class="rowhead">中国锌精矿总需求</td><td>507</td><td>536</td><td>531</td><td>512</td><td>490</td><td>518</td><td>536</td><td>537</td><td>529</td><td>592</td><td>551</td><td>600</td><td>609</td></tr>
-            <tr class="bal-gray"><td class="rowhead">中国供需平衡</td><td>47</td><td>14</td><td class="neg">-28</td><td>11</td><td>61</td><td>18</td><td class="neg">-23</td><td>4</td><td>29</td><td class="neg">-1</td><td class="neg">-3</td><td>8</td><td>2</td></tr>
+            <tr class="section-band"><td colspan="14" data-en="China Zinc Concentrate Supply-Demand Balance">中国锌精矿供需平衡</td></tr>
+            <tr><td class="rowhead" data-en="China zinc concentrate output">中国锌精矿产量</td><td>454</td><td>403</td><td>413</td><td>412</td><td>416</td><td>392</td><td>339</td><td>375</td><td>371</td><td>377</td><td>362</td><td>366</td><td>376</td></tr>
+            <tr><td class="rowhead" data-en="Zinc concentrate net imports">锌精矿净进口量</td><td>100</td><td>147</td><td>91</td><td>111</td><td>135</td><td>145</td><td>174</td><td>166</td><td>188</td><td>215</td><td>186</td><td>249</td><td>236</td></tr>
+            <tr><td class="rowhead" data-en="China total zinc concentrate supply">中国锌精矿总供给</td><td>554</td><td>550</td><td>504</td><td>523</td><td>551</td><td>536</td><td>513</td><td>541</td><td>559</td><td>591</td><td>548</td><td>608</td><td>612</td></tr>
+            <tr><td class="rowhead" data-en="China refined zinc output">中国精炼锌产量</td><td>512</td><td>549</td><td>546</td><td>546</td><td>533</td><td>594</td><td>610</td><td>609</td><td>598</td><td>662</td><td>619</td><td>678</td><td>688</td></tr>
+            <tr><td class="rowhead" data-en="China secondary zinc output">中国再生锌产量</td><td>18</td><td>26</td><td>28</td><td>47</td><td>55</td><td>79</td><td>88</td><td>85</td><td>82</td><td>85</td><td>82</td><td>93</td><td>89</td></tr>
+            <tr><td class="rowhead" data-en="China primary zinc output">中国原生锌产量</td><td>494</td><td>523</td><td>518</td><td>499</td><td>478</td><td>505</td><td>522</td><td>524</td><td>516</td><td>577</td><td>577</td><td>588</td><td>594</td></tr>
+            <tr><td class="rowhead" data-en="China total zinc concentrate demand">中国锌精矿总需求</td><td>507</td><td>536</td><td>531</td><td>512</td><td>490</td><td>518</td><td>536</td><td>537</td><td>529</td><td>592</td><td>551</td><td>600</td><td>609</td></tr>
+            <tr class="bal-gray"><td class="rowhead" data-en="China supply-demand balance">中国供需平衡</td><td>47</td><td>14</td><td class="neg">-28</td><td>11</td><td>61</td><td>18</td><td class="neg">-23</td><td>4</td><td>29</td><td class="neg">-1</td><td class="neg">-3</td><td>8</td><td>2</td></tr>
 
-            <tr class="section-band"><td colspan="14">海外锌精矿供需平衡</td></tr>
-            <tr><td class="rowhead">海外锌精矿产量</td><td>838</td><td>853</td><td>756</td><td>807</td><td>857</td><td>860</td><td>821</td><td>866</td><td>842</td><td>815</td><td>799</td><td>845</td><td>827</td></tr>
-            <tr><td class="rowhead">锌精矿净进口量</td><td class="neg">-100</td><td class="neg">-147</td><td class="neg">-91</td><td class="neg">-111</td><td class="neg">-135</td><td class="neg">-145</td><td class="neg">-174</td><td class="neg">-166</td><td class="neg">-188</td><td class="neg">-215</td><td class="neg">-186</td><td class="neg">-243</td><td class="neg">-236</td></tr>
-            <tr><td class="rowhead">海外锌精矿总供给</td><td>733</td><td>705</td><td>666</td><td>696</td><td>722</td><td>715</td><td>647</td><td>700</td><td>654</td><td>600</td><td>613</td><td>602</td><td>597</td></tr>
-            <tr><td class="rowhead">海外精炼锌产量</td><td>762</td><td>775</td><td>743</td><td>743</td><td>758</td><td>742</td><td>731</td><td>752</td><td>704</td><td>700</td><td>693</td><td>674</td><td>671</td></tr>
-            <tr><td class="rowhead">海外再生锌产量</td><td>75</td><td>77</td><td>73</td><td>75</td><td>82</td><td>83</td><td>88</td><td>95</td><td>90</td><td>96</td><td>98</td><td>96</td><td>91</td></tr>
-            <tr><td class="rowhead">海外原生锌产量</td><td>687</td><td>698</td><td>670</td><td>668</td><td>675</td><td>669</td><td>663</td><td>657</td><td>614</td><td>604</td><td>595</td><td>678</td><td>580</td></tr>
-            <tr><td class="rowhead">海外锌精矿总需求</td><td>705</td><td>716</td><td>688</td><td>685</td><td>693</td><td>676</td><td>681</td><td>674</td><td>680</td><td>619</td><td>613</td><td>593</td><td>599</td></tr>
-            <tr class="bal-gray"><td class="rowhead">海外供需平衡</td><td>33</td><td class="neg">-11</td><td class="neg">-23</td><td>11</td><td>30</td><td>39</td><td class="neg">-34</td><td>26</td><td>24</td><td class="neg">-10</td><td class="neg">-1</td><td>9</td><td class="neg">-4</td></tr>
+            <tr class="section-band"><td colspan="14" data-en="Overseas Zinc Concentrate Supply-Demand Balance">海外锌精矿供需平衡</td></tr>
+            <tr><td class="rowhead" data-en="Overseas zinc concentrate output">海外锌精矿产量</td><td>838</td><td>853</td><td>756</td><td>807</td><td>857</td><td>860</td><td>821</td><td>866</td><td>842</td><td>815</td><td>799</td><td>845</td><td>827</td></tr>
+            <tr><td class="rowhead" data-en="Zinc concentrate net imports">锌精矿净进口量</td><td class="neg">-100</td><td class="neg">-147</td><td class="neg">-91</td><td class="neg">-111</td><td class="neg">-135</td><td class="neg">-145</td><td class="neg">-174</td><td class="neg">-166</td><td class="neg">-188</td><td class="neg">-215</td><td class="neg">-186</td><td class="neg">-243</td><td class="neg">-236</td></tr>
+            <tr><td class="rowhead" data-en="Overseas total zinc concentrate supply">海外锌精矿总供给</td><td>733</td><td>705</td><td>666</td><td>696</td><td>722</td><td>715</td><td>647</td><td>700</td><td>654</td><td>600</td><td>613</td><td>602</td><td>597</td></tr>
+            <tr><td class="rowhead" data-en="Overseas refined zinc output">海外精炼锌产量</td><td>762</td><td>775</td><td>743</td><td>743</td><td>758</td><td>742</td><td>731</td><td>752</td><td>704</td><td>700</td><td>693</td><td>674</td><td>671</td></tr>
+            <tr><td class="rowhead" data-en="Overseas secondary zinc output">海外再生锌产量</td><td>75</td><td>77</td><td>73</td><td>75</td><td>82</td><td>83</td><td>88</td><td>95</td><td>90</td><td>96</td><td>98</td><td>96</td><td>91</td></tr>
+            <tr><td class="rowhead" data-en="Overseas primary zinc output">海外原生锌产量</td><td>687</td><td>698</td><td>670</td><td>668</td><td>675</td><td>669</td><td>663</td><td>657</td><td>614</td><td>604</td><td>595</td><td>678</td><td>580</td></tr>
+            <tr><td class="rowhead" data-en="Overseas total zinc concentrate demand">海外锌精矿总需求</td><td>705</td><td>716</td><td>688</td><td>685</td><td>693</td><td>676</td><td>681</td><td>674</td><td>680</td><td>619</td><td>613</td><td>593</td><td>599</td></tr>
+            <tr class="bal-gray"><td class="rowhead" data-en="Overseas supply-demand balance">海外供需平衡</td><td>33</td><td class="neg">-11</td><td class="neg">-23</td><td>11</td><td>30</td><td>39</td><td class="neg">-34</td><td>26</td><td>24</td><td class="neg">-10</td><td class="neg">-1</td><td>9</td><td class="neg">-4</td></tr>
 
-            <tr class="section-band"><td colspan="14">全球锌精矿供需平衡</td></tr>
-            <tr><td class="rowhead">全球锌精矿总产量</td><td>1292</td><td>1256</td><td>1169</td><td>1219</td><td>1273</td><td>1251</td><td>1160</td><td>1241</td><td>1213</td><td>1191</td><td>1161</td><td>1211</td><td>1203</td></tr>
-            <tr class="sub"><td class="rowhead">产量增速(%)</td><td>—</td><td class="neg">-2.79%</td><td class="neg">-6.91%</td><td>4.25%</td><td>4.47%</td><td class="neg">-1.70%</td><td class="neg">-7.32%</td><td>6.97%</td><td class="neg">-2.24%</td><td class="neg">-1.77%</td><td class="neg">-2.54%</td><td>4.27%</td><td class="neg">-0.26%</td></tr>
-            <tr><td class="rowhead">全球锌精矿总需求</td><td>1212</td><td>1252</td><td>1219</td><td>1197</td><td>1183</td><td>1194</td><td>1216</td><td>1211</td><td>1159</td><td>1211</td><td>1164</td><td>1193</td><td>1205</td></tr>
-            <tr class="sub"><td class="rowhead">需求增速(%)</td><td>—</td><td>3.36%</td><td class="neg">-2.66%</td><td class="neg">-1.76%</td><td class="neg">-1.22%</td><td>0.99%</td><td>1.88%</td><td class="neg">-0.41%</td><td class="neg">-4.37%</td><td>4.49%</td><td class="neg">-3.88%</td><td>2.47%</td><td>0.99%</td></tr>
-            <tr class="bal-global"><td class="rowhead">全球供需平衡</td><td>30</td><td>4</td><td class="neg">-50</td><td>21</td><td>90</td><td>57</td><td class="neg">-56</td><td>29</td><td>54</td><td class="neg">-20</td><td class="neg">-3</td><td>18</td><td class="neg">-2</td></tr>
+            <tr class="section-band"><td colspan="14" data-en="Global Zinc Concentrate Supply-Demand Balance">全球锌精矿供需平衡</td></tr>
+            <tr><td class="rowhead" data-en="Global total zinc concentrate output">全球锌精矿总产量</td><td>1292</td><td>1256</td><td>1169</td><td>1219</td><td>1273</td><td>1251</td><td>1160</td><td>1241</td><td>1213</td><td>1191</td><td>1161</td><td>1211</td><td>1203</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Output growth (%)">产量增速(%)</td><td>—</td><td class="neg">-2.79%</td><td class="neg">-6.91%</td><td>4.25%</td><td>4.47%</td><td class="neg">-1.70%</td><td class="neg">-7.32%</td><td>6.97%</td><td class="neg">-2.24%</td><td class="neg">-1.77%</td><td class="neg">-2.54%</td><td>4.27%</td><td class="neg">-0.26%</td></tr>
+            <tr><td class="rowhead" data-en="Global total zinc concentrate demand">全球锌精矿总需求</td><td>1212</td><td>1252</td><td>1219</td><td>1197</td><td>1183</td><td>1194</td><td>1216</td><td>1211</td><td>1159</td><td>1211</td><td>1164</td><td>1193</td><td>1205</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Demand growth (%)">需求增速(%)</td><td>—</td><td>3.36%</td><td class="neg">-2.66%</td><td class="neg">-1.76%</td><td class="neg">-1.22%</td><td>0.99%</td><td>1.88%</td><td class="neg">-0.41%</td><td class="neg">-4.37%</td><td>4.49%</td><td class="neg">-3.88%</td><td>2.47%</td><td>0.99%</td></tr>
+            <tr class="bal-global"><td class="rowhead" data-en="Global supply-demand balance">全球供需平衡</td><td>30</td><td>4</td><td class="neg">-50</td><td>21</td><td>90</td><td>57</td><td class="neg">-56</td><td>29</td><td>54</td><td class="neg">-20</td><td class="neg">-3</td><td>18</td><td class="neg">-2</td></tr>
           </tbody>
         </table>
       </div>
@@ -259,105 +261,105 @@
 
     <!-- 3. 精炼锌成品平衡表 -->
     <div class="block">
-      <p class="block-title"><span class="tag">③ 成品平衡表</span>精炼锌供需平衡（单位：万吨）</p>
+      <p class="block-title"><span class="tag" data-en="&#9314; Refined-Product Balance">③ 成品平衡表</span><span data-en="Refined-zinc supply-demand balance (unit: 10k t)">精炼锌供需平衡（单位：万吨）</span></p>
       <div class="scroll">
         <table>
           <thead>
             <tr>
-              <th>项目</th>
+              <th data-en="Item">项目</th>
               <th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>2026E</th><th>2027E</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="section-band"><td colspan="8">海外表消</td></tr>
-            <tr><td class="rowhead">海外产量</td><td>761.00</td><td>705.00</td><td>718.00</td><td>717.30</td><td>702.00</td><td>700.00</td><td>705.00</td></tr>
-            <tr><td class="rowhead">净出口中国</td><td>42.5</td><td>3</td><td>35.15</td><td>43.6</td><td>23</td><td>15</td><td>—</td></tr>
-            <tr><td class="rowhead">LME 库存变动</td><td>0.3</td><td class="neg">-15.00</td><td>19.27</td><td>1.08</td><td class="neg">-13.86</td><td class="neg">-14.79</td><td>—</td></tr>
-            <tr><td class="rowhead">表观消费</td><td>718.20</td><td>717.00</td><td>663.58</td><td>672.62</td><td>692.86</td><td>699.79</td><td>—</td></tr>
-            <tr class="sub"><td class="rowhead">表观消费增速</td><td>6.6%</td><td class="neg">-0.2%</td><td class="neg">-7.5%</td><td>1.4%</td><td>3.0%</td><td>1%</td><td>—</td></tr>
-            <tr><td class="rowhead">修正后实际消费</td><td>718.00</td><td>694.00</td><td>675.00</td><td>671.70</td><td>682.00</td><td>692.00</td><td>698.92</td></tr>
-            <tr class="sub"><td class="rowhead">实际消费增速</td><td>8.4%</td><td class="neg">-3.3%</td><td class="neg">-2.7%</td><td class="neg">-0.5%</td><td>1.5%</td><td>1.2%</td><td>1%</td></tr>
-            <tr class="bal-gray"><td class="rowhead">海外平衡</td><td>0.50</td><td>8.00</td><td>7.85</td><td>2.00</td><td class="neg">-3.00</td><td class="neg">-7.00</td><td>6.08</td></tr>
+            <tr class="section-band"><td colspan="8" data-en="Overseas Apparent Consumption">海外表消</td></tr>
+            <tr><td class="rowhead" data-en="Overseas output">海外产量</td><td>761.00</td><td>705.00</td><td>718.00</td><td>717.30</td><td>702.00</td><td>700.00</td><td>705.00</td></tr>
+            <tr><td class="rowhead" data-en="Net exports to China">净出口中国</td><td>42.5</td><td>3</td><td>35.15</td><td>43.6</td><td>23</td><td>15</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="LME inventory change">LME 库存变动</td><td>0.3</td><td class="neg">-15.00</td><td>19.27</td><td>1.08</td><td class="neg">-13.86</td><td class="neg">-14.79</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="Apparent consumption">表观消费</td><td>718.20</td><td>717.00</td><td>663.58</td><td>672.62</td><td>692.86</td><td>699.79</td><td>—</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Apparent consumption growth">表观消费增速</td><td>6.6%</td><td class="neg">-0.2%</td><td class="neg">-7.5%</td><td>1.4%</td><td>3.0%</td><td>1%</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="Adjusted actual consumption">修正后实际消费</td><td>718.00</td><td>694.00</td><td>675.00</td><td>671.70</td><td>682.00</td><td>692.00</td><td>698.92</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Actual consumption growth">实际消费增速</td><td>8.4%</td><td class="neg">-3.3%</td><td class="neg">-2.7%</td><td class="neg">-0.5%</td><td>1.5%</td><td>1.2%</td><td>1%</td></tr>
+            <tr class="bal-gray"><td class="rowhead" data-en="Overseas balance">海外平衡</td><td>0.50</td><td>8.00</td><td>7.85</td><td>2.00</td><td class="neg">-3.00</td><td class="neg">-7.00</td><td>6.08</td></tr>
 
-            <tr class="section-band"><td colspan="8">中国表消</td></tr>
-            <tr><td class="rowhead">产量</td><td>608</td><td>598.2</td><td>659.73</td><td>618.8</td><td>685</td><td>715</td><td>725</td></tr>
-            <tr><td class="rowhead">净进口</td><td>42.5</td><td>3</td><td>35.15</td><td>43.6</td><td>23</td><td>15</td><td>10</td></tr>
-            <tr class="bal-gray"><td class="rowhead">国内平衡</td><td class="neg">-3.6</td><td class="neg">-9</td><td>0.05</td><td>1.05</td><td>6.3</td><td>17.8</td><td>8.5</td></tr>
-            <tr><td class="rowhead">表观消费</td><td>669.1</td><td>610.2</td><td>694.8</td><td>661.4</td><td>701.7</td><td>712.2</td><td>726.5</td></tr>
-            <tr class="sub"><td class="rowhead">表观消费增速</td><td>0.9%</td><td class="neg">-8.8%</td><td>13.9%</td><td class="neg">-4.8%</td><td>6.0%</td><td>1.5%</td><td>2%</td></tr>
-            <tr><td class="rowhead">修正后实际消费</td><td>684.1</td><td>630.0</td><td>705.6</td><td>675</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr class="sub"><td class="rowhead">实际消费增速</td><td>0.6%</td><td class="neg">-7.9%</td><td>12.0%</td><td class="neg">-4.3%</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr class="bal-global"><td class="rowhead">全球平衡</td><td class="neg">-3.1</td><td class="neg">-1.0</td><td>7.9</td><td>3.0</td><td>3.3</td><td>3.0</td><td>8.5</td></tr>
+            <tr class="section-band"><td colspan="8" data-en="China Apparent Consumption">中国表消</td></tr>
+            <tr><td class="rowhead" data-en="Output">产量</td><td>608</td><td>598.2</td><td>659.73</td><td>618.8</td><td>685</td><td>715</td><td>725</td></tr>
+            <tr><td class="rowhead" data-en="Net imports">净进口</td><td>42.5</td><td>3</td><td>35.15</td><td>43.6</td><td>23</td><td>15</td><td>10</td></tr>
+            <tr class="bal-gray"><td class="rowhead" data-en="Domestic balance">国内平衡</td><td class="neg">-3.6</td><td class="neg">-9</td><td>0.05</td><td>1.05</td><td>6.3</td><td>17.8</td><td>8.5</td></tr>
+            <tr><td class="rowhead" data-en="Apparent consumption">表观消费</td><td>669.1</td><td>610.2</td><td>694.8</td><td>661.4</td><td>701.7</td><td>712.2</td><td>726.5</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Apparent consumption growth">表观消费增速</td><td>0.9%</td><td class="neg">-8.8%</td><td>13.9%</td><td class="neg">-4.8%</td><td>6.0%</td><td>1.5%</td><td>2%</td></tr>
+            <tr><td class="rowhead" data-en="Adjusted actual consumption">修正后实际消费</td><td>684.1</td><td>630.0</td><td>705.6</td><td>675</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Actual consumption growth">实际消费增速</td><td>0.6%</td><td class="neg">-7.9%</td><td>12.0%</td><td class="neg">-4.3%</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr class="bal-global"><td class="rowhead" data-en="Global balance">全球平衡</td><td class="neg">-3.1</td><td class="neg">-1.0</td><td>7.9</td><td>3.0</td><td>3.3</td><td>3.0</td><td>8.5</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <footer class="src">资料来源：公司公告、彭博、SMM、CRU、同花顺 iFinD、统计局、国泰君安期货研究</footer>
+    <footer class="src" data-en="Sources: company announcements, Bloomberg, SMM, CRU, iFinD, National Bureau of Statistics, Guotai Junan Futures Research">资料来源：公司公告、彭博、SMM、CRU、同花顺 iFinD、统计局、国泰君安期货研究</footer>
   </section>
 
   <!-- ============================ 铜 COPPER ============================ -->
   <section class="commodity">
-    <h2>铜 &nbsp;Copper</h2>
-    <p class="subtitle">含铜矿投产进度、铜精矿供需平衡（含 TC 及各口径平衡汇总）、精铜成品平衡三张表</p>
+    <h2 data-en="Copper">铜 &nbsp;Copper</h2>
+    <p class="subtitle" data-en="Three tables: copper-mine ramp-up schedule, copper-concentrate balance (incl. TC and multi-basis balance summary), refined-copper product balance">含铜矿投产进度、铜精矿供需平衡（含 TC 及各口径平衡汇总）、精铜成品平衡三张表</p>
 
     <div class="block">
-      <p class="block-title"><span class="tag">① 矿投产进度</span>全球主要铜矿新建/扩建项目投产进度（单位：千吨，Cu Conc 铜精矿 / EW Cathode 电积铜）</p>
+      <p class="block-title"><span class="tag" data-en="&#9312; Mine Ramp-Up Schedule">① 矿投产进度</span><span data-en="Ramp-up schedule of major global new/expansion copper-mine projects (unit: kt; Cu Conc = copper concentrate / EW Cathode = electrowon cathode)">全球主要铜矿新建/扩建项目投产进度（单位：千吨，Cu Conc 铜精矿 / EW Cathode 电积铜）</span></p>
       <div class="scroll">
         <table>
           <thead>
             <tr>
-              <th>地区</th><th>国家</th><th>项目</th><th>产品</th>
+              <th data-en="Region">地区</th><th data-en="Country">国家</th><th data-en="Project">项目</th><th data-en="Product">产品</th>
               <th>2025</th><th>2026E</th><th>2027E</th><th>2028E</th><th>2029E</th><th>2030E</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td class="rowhead">Africa</td><td>刚果(金)</td><td>Kisanfu Expansion</td><td>EW Cathode</td><td>0</td><td>0</td><td>70</td><td>100</td><td>100</td><td>100</td></tr>
-            <tr><td class="rowhead">Americas</td><td>厄瓜多尔</td><td>Mirador Phase II</td><td>Cu Conc</td><td>0</td><td>0</td><td>67</td><td>105</td><td>102</td><td>100</td></tr>
-            <tr><td class="rowhead">Europe</td><td>俄罗斯</td><td>Udokan (Oxides)</td><td>EW Cathode</td><td>0</td><td>34</td><td>67</td><td>75</td><td>75</td><td>75</td></tr>
-            <tr><td class="rowhead">Europe</td><td>俄罗斯</td><td>Svyetogor Expansion</td><td>Cu Conc</td><td>0</td><td>43</td><td>66</td><td>85</td><td>85</td><td>85</td></tr>
-            <tr><td class="rowhead">Asia</td><td>中国</td><td>Zhunuo（驱龙）</td><td>Cu Conc</td><td>0</td><td>20</td><td>60</td><td>76</td><td>76</td><td>76</td></tr>
-            <tr><td class="rowhead">Asia</td><td>伊朗</td><td>Miduk Expansion</td><td>Cu Conc</td><td>0</td><td>12</td><td>48</td><td>70</td><td>88</td><td>100</td></tr>
-            <tr><td class="rowhead">Africa</td><td>赞比亚</td><td>Kitumba</td><td>EW Cathode</td><td>0</td><td>20</td><td>45</td><td>60</td><td>60</td><td>60</td></tr>
-            <tr><td class="rowhead">Asia</td><td>蒙古</td><td>Tsagaan Suvarga</td><td>Cu Conc</td><td>0</td><td>16</td><td>44</td><td>88</td><td>88</td><td>88</td></tr>
-            <tr><td class="rowhead">Africa</td><td>赞比亚</td><td>Mimbula Phase 2</td><td>EW Cathode</td><td>0</td><td>20</td><td>40</td><td>40</td><td>40</td><td>40</td></tr>
-            <tr><td class="rowhead">Americas</td><td>秘鲁</td><td>Tia Maria</td><td>EW Cathode</td><td>0</td><td>0</td><td>30</td><td>118</td><td>123</td><td>121</td></tr>
-            <tr><td class="rowhead">Africa</td><td>刚果(金)</td><td>DR Congo Smelter Phase II</td><td>EW Cathode</td><td>0</td><td>15</td><td>30</td><td>30</td><td>30</td><td>30</td></tr>
-            <tr><td class="rowhead">Oceania</td><td>澳大利亚</td><td>Hillside - Stage 1</td><td>Cu Conc</td><td>0</td><td>14</td><td>25</td><td>34</td><td>39</td><td>35</td></tr>
-            <tr><td class="rowhead">Europe</td><td>俄罗斯</td><td>Kultuminskaya</td><td>Cu Conc</td><td>0</td><td>0</td><td>25</td><td>25</td><td>25</td><td>25</td></tr>
-            <tr><td class="rowhead">Africa</td><td>厄立特里亚</td><td>Asmara</td><td>Cu Conc</td><td>0</td><td>5</td><td>24</td><td>20</td><td>30</td><td>20</td></tr>
-            <tr><td class="rowhead">Middle East</td><td>土耳其</td><td>Gedittepe</td><td>Cu Conc</td><td>0</td><td>14</td><td>21</td><td>22</td><td>17</td><td>16</td></tr>
-            <tr><td class="rowhead">Middle East</td><td>阿曼</td><td>Yanqul</td><td>Cu Conc</td><td>0</td><td>0</td><td>20</td><td>25</td><td>25</td><td>25</td></tr>
-            <tr class="bal-gray"><td class="rowhead" colspan="4">Others 其他</td><td>6</td><td>75</td><td>359</td><td>1740</td><td>4396</td><td>7448</td></tr>
-            <tr class="bal-gray"><td class="rowhead" colspan="4">Total 合计</td><td>6</td><td>288</td><td>1041</td><td>2694</td><td>5897</td><td>8443</td></tr>
-            <tr class="bal-global"><td class="rowhead" colspan="4">New Supply 新增供应</td><td>—</td><td>281</td><td>754</td><td>1852</td><td>2703</td><td>3048</td></tr>
+            <tr><td class="rowhead">Africa</td><td data-en="DR Congo">刚果(金)</td><td>Kisanfu Expansion</td><td>EW Cathode</td><td>0</td><td>0</td><td>70</td><td>100</td><td>100</td><td>100</td></tr>
+            <tr><td class="rowhead">Americas</td><td data-en="Ecuador">厄瓜多尔</td><td>Mirador Phase II</td><td>Cu Conc</td><td>0</td><td>0</td><td>67</td><td>105</td><td>102</td><td>100</td></tr>
+            <tr><td class="rowhead">Europe</td><td data-en="Russia">俄罗斯</td><td>Udokan (Oxides)</td><td>EW Cathode</td><td>0</td><td>34</td><td>67</td><td>75</td><td>75</td><td>75</td></tr>
+            <tr><td class="rowhead">Europe</td><td data-en="Russia">俄罗斯</td><td>Svyetogor Expansion</td><td>Cu Conc</td><td>0</td><td>43</td><td>66</td><td>85</td><td>85</td><td>85</td></tr>
+            <tr><td class="rowhead">Asia</td><td data-en="China">中国</td><td data-en="Zhunuo (Qulong)">Zhunuo（驱龙）</td><td>Cu Conc</td><td>0</td><td>20</td><td>60</td><td>76</td><td>76</td><td>76</td></tr>
+            <tr><td class="rowhead">Asia</td><td data-en="Iran">伊朗</td><td>Miduk Expansion</td><td>Cu Conc</td><td>0</td><td>12</td><td>48</td><td>70</td><td>88</td><td>100</td></tr>
+            <tr><td class="rowhead">Africa</td><td data-en="Zambia">赞比亚</td><td>Kitumba</td><td>EW Cathode</td><td>0</td><td>20</td><td>45</td><td>60</td><td>60</td><td>60</td></tr>
+            <tr><td class="rowhead">Asia</td><td data-en="Mongolia">蒙古</td><td>Tsagaan Suvarga</td><td>Cu Conc</td><td>0</td><td>16</td><td>44</td><td>88</td><td>88</td><td>88</td></tr>
+            <tr><td class="rowhead">Africa</td><td data-en="Zambia">赞比亚</td><td>Mimbula Phase 2</td><td>EW Cathode</td><td>0</td><td>20</td><td>40</td><td>40</td><td>40</td><td>40</td></tr>
+            <tr><td class="rowhead">Americas</td><td data-en="Peru">秘鲁</td><td>Tia Maria</td><td>EW Cathode</td><td>0</td><td>0</td><td>30</td><td>118</td><td>123</td><td>121</td></tr>
+            <tr><td class="rowhead">Africa</td><td data-en="DR Congo">刚果(金)</td><td>DR Congo Smelter Phase II</td><td>EW Cathode</td><td>0</td><td>15</td><td>30</td><td>30</td><td>30</td><td>30</td></tr>
+            <tr><td class="rowhead">Oceania</td><td data-en="Australia">澳大利亚</td><td>Hillside - Stage 1</td><td>Cu Conc</td><td>0</td><td>14</td><td>25</td><td>34</td><td>39</td><td>35</td></tr>
+            <tr><td class="rowhead">Europe</td><td data-en="Russia">俄罗斯</td><td>Kultuminskaya</td><td>Cu Conc</td><td>0</td><td>0</td><td>25</td><td>25</td><td>25</td><td>25</td></tr>
+            <tr><td class="rowhead">Africa</td><td data-en="Eritrea">厄立特里亚</td><td>Asmara</td><td>Cu Conc</td><td>0</td><td>5</td><td>24</td><td>20</td><td>30</td><td>20</td></tr>
+            <tr><td class="rowhead">Middle East</td><td data-en="Turkey">土耳其</td><td>Gedittepe</td><td>Cu Conc</td><td>0</td><td>14</td><td>21</td><td>22</td><td>17</td><td>16</td></tr>
+            <tr><td class="rowhead">Middle East</td><td data-en="Oman">阿曼</td><td>Yanqul</td><td>Cu Conc</td><td>0</td><td>0</td><td>20</td><td>25</td><td>25</td><td>25</td></tr>
+            <tr class="bal-gray"><td class="rowhead" colspan="4" data-en="Others">Others 其他</td><td>6</td><td>75</td><td>359</td><td>1740</td><td>4396</td><td>7448</td></tr>
+            <tr class="bal-gray"><td class="rowhead" colspan="4" data-en="Total">Total 合计</td><td>6</td><td>288</td><td>1041</td><td>2694</td><td>5897</td><td>8443</td></tr>
+            <tr class="bal-global"><td class="rowhead" colspan="4" data-en="New Supply">New Supply 新增供应</td><td>—</td><td>281</td><td>754</td><td>1852</td><td>2703</td><td>3048</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="note">注：项目名称/国别据原表英文识别，个别拼写（如 Kisanfu、Tsagaan Suvarga）按行业通用名校正；Total/New Supply 部分数字受原图清晰度影响，请以原始报告为准。</p>
+      <p class="note" data-en="Note: project names/countries are read from the English in the source table; a few spellings (e.g. Kisanfu, Tsagaan Suvarga) are corrected to common industry names; some Total/New Supply figures are affected by source-image clarity &mdash; refer to the original report.">注：项目名称/国别据原表英文识别，个别拼写（如 Kisanfu、Tsagaan Suvarga）按行业通用名校正；Total/New Supply 部分数字受原图清晰度影响，请以原始报告为准。</p>
     </div>
 
     <!-- 2. 铜精矿平衡表 + 汇总 -->
     <div class="block">
-      <p class="block-title"><span class="tag">② 矿平衡表</span>全球铜精矿供需平衡、年度长单 TC 及各口径平衡汇总（单位：万金属吨，TC 为美元/吨）</p>
+      <p class="block-title"><span class="tag" data-en="&#9313; Concentrate Balance">② 矿平衡表</span><span data-en="Global copper-concentrate supply-demand balance, annual benchmark TC, and multi-basis balance summary (unit: 10k metal tonnes; TC in USD/t)">全球铜精矿供需平衡、年度长单 TC 及各口径平衡汇总（单位：万金属吨，TC 为美元/吨）</span></p>
       <div class="scroll">
         <table>
           <thead>
             <tr>
-              <th>项目</th>
+              <th data-en="Item">项目</th>
               <th>2023</th><th>2024</th><th>2025E</th><th>2026E</th><th>2027E</th><th>2028E</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td class="rowhead">全球铜精矿产量</td><td>1871.1</td><td>1918.2</td><td>1921.0</td><td>1980.0</td><td>2050.0</td><td>2077.0</td></tr>
-            <tr class="sub"><td class="rowhead">产量增速</td><td>1.4%</td><td>2.5%</td><td>0.1%</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td class="rowhead">全球铜精矿需求</td><td>1888.8</td><td>1928.0</td><td>1950.0</td><td>1990.0</td><td>2035.0</td><td>2075.0</td></tr>
-            <tr class="sub"><td class="rowhead">需求增速</td><td>2.6%</td><td>2.1%</td><td>1.1%</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr class="bal-gray"><td class="rowhead">铜矿平衡</td><td class="neg">-17.7</td><td class="neg">-9.8</td><td class="neg">-29.0</td><td class="neg">-10.0</td><td>15.0</td><td>2.0</td></tr>
-            <tr><td class="rowhead">年度长单 TC</td><td>88.0</td><td>80.0</td><td>21.5</td><td>0.0</td><td>—</td><td>—</td></tr>
-            <tr><td class="rowhead">国内精铜平衡</td><td class="neg">-6.4</td><td>2.5</td><td>6.6</td><td>8.9</td><td>3.1</td><td class="neg">-3.5</td></tr>
-            <tr><td class="rowhead">海外精铜平衡</td><td>3.6</td><td>23.1</td><td>39.0</td><td>5.6</td><td class="neg">-2.7</td><td class="neg">-16.5</td></tr>
-            <tr class="bal-global"><td class="rowhead">铜元素总平衡</td><td class="neg">-20.5</td><td>15.8</td><td>16.6</td><td>4.5</td><td>15.4</td><td class="neg">-18.0</td></tr>
+            <tr><td class="rowhead" data-en="Global copper concentrate output">全球铜精矿产量</td><td>1871.1</td><td>1918.2</td><td>1921.0</td><td>1980.0</td><td>2050.0</td><td>2077.0</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Output growth">产量增速</td><td>1.4%</td><td>2.5%</td><td>0.1%</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="Global copper concentrate demand">全球铜精矿需求</td><td>1888.8</td><td>1928.0</td><td>1950.0</td><td>1990.0</td><td>2035.0</td><td>2075.0</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Demand growth">需求增速</td><td>2.6%</td><td>2.1%</td><td>1.1%</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr class="bal-gray"><td class="rowhead" data-en="Copper concentrate balance">铜矿平衡</td><td class="neg">-17.7</td><td class="neg">-9.8</td><td class="neg">-29.0</td><td class="neg">-10.0</td><td>15.0</td><td>2.0</td></tr>
+            <tr><td class="rowhead" data-en="Annual benchmark TC">年度长单 TC</td><td>88.0</td><td>80.0</td><td>21.5</td><td>0.0</td><td>—</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="Domestic refined-copper balance">国内精铜平衡</td><td class="neg">-6.4</td><td>2.5</td><td>6.6</td><td>8.9</td><td>3.1</td><td class="neg">-3.5</td></tr>
+            <tr><td class="rowhead" data-en="Overseas refined-copper balance">海外精铜平衡</td><td>3.6</td><td>23.1</td><td>39.0</td><td>5.6</td><td class="neg">-2.7</td><td class="neg">-16.5</td></tr>
+            <tr class="bal-global"><td class="rowhead" data-en="Total copper-unit balance">铜元素总平衡</td><td class="neg">-20.5</td><td>15.8</td><td>16.6</td><td>4.5</td><td>15.4</td><td class="neg">-18.0</td></tr>
           </tbody>
         </table>
       </div>
@@ -365,26 +367,26 @@
 
     <!-- 3. 精铜成品平衡表 -->
     <div class="block">
-      <p class="block-title"><span class="tag">③ 成品平衡表</span>精铜供需平衡（海外 / 国内原料 / 国内精铜，单位：万吨）</p>
+      <p class="block-title"><span class="tag" data-en="&#9314; Refined-Product Balance">③ 成品平衡表</span><span data-en="Refined-copper supply-demand balance (overseas / domestic feedstock / domestic refined copper; unit: 10k t)">精铜供需平衡（海外 / 国内原料 / 国内精铜，单位：万吨）</span></p>
 
       <!-- 3a 海外精铜平衡 -->
       <div class="scroll">
         <table>
           <thead>
             <tr>
-              <th>海外精铜平衡</th>
+              <th data-en="Overseas Refined-Copper Balance">海外精铜平衡</th>
               <th>2022</th><th>2023</th><th>2024</th><th>2025E</th><th>2026E</th><th>2027E</th><th>2028E</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td class="rowhead">产量</td><td>1422.15</td><td>1427.52</td><td>1460.00</td><td>1430.00</td><td>1440.00</td><td>1455.00</td><td>1465.00</td></tr>
-            <tr><td class="rowhead">净出口中国</td><td>352.21</td><td>325.00</td><td>316.00</td><td>255.00</td><td>270.00</td><td>270.00</td><td>270.00</td></tr>
-            <tr><td class="rowhead">LME+COMEX 库存变动</td><td class="neg">-3.31</td><td>7.80</td><td>18.00</td><td>22.00</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td class="rowhead">表观消费</td><td>1073.26</td><td>1094.72</td><td>1126.00</td><td>1153.00</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr class="sub"><td class="rowhead">表消增速</td><td class="neg">-0.09%</td><td>2.00%</td><td>2.86%</td><td>2.40%</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td class="rowhead">实际消费</td><td>1122.19</td><td>1098.88</td><td>1120.86</td><td>1140.00</td><td>1168.50</td><td>1191.87</td><td>1215.71</td></tr>
-            <tr class="bal-gray"><td class="rowhead">平衡</td><td class="neg">-48.94</td><td>3.64</td><td>23.14</td><td>35.00</td><td>1.50</td><td class="neg">-6.87</td><td class="neg">-20.71</td></tr>
-            <tr class="sub"><td class="rowhead">需求增速</td><td class="neg">-0.30%</td><td class="neg">-1.52%</td><td>2.00%</td><td>1.71%</td><td>2.50%</td><td>2.00%</td><td>2.00%</td></tr>
+            <tr><td class="rowhead" data-en="Output">产量</td><td>1422.15</td><td>1427.52</td><td>1460.00</td><td>1430.00</td><td>1440.00</td><td>1455.00</td><td>1465.00</td></tr>
+            <tr><td class="rowhead" data-en="Net exports to China">净出口中国</td><td>352.21</td><td>325.00</td><td>316.00</td><td>255.00</td><td>270.00</td><td>270.00</td><td>270.00</td></tr>
+            <tr><td class="rowhead" data-en="LME+COMEX inventory change">LME+COMEX 库存变动</td><td class="neg">-3.31</td><td>7.80</td><td>18.00</td><td>22.00</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="Apparent consumption">表观消费</td><td>1073.26</td><td>1094.72</td><td>1126.00</td><td>1153.00</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Apparent consumption growth">表消增速</td><td class="neg">-0.09%</td><td>2.00%</td><td>2.86%</td><td>2.40%</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="Actual consumption">实际消费</td><td>1122.19</td><td>1098.88</td><td>1120.86</td><td>1140.00</td><td>1168.50</td><td>1191.87</td><td>1215.71</td></tr>
+            <tr class="bal-gray"><td class="rowhead" data-en="Balance">平衡</td><td class="neg">-48.94</td><td>3.64</td><td>23.14</td><td>35.00</td><td>1.50</td><td class="neg">-6.87</td><td class="neg">-20.71</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Demand growth">需求增速</td><td class="neg">-0.30%</td><td class="neg">-1.52%</td><td>2.00%</td><td>1.71%</td><td>2.50%</td><td>2.00%</td><td>2.00%</td></tr>
           </tbody>
         </table>
       </div>
@@ -394,19 +396,19 @@
         <table>
           <thead>
             <tr>
-              <th>国内原料平衡</th>
+              <th data-en="Domestic Feedstock Balance">国内原料平衡</th>
               <th>2019</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025E</th><th>2026E</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td class="rowhead">精铜产量</td><td>894.55</td><td>932.35</td><td>997.62</td><td>1028.26</td><td>1144.00</td><td>1204.70</td><td>1332.00</td><td>1360.00</td></tr>
-            <tr><td class="rowhead">进口铜矿</td><td>550.57</td><td>544.73</td><td>585.64</td><td>632.75</td><td>678.42</td><td>703.89</td><td>748.00</td><td>765.00</td></tr>
-            <tr><td class="rowhead">国产铜矿</td><td>159.85</td><td>167.50</td><td>185.40</td><td>195.70</td><td>170.22</td><td>170.61</td><td>172.00</td><td>185.00</td></tr>
-            <tr><td class="rowhead">粗铜进口</td><td>79.93</td><td>100.37</td><td>91.82</td><td>114.24</td><td>101.36</td><td>89.60</td><td>77.00</td><td>80.00</td></tr>
-            <tr><td class="rowhead">推算废铜冶炼粗铜</td><td>104.20</td><td>119.75</td><td>134.76</td><td>85.57</td><td>194.00</td><td>240.60</td><td class="neg">335.00</td><td class="neg">330.00</td></tr>
-            <tr><td class="rowhead">直接流入下游废铜</td><td>232.00</td><td>184.50</td><td>227.90</td><td>177.45</td><td>244.96</td><td>197.40</td><td>170.56</td><td>170.00</td></tr>
-            <tr><td class="rowhead">废铜进口量</td><td>132.74</td><td>73.92</td><td>135.54</td><td>141.68</td><td>158.93</td><td>181.49</td><td>191.00</td><td>190.00</td></tr>
-            <tr><td class="rowhead">国产废铜产量（倒推）</td><td>203.46</td><td>230.33</td><td>227.12</td><td>121.34</td><td>280.03</td><td>256.51</td><td class="neg">314.56</td><td class="neg">310.00</td></tr>
+            <tr><td class="rowhead" data-en="Refined copper output">精铜产量</td><td>894.55</td><td>932.35</td><td>997.62</td><td>1028.26</td><td>1144.00</td><td>1204.70</td><td>1332.00</td><td>1360.00</td></tr>
+            <tr><td class="rowhead" data-en="Imported copper ore">进口铜矿</td><td>550.57</td><td>544.73</td><td>585.64</td><td>632.75</td><td>678.42</td><td>703.89</td><td>748.00</td><td>765.00</td></tr>
+            <tr><td class="rowhead" data-en="Domestic copper ore">国产铜矿</td><td>159.85</td><td>167.50</td><td>185.40</td><td>195.70</td><td>170.22</td><td>170.61</td><td>172.00</td><td>185.00</td></tr>
+            <tr><td class="rowhead" data-en="Blister copper imports">粗铜进口</td><td>79.93</td><td>100.37</td><td>91.82</td><td>114.24</td><td>101.36</td><td>89.60</td><td>77.00</td><td>80.00</td></tr>
+            <tr><td class="rowhead" data-en="Est. blister from scrap smelting">推算废铜冶炼粗铜</td><td>104.20</td><td>119.75</td><td>134.76</td><td>85.57</td><td>194.00</td><td>240.60</td><td class="neg">335.00</td><td class="neg">330.00</td></tr>
+            <tr><td class="rowhead" data-en="Scrap flowing directly to downstream">直接流入下游废铜</td><td>232.00</td><td>184.50</td><td>227.90</td><td>177.45</td><td>244.96</td><td>197.40</td><td>170.56</td><td>170.00</td></tr>
+            <tr><td class="rowhead" data-en="Copper scrap imports">废铜进口量</td><td>132.74</td><td>73.92</td><td>135.54</td><td>141.68</td><td>158.93</td><td>181.49</td><td>191.00</td><td>190.00</td></tr>
+            <tr><td class="rowhead" data-en="Domestic scrap output (back-calculated)">国产废铜产量（倒推）</td><td>203.46</td><td>230.33</td><td>227.12</td><td>121.34</td><td>280.03</td><td>256.51</td><td class="neg">314.56</td><td class="neg">310.00</td></tr>
           </tbody>
         </table>
       </div>
@@ -416,54 +418,54 @@
         <table>
           <thead>
             <tr>
-              <th>国内精铜平衡</th>
+              <th data-en="Domestic Refined-Copper Balance">国内精铜平衡</th>
               <th>2019</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025E</th><th>2026E</th><th>2027E</th><th>2028E</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td class="rowhead">产量</td><td>894.55</td><td>932.35</td><td>997.62</td><td>1028.26</td><td>1144.00</td><td>1204.70</td><td>1332.00</td><td>1360.00</td><td>1390.00</td><td>1420.00</td></tr>
-            <tr><td class="rowhead">净进口</td><td>310.00</td><td>439.54</td><td>333.15</td><td>352.21</td><td>325.68</td><td>316.00</td><td>260.00</td><td>270.00</td><td>270.00</td><td>270.00</td></tr>
-            <tr><td class="rowhead">库存变动</td><td class="neg">-16.00</td><td>20.00</td><td class="neg">-36.50</td><td class="neg">-14.21</td><td class="neg">-6.42</td><td>2.46</td><td>6.55</td><td class="neg">8.87</td><td class="neg">3.05</td><td class="neg">-3.49</td></tr>
-            <tr><td class="rowhead">国储调节</td><td>—</td><td>40.00</td><td class="neg">-11.00</td><td>0.00</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td class="rowhead">精铜表观消费</td><td>1220.55</td><td>1311.89</td><td>1378.27</td><td>1394.68</td><td>1476.10</td><td>1518.24</td><td>1585.45</td><td>1621.13</td><td>1656.95</td><td>1693.49</td></tr>
-            <tr class="sub"><td class="rowhead">表消增速</td><td>—</td><td>7.48%</td><td>5.06%</td><td>1.19%</td><td>5.84%</td><td>2.85%</td><td>4.43%</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td class="rowhead">废铜消费</td><td>232.00</td><td>184.50</td><td>227.90</td><td>177.45</td><td>244.96</td><td>197.40</td><td>170.56</td><td>170.00</td><td>170.00</td><td>170.00</td></tr>
-            <tr><td class="rowhead">铜元素消费</td><td>1452.55</td><td>1496.39</td><td>1606.17</td><td>1572.13</td><td>1721.06</td><td>1715.64</td><td>1756.00</td><td>1791.13</td><td>1826.95</td><td>1863.49</td></tr>
-            <tr class="sub"><td class="rowhead">铜元素增速</td><td>—</td><td>3.02%</td><td>7.34%</td><td class="neg">-2.12%</td><td>9.47%</td><td class="neg">-0.31%</td><td>2.35%</td><td>2.00%</td><td>2.00%</td><td>2.00%</td></tr>
-            <tr><td class="rowhead">进口铜元素</td><td>1073.24</td><td>1158.56</td><td>1146.15</td><td>1240.88</td><td>1264.39</td><td>1290.98</td><td>1276.00</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr class="sub"><td class="rowhead">废铜/冶炼</td><td>20.58%</td><td>23.61%</td><td>22.71%</td><td>19.43%</td><td>25.82%</td><td>27.41%</td><td>30.93%</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="Output">产量</td><td>894.55</td><td>932.35</td><td>997.62</td><td>1028.26</td><td>1144.00</td><td>1204.70</td><td>1332.00</td><td>1360.00</td><td>1390.00</td><td>1420.00</td></tr>
+            <tr><td class="rowhead" data-en="Net imports">净进口</td><td>310.00</td><td>439.54</td><td>333.15</td><td>352.21</td><td>325.68</td><td>316.00</td><td>260.00</td><td>270.00</td><td>270.00</td><td>270.00</td></tr>
+            <tr><td class="rowhead" data-en="Inventory change">库存变动</td><td class="neg">-16.00</td><td>20.00</td><td class="neg">-36.50</td><td class="neg">-14.21</td><td class="neg">-6.42</td><td>2.46</td><td>6.55</td><td class="neg">8.87</td><td class="neg">3.05</td><td class="neg">-3.49</td></tr>
+            <tr><td class="rowhead" data-en="State reserve adjustment">国储调节</td><td>—</td><td>40.00</td><td class="neg">-11.00</td><td>0.00</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="Refined copper apparent consumption">精铜表观消费</td><td>1220.55</td><td>1311.89</td><td>1378.27</td><td>1394.68</td><td>1476.10</td><td>1518.24</td><td>1585.45</td><td>1621.13</td><td>1656.95</td><td>1693.49</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Apparent consumption growth">表消增速</td><td>—</td><td>7.48%</td><td>5.06%</td><td>1.19%</td><td>5.84%</td><td>2.85%</td><td>4.43%</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="Copper scrap consumption">废铜消费</td><td>232.00</td><td>184.50</td><td>227.90</td><td>177.45</td><td>244.96</td><td>197.40</td><td>170.56</td><td>170.00</td><td>170.00</td><td>170.00</td></tr>
+            <tr><td class="rowhead" data-en="Copper-unit consumption">铜元素消费</td><td>1452.55</td><td>1496.39</td><td>1606.17</td><td>1572.13</td><td>1721.06</td><td>1715.64</td><td>1756.00</td><td>1791.13</td><td>1826.95</td><td>1863.49</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Copper-unit growth">铜元素增速</td><td>—</td><td>3.02%</td><td>7.34%</td><td class="neg">-2.12%</td><td>9.47%</td><td class="neg">-0.31%</td><td>2.35%</td><td>2.00%</td><td>2.00%</td><td>2.00%</td></tr>
+            <tr><td class="rowhead" data-en="Imported copper units">进口铜元素</td><td>1073.24</td><td>1158.56</td><td>1146.15</td><td>1240.88</td><td>1264.39</td><td>1290.98</td><td>1276.00</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Scrap / smelting">废铜/冶炼</td><td>20.58%</td><td>23.61%</td><td>22.71%</td><td>19.43%</td><td>25.82%</td><td>27.41%</td><td>30.93%</td><td>—</td><td>—</td><td>—</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="note">注：海外精铜、国内精铜、国内原料三表年份区间不同，故分列展示；红色为负值或原表标红项。</p>
+      <p class="note" data-en="Note: the overseas refined-copper, domestic refined-copper, and domestic feedstock tables span different year ranges and are therefore shown separately; red marks negative values or items highlighted in red in the source table.">注：海外精铜、国内精铜、国内原料三表年份区间不同，故分列展示；红色为负值或原表标红项。</p>
     </div>
   </section>
 
   <!-- ============================ 铝 ALUMINUM ============================ -->
   <section class="commodity">
-    <h2>铝 &nbsp;Aluminum</h2>
-    <p class="subtitle">仅提供电解铝成品平衡（中国 / 海外）；矿投产进度、矿平衡表原始资料中未提供</p>
+    <h2 data-en="Aluminum">铝 &nbsp;Aluminum</h2>
+    <p class="subtitle" data-en="Only the primary-aluminum product balance (China / Overseas) is provided; mine ramp-up schedule and concentrate balance were not available in the source materials">仅提供电解铝成品平衡（中国 / 海外）；矿投产进度、矿平衡表原始资料中未提供</p>
 
     <div class="block">
-      <p class="block-title"><span class="tag">③ 成品平衡表</span>电解铝供需平衡（中国 / 海外，单位：万吨）</p>
+      <p class="block-title"><span class="tag" data-en="&#9314; Refined-Product Balance">③ 成品平衡表</span><span data-en="Primary-aluminum supply-demand balance (China / Overseas; unit: 10k t)">电解铝供需平衡（中国 / 海外，单位：万吨）</span></p>
 
       <!-- 中国电解铝平衡 -->
       <div class="scroll">
         <table>
           <thead>
             <tr>
-              <th>中国电解铝平衡</th>
+              <th data-en="China Primary-Aluminum Balance">中国电解铝平衡</th>
               <th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>2026E</th><th>2027E</th><th>2028E</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td class="rowhead">产量</td><td>3849</td><td>4007</td><td>4151</td><td>4312</td><td>4392</td><td>4480</td><td>4510</td><td>4510</td></tr>
-            <tr><td class="rowhead">净进口</td><td>157.26</td><td>47.2</td><td>139.19</td><td>201.5</td><td>219</td><td>200</td><td>230</td><td>230</td></tr>
-            <tr><td class="rowhead">铝锭库存变动</td><td>18.8</td><td class="neg">-24</td><td class="neg">-10.1</td><td>3</td><td>17</td><td class="neg">21</td><td class="neg">11</td><td class="neg">-60</td></tr>
-            <tr><td class="rowhead">铝棒库存变动</td><td>4.05</td><td class="neg">-3.32</td><td>0.31</td><td>3.91</td><td>3.7</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td class="rowhead">抛储</td><td>28</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td class="rowhead">表观消费</td><td>3983.41</td><td>4081.52</td><td>4299.98</td><td>4506.59</td><td>4590.3</td><td>4659.2</td><td>4729.0</td><td>4800.0</td></tr>
-            <tr class="sub"><td class="rowhead">同比</td><td>4.4%</td><td>2.5%</td><td>5.4%</td><td>4.8%</td><td>1.9%</td><td>1.5%</td><td>1.5%</td><td>1.5%</td></tr>
+            <tr><td class="rowhead" data-en="Output">产量</td><td>3849</td><td>4007</td><td>4151</td><td>4312</td><td>4392</td><td>4480</td><td>4510</td><td>4510</td></tr>
+            <tr><td class="rowhead" data-en="Net imports">净进口</td><td>157.26</td><td>47.2</td><td>139.19</td><td>201.5</td><td>219</td><td>200</td><td>230</td><td>230</td></tr>
+            <tr><td class="rowhead" data-en="Aluminum ingot inventory change">铝锭库存变动</td><td>18.8</td><td class="neg">-24</td><td class="neg">-10.1</td><td>3</td><td>17</td><td class="neg">21</td><td class="neg">11</td><td class="neg">-60</td></tr>
+            <tr><td class="rowhead" data-en="Aluminum billet inventory change">铝棒库存变动</td><td>4.05</td><td class="neg">-3.32</td><td>0.31</td><td>3.91</td><td>3.7</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="State reserve release">抛储</td><td>28</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="Apparent consumption">表观消费</td><td>3983.41</td><td>4081.52</td><td>4299.98</td><td>4506.59</td><td>4590.3</td><td>4659.2</td><td>4729.0</td><td>4800.0</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="YoY">同比</td><td>4.4%</td><td>2.5%</td><td>5.4%</td><td>4.8%</td><td>1.9%</td><td>1.5%</td><td>1.5%</td><td>1.5%</td></tr>
           </tbody>
         </table>
       </div>
@@ -473,72 +475,73 @@
         <table>
           <thead>
             <tr>
-              <th>海外电解铝平衡</th>
+              <th data-en="Overseas Primary-Aluminum Balance">海外电解铝平衡</th>
               <th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>2026E</th><th>2027E</th><th>2028E</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td class="rowhead">产量</td><td>2887.8</td><td>2875.7</td><td>2910.5</td><td>2966.1</td><td>3024.0</td><td>2977.5</td><td>3177.5</td><td>3367.5</td></tr>
-            <tr class="sub"><td class="rowhead">印尼产量</td><td>—</td><td>—</td><td>—</td><td>—</td><td>80.5</td><td>160</td><td>310</td><td>405</td></tr>
-            <tr class="sub"><td class="rowhead">印尼产量 V2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>80.5</td><td>153.5</td><td>266.5</td><td>313</td></tr>
-            <tr class="sub"><td class="rowhead">印尼以外</td><td>—</td><td>—</td><td>—</td><td>—</td><td>2943.5</td><td>2817.5</td><td>2867.5</td><td>2962.5</td></tr>
-            <tr><td class="rowhead">出口中国</td><td>157.26</td><td>47.2</td><td>139.19</td><td>201.5</td><td>219</td><td>200</td><td>230</td><td>230</td></tr>
-            <tr><td class="rowhead">需求</td><td>2883.4</td><td>2839.5</td><td>2731.6</td><td>2777.9</td><td>2814.0</td><td>2828.1</td><td>2870.5</td><td>2927.9</td></tr>
-            <tr class="sub"><td class="rowhead">需求增速</td><td>—</td><td class="neg">-1.5%</td><td class="neg">-3.8%</td><td>1.7%</td><td>1.3%</td><td>0.50%</td><td>1.50%</td><td>2.00%</td></tr>
-            <tr class="bal-gray"><td class="rowhead">平衡</td><td class="neg">-152.9</td><td class="neg">-10.9</td><td>39.7</td><td class="neg">-13.4</td><td class="neg">-9.0</td><td class="neg">-50.6</td><td>77.0</td><td>209.6</td></tr>
-            <tr class="sub"><td class="rowhead">平衡（印尼 V2 口径）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="neg">-57.1</td><td>33.5</td><td>117.6</td></tr>
-            <tr><td class="rowhead">LME 库存变化</td><td class="neg">-40.6</td><td class="neg">-36.8</td><td>6.8</td><td class="neg">-12.5</td><td class="neg">-0.2</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr class="sub"><td class="rowhead">库存（另一口径）</td><td>93.4</td><td>56.6</td><td>63.4</td><td>50.9</td><td>50.7</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td class="rowhead" data-en="Output">产量</td><td>2887.8</td><td>2875.7</td><td>2910.5</td><td>2966.1</td><td>3024.0</td><td>2977.5</td><td>3177.5</td><td>3367.5</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Indonesia output">印尼产量</td><td>—</td><td>—</td><td>—</td><td>—</td><td>80.5</td><td>160</td><td>310</td><td>405</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Indonesia output V2">印尼产量 V2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>80.5</td><td>153.5</td><td>266.5</td><td>313</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Ex-Indonesia">印尼以外</td><td>—</td><td>—</td><td>—</td><td>—</td><td>2943.5</td><td>2817.5</td><td>2867.5</td><td>2962.5</td></tr>
+            <tr><td class="rowhead" data-en="Exports to China">出口中国</td><td>157.26</td><td>47.2</td><td>139.19</td><td>201.5</td><td>219</td><td>200</td><td>230</td><td>230</td></tr>
+            <tr><td class="rowhead" data-en="Demand">需求</td><td>2883.4</td><td>2839.5</td><td>2731.6</td><td>2777.9</td><td>2814.0</td><td>2828.1</td><td>2870.5</td><td>2927.9</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Demand growth">需求增速</td><td>—</td><td class="neg">-1.5%</td><td class="neg">-3.8%</td><td>1.7%</td><td>1.3%</td><td>0.50%</td><td>1.50%</td><td>2.00%</td></tr>
+            <tr class="bal-gray"><td class="rowhead" data-en="Balance">平衡</td><td class="neg">-152.9</td><td class="neg">-10.9</td><td>39.7</td><td class="neg">-13.4</td><td class="neg">-9.0</td><td class="neg">-50.6</td><td>77.0</td><td>209.6</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Balance (Indonesia V2 basis)">平衡（印尼 V2 口径）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="neg">-57.1</td><td>33.5</td><td>117.6</td></tr>
+            <tr><td class="rowhead" data-en="LME inventory change">LME 库存变化</td><td class="neg">-40.6</td><td class="neg">-36.8</td><td>6.8</td><td class="neg">-12.5</td><td class="neg">-0.2</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr class="sub"><td class="rowhead" data-en="Inventory (alternative basis)">库存（另一口径）</td><td>93.4</td><td>56.6</td><td>63.4</td><td>50.9</td><td>50.7</td><td>—</td><td>—</td><td>—</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="note">注：海外表「印尼产量 / 印尼产量V2 / 印尼以外」及「平衡两口径」「库存两行」为原表并列的不同测算口径，均予保留。</p>
+      <p class="note" data-en="Note: in the overseas table, &lsquo;Indonesia output / Indonesia output V2 / Ex-Indonesia&rsquo;, the two balance rows, and the two inventory rows are different estimation bases shown side by side in the source table, all retained here.">注：海外表「印尼产量 / 印尼产量V2 / 印尼以外」及「平衡两口径」「库存两行」为原表并列的不同测算口径，均予保留。</p>
     </div>
   </section>
 
   <!-- ============================ 锡 TIN ============================ -->
   <section class="commodity">
-    <h2>锡 &nbsp;Tin</h2>
-    <p class="subtitle">仅提供成品（精锡）供需平衡（矿投产进度、矿平衡表原始资料中未提供）</p>
+    <h2 data-en="Tin">锡 &nbsp;Tin</h2>
+    <p class="subtitle" data-en="Only the refined-product (refined tin) supply-demand balance is provided (mine ramp-up schedule and concentrate balance were not available in the source materials)">仅提供成品（精锡）供需平衡（矿投产进度、矿平衡表原始资料中未提供）</p>
 
     <div class="block">
-      <p class="block-title"><span class="tag">③ 成品平衡表</span>全球精锡供需平衡（单位：万吨）</p>
+      <p class="block-title"><span class="tag" data-en="&#9314; Refined-Product Balance">③ 成品平衡表</span><span data-en="Global refined-tin supply-demand balance (unit: 10k t)">全球精锡供需平衡（单位：万吨）</span></p>
       <div class="scroll">
         <table>
           <thead>
             <tr>
-              <th>项目</th>
+              <th data-en="Item">项目</th>
               <th>2019</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th>
-              <th>2026E</th><th>2026E 上半年</th><th>2026E 下半年</th>
+              <th>2026E</th><th data-en="2026E H1">2026E 上半年</th><th data-en="2026E H2">2026E 下半年</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="section-band"><td colspan="11">供应（产量）</td></tr>
-            <tr><td class="rowhead">中国产量</td><td>15.9</td><td>18.0</td><td>19.8</td><td>17.9</td><td>17.4</td><td>18.4</td><td>17.9</td><td>18.0</td><td>8.6</td><td>9.5</td></tr>
-            <tr><td class="rowhead">中国净进口</td><td class="neg">-0.3</td><td>0.3</td><td class="neg">-0.9</td><td>2.0</td><td>1.7</td><td>0.4</td><td class="neg">-0.2</td><td>0.5</td><td>0.2</td><td>0.3</td></tr>
-            <tr><td class="rowhead">中国总供应</td><td>15.6</td><td>18.3</td><td>18.9</td><td>19.9</td><td>19.1</td><td>18.8</td><td>17.7</td><td>18.5</td><td>8.8</td><td>9.7</td></tr>
-            <tr><td class="rowhead">海外产量</td><td>19.5</td><td>15.9</td><td>18.4</td><td>20.4</td><td>19.7</td><td>18.6</td><td>18.9</td><td>19.7</td><td>9.8</td><td>9.8</td></tr>
-            <tr><td class="rowhead">全球供应量（国内+海外）</td><td>35.4</td><td>33.9</td><td>38.2</td><td>38.3</td><td>37.1</td><td>37.0</td><td>36.8</td><td>38.2</td><td>18.6</td><td>19.6</td></tr>
+            <tr class="section-band"><td colspan="11" data-en="Supply (Output)">供应（产量）</td></tr>
+            <tr><td class="rowhead" data-en="China output">中国产量</td><td>15.9</td><td>18.0</td><td>19.8</td><td>17.9</td><td>17.4</td><td>18.4</td><td>17.9</td><td>18.0</td><td>8.6</td><td>9.5</td></tr>
+            <tr><td class="rowhead" data-en="China net imports">中国净进口</td><td class="neg">-0.3</td><td>0.3</td><td class="neg">-0.9</td><td>2.0</td><td>1.7</td><td>0.4</td><td class="neg">-0.2</td><td>0.5</td><td>0.2</td><td>0.3</td></tr>
+            <tr><td class="rowhead" data-en="China total supply">中国总供应</td><td>15.6</td><td>18.3</td><td>18.9</td><td>19.9</td><td>19.1</td><td>18.8</td><td>17.7</td><td>18.5</td><td>8.8</td><td>9.7</td></tr>
+            <tr><td class="rowhead" data-en="Overseas output">海外产量</td><td>19.5</td><td>15.9</td><td>18.4</td><td>20.4</td><td>19.7</td><td>18.6</td><td>18.9</td><td>19.7</td><td>9.8</td><td>9.8</td></tr>
+            <tr><td class="rowhead" data-en="Global supply (domestic + overseas)">全球供应量（国内+海外）</td><td>35.4</td><td>33.9</td><td>38.2</td><td>38.3</td><td>37.1</td><td>37.0</td><td>36.8</td><td>38.2</td><td>18.6</td><td>19.6</td></tr>
             <tr class="sub"><td class="rowhead">yoy</td><td class="neg">-1.1%</td><td class="neg">-4.2%</td><td>12.7%</td><td>0.3%</td><td class="neg">-3.1%</td><td class="neg">-0.3%</td><td class="neg">-0.5%</td><td>3.9%</td><td>—</td><td>—</td></tr>
 
-            <tr class="section-band"><td colspan="11">需求</td></tr>
-            <tr><td class="rowhead">中国</td><td>14.0</td><td>16.4</td><td>18.4</td><td>18.1</td><td>18.7</td><td>19.0</td><td>18.9</td><td>19.0</td><td>9.5</td><td>9.5</td></tr>
-            <tr><td class="rowhead">海外</td><td>21.9</td><td>18.8</td><td>20.5</td><td>19.6</td><td>17.7</td><td>18.8</td><td>19.2</td><td>19.6</td><td>9.7</td><td>9.9</td></tr>
-            <tr><td class="rowhead">全球需求量</td><td>35.9</td><td>35.2</td><td>38.9</td><td>37.7</td><td>36.4</td><td>37.8</td><td>38.1</td><td>38.6</td><td>19.2</td><td>19.4</td></tr>
+            <tr class="section-band"><td colspan="11" data-en="Demand">需求</td></tr>
+            <tr><td class="rowhead" data-en="China">中国</td><td>14.0</td><td>16.4</td><td>18.4</td><td>18.1</td><td>18.7</td><td>19.0</td><td>18.9</td><td>19.0</td><td>9.5</td><td>9.5</td></tr>
+            <tr><td class="rowhead" data-en="Overseas">海外</td><td>21.9</td><td>18.8</td><td>20.5</td><td>19.6</td><td>17.7</td><td>18.8</td><td>19.2</td><td>19.6</td><td>9.7</td><td>9.9</td></tr>
+            <tr><td class="rowhead" data-en="Global demand">全球需求量</td><td>35.9</td><td>35.2</td><td>38.9</td><td>37.7</td><td>36.4</td><td>37.8</td><td>38.1</td><td>38.6</td><td>19.2</td><td>19.4</td></tr>
             <tr class="sub"><td class="rowhead">yoy</td><td class="neg">-3.5%</td><td class="neg">-1.9%</td><td>10.5%</td><td class="neg">-3.1%</td><td class="neg">-3.4%</td><td>3.8%</td><td>0.8%</td><td>1.2%</td><td>—</td><td>—</td></tr>
 
-            <tr class="bal-global"><td class="rowhead">全球供需平衡</td><td class="neg">-0.5</td><td class="neg">-1.3</td><td class="neg">-0.7</td><td>0.60</td><td>0.7</td><td class="neg">-0.8</td><td class="neg">-1.3</td><td class="neg">-0.3</td><td class="neg">-0.5</td><td>0.2</td></tr>
-            <tr class="bal-gray"><td class="rowhead">中国供需平衡</td><td>1.6</td><td>2.0</td><td>0.5</td><td>1.8</td><td>0.4</td><td class="neg">-0.2</td><td class="neg">-1.2</td><td class="neg">-0.5</td><td class="neg">-0.7</td><td>0.2</td></tr>
+            <tr class="bal-global"><td class="rowhead" data-en="Global supply-demand balance">全球供需平衡</td><td class="neg">-0.5</td><td class="neg">-1.3</td><td class="neg">-0.7</td><td>0.60</td><td>0.7</td><td class="neg">-0.8</td><td class="neg">-1.3</td><td class="neg">-0.3</td><td class="neg">-0.5</td><td>0.2</td></tr>
+            <tr class="bal-gray"><td class="rowhead" data-en="China supply-demand balance">中国供需平衡</td><td>1.6</td><td>2.0</td><td>0.5</td><td>1.8</td><td>0.4</td><td class="neg">-0.2</td><td class="neg">-1.2</td><td class="neg">-0.5</td><td class="neg">-0.7</td><td>0.2</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <p class="note" style="text-align:center;margin-top:24px;">
+  <p class="note" style="text-align:center;margin-top:24px;" data-en="&#9888; These tables were compiled from the original images with watermarks removed; some figures may contain recognition errors due to source-image clarity. For formal use, refer to the original research report.">
     ⚠ 本表由原始图片整理生成，已去除水印；部分数字受原图清晰度限制可能存在识别误差，正式使用请以原始研究报告为准。
   </p>
 
 </div>
+<script src="../assets/i18n.js"></script>
 </body>
 </html>
