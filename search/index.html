@@ -187,25 +187,11 @@
   var T = function (zh) { return (window.WRLang && WRLang.get() === 'en') ? WRLang.t(zh) : zh; };
   var isEN = function () { return window.WRLang && WRLang.get() === 'en'; };
 
-  var DATA = [];              // 轻索引（kb-index.json，无正文，仅到摘要）
+  var DATA = [];              // 索引（kb-index.json，含全文「正文」+ 摘要等字段）
   var mode = 'search';
   var lastResults = [];       // 当前检索结果（用于语言切换重渲染）
   var lastAnswer = null;      // 最近一次 AI 回答（用于语言切换重渲染引用等）
   var MAX_RESULTS = 30;       // 列表最多渲染条数，避免主线程卡顿
-
-  // —— 正文懒加载（kb-full.json，仅在首次展开某篇时按需拉取一次并缓存）——
-  var FULL = null;            // Map(id → 正文)
-  var fullPromise = null;
-  function loadFull() {
-    if (FULL) return Promise.resolve(FULL);
-    if (fullPromise) return fullPromise;
-    fullPromise = fetch('/data/kb-full.json').then(function (r) { return r.json(); }).then(function (arr) {
-      FULL = new Map();
-      (Array.isArray(arr) ? arr : []).forEach(function (x) { FULL.set(x.id, x.正文 || ''); });
-      return FULL;
-    });
-    return fullPromise;
-  }
 
   // 来源类型的英文标签
   var SRC_EN = { '研报': 'Report', '公众号': 'WeChat', '公众号文章': 'WeChat' };
@@ -298,10 +284,16 @@
     return '<span class="chip ' + cls + '">' + esc(T(dir)) + '</span>';
   }
 
-  // —————————————— 检索（只用轻索引，不含正文）——————————————
+  // —————————————— 检索（匹配范围含「正文」全文）——————————————
+  // 标题/品种/机构 重复计入以提高其权重；正文放最后，能搜到正文里的产量/价格等具体内容。
   function searchable(n) {
-    return [n.标题, n.标题, n.品种, n.品种, n.机构, n.机构, n.相关品种, n.作者, n.摘要]
+    return [n.标题, n.标题, n.品种, n.品种, n.机构, n.机构, n.相关品种, n.作者, n.摘要, n.正文]
       .filter(Boolean).join('\n');
+  }
+  // 每篇的可搜索文本只在加载时算一次并缓存为小写串（n._hay），避免每次输入都重拼大字符串
+  function haystack(n) {
+    if (n._hay == null) n._hay = searchable(n).toLowerCase();
+    return n._hay;
   }
   function terms(q) {
     q = String(q || '').trim();
@@ -332,7 +324,7 @@
       if (fs && n.来源类型 !== fs) return false;
       if (fp && n.品种 !== fp && n.机构 !== fp) return false;
       if (!q) return true;
-      var hay = searchable(n).toLowerCase();
+      var hay = haystack(n);
       if (hay.indexOf(qlow) > -1) return true;              // 整串命中
       return ts.every(function (t) { return hay.indexOf(t) > -1; }); // 或所有词各自命中
     });
@@ -340,7 +332,7 @@
     // 排序：有关键词按命中次数，否则按日期倒序
     if (q) {
       res.forEach(function (n) {
-        var hay = searchable(n).toLowerCase();
+        var hay = haystack(n);
         var sc = hay.indexOf(qlow) > -1 ? 100 : 0;
         ts.forEach(function (t) { var m = hay.split(t).length - 1; sc += m; });
         n._sc = sc;
@@ -413,7 +405,7 @@
     // 造成无限递归卡死。结果项已在渲染时按当前语言用 isEN()/T() 生成，无需再翻译。
   }
 
-  // 展开/收起：首次展开时懒加载 kb-full.json（只拉一次、缓存），渲染该篇正文
+  // 展开/收起：正文随索引已在内存，首次展开该篇时才渲染它的 Markdown（懒渲染）
   function toggle(key) {
     var id = idMap[key] || key;
     var item = document.querySelector('.ritem[data-id="' + cssEsc(id) + '"]');
@@ -425,21 +417,13 @@
     item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     if (body.getAttribute('data-loaded') === '1') return;
     body.setAttribute('data-loaded', '1');
-    body.innerHTML = '<div class="md-body" style="color:var(--faint)"><span class="spinner"></span> ' +
-      (isEN() ? 'Loading…' : '正在加载正文…') + '</div>';
-    loadFull().then(function (map) {
-      // 展开期间可能已切语言/重渲染，重新定位 body
-      var cur = document.querySelector('.ritem[data-id="' + cssEsc(id) + '"] .rbody');
-      if (cur) cur.innerHTML = bodyHtml(id, map.get(id));
-    }).catch(function () {
-      body.setAttribute('data-loaded', '0');
-      body.innerHTML = '<div class="err">' + (isEN() ? 'Failed to load full text.' : '正文加载失败，请重试。') + '</div>';
-    });
+    // 正文已随索引载入内存（byId），此处只在展开该篇时才渲染它的 Markdown（懒渲染，不在加载时渲染全部正文）
+    body.innerHTML = bodyHtml(id);
   }
 
-  function bodyHtml(id, fulltext) {
+  function bodyHtml(id) {
     var n = byId[id] || {};
-    var h = '<div class="md-body">' + renderMarkdown(fulltext || (isEN() ? '_No full text._' : '_暂无正文。_')) + '</div>';
+    var h = '<div class="md-body">' + renderMarkdown(n.正文 || (isEN() ? '_No full text._' : '_暂无正文。_')) + '</div>';
     if (n.原文链接) {
       h += '<div class="linkrow"><a href="' + esc(n.原文链接) + '" target="_blank" rel="noopener">' +
         '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>' +
@@ -482,7 +466,7 @@
     var ts = terms(q);
     var qlow = q.toLowerCase();
     pool.forEach(function (n) {
-      var hay = searchable(n).toLowerCase();
+      var hay = haystack(n);
       var sc = 0;
       if (hay.indexOf(qlow) > -1) sc += 20;
       ts.forEach(function (t) { if (hay.indexOf(t) > -1) sc += 1; });
@@ -511,7 +495,7 @@
     out.innerHTML = '<div class="answer"><div class="a-kick"><span class="spinner"></span>' +
       (isEN() ? 'AI is reading ' + cands.length + ' notes…' : 'AI 正在阅读 ' + cands.length + ' 篇相关笔记…') + '</div></div>';
 
-    // 只把候选笔记的 id 传给 worker；正文由 worker 端从 kb-full.json 按 id 取，不下发前端
+    // 只把候选笔记的 id 传给 worker；正文由 worker 端从 kb-index.json 按 id 取
     var ids = cands.map(function (n) { return n.id; });
 
     fetch('/api/ask', {
