@@ -16,13 +16,13 @@
 .modebar button.active{background:#fff;color:var(--accent);box-shadow:0 1px 2px rgba(17,24,39,.10);}
 
 .searchbox{display:flex;gap:10px;align-items:stretch;margin-bottom:14px;flex-wrap:wrap;}
-.searchbox .field{flex:1;min-width:240px;display:flex;align-items:center;gap:9px;background:var(--panel);
+.searchbox .field,.chat-input .field{flex:1;min-width:240px;display:flex;align-items:center;gap:9px;background:var(--panel);
   border:1px solid var(--line);border-radius:11px;padding:0 14px;transition:border-color .15s,box-shadow .15s;}
-.searchbox .field:focus-within{border-color:rgba(79,70,229,.5);box-shadow:0 0 0 3px rgba(79,70,229,.10);}
-.searchbox .field svg{width:18px;height:18px;color:var(--faint);flex:none;}
-.searchbox input{flex:1;border:0;outline:0;background:none;font-family:inherit;font-size:15px;color:var(--text);
+.searchbox .field:focus-within,.chat-input .field:focus-within{border-color:rgba(79,70,229,.5);box-shadow:0 0 0 3px rgba(79,70,229,.10);}
+.searchbox .field svg,.chat-input .field svg{width:18px;height:18px;color:var(--faint);flex:none;}
+.searchbox input,.chat-input input{flex:1;min-width:0;border:0;outline:0;background:none;font-family:inherit;font-size:15px;color:var(--text);
   padding:13px 0;line-height:1.4;}
-.searchbox input::placeholder{color:var(--faint);}
+.searchbox input::placeholder,.chat-input input::placeholder{color:var(--faint);}
 .btn-primary{border:0;background:var(--accent);color:#fff;font-family:inherit;font-size:14.5px;font-weight:600;
   padding:0 22px;border-radius:11px;cursor:pointer;transition:filter .15s,opacity .15s;white-space:nowrap;}
 .btn-primary:hover{filter:brightness(1.06);}
@@ -105,6 +105,24 @@
 .cite:hover{background:var(--accent);color:#fff;}
 .cand{font-size:12px;color:var(--faint);margin-top:14px;line-height:1.7;}
 
+/* —— 多轮对话 —— */
+.chat-bar{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;}
+.chat-bar .ask-hint{margin:0;flex:1;}
+.chat-newbtn{flex:none;border:1px solid var(--line);background:var(--panel);color:var(--sub);font-family:inherit;
+  font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:9px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.chat-newbtn:hover{border-color:rgba(79,70,229,.4);color:var(--accent);}
+.chat-log{height:54vh;min-height:300px;overflow-y:auto;padding:6px 2px;display:flex;flex-direction:column;gap:16px;}
+.chat-log:empty{display:none;}
+.chat-empty{text-align:center;color:var(--faint);font-size:13.5px;padding:44px 20px;line-height:1.8;}
+.msg{display:flex;flex-direction:column;max-width:100%;}
+.msg-user{align-items:flex-end;}
+.msg-user .bubble{background:var(--accent);color:#fff;border-radius:14px 14px 4px 14px;padding:11px 16px;
+  font-size:14.5px;line-height:1.6;max-width:82%;white-space:pre-wrap;word-break:break-word;}
+.msg-ai .answer{margin-top:0;width:100%;}
+.chat-input{position:sticky;bottom:0;display:flex;gap:10px;align-items:stretch;padding:14px 0 4px;
+  background:linear-gradient(to top,var(--bg) 78%,rgba(247,248,250,0));margin-top:8px;}
+.chat-input .field{flex:1;min-width:0;}
+
 .spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;
   border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;}
 .answer .spinner{border:2px solid var(--soft);border-top-color:var(--accent);}
@@ -167,18 +185,21 @@
     <div id="rlist" class="rlist"></div>
   </section>
 
-  <!-- ————— 问 AI 模式 ————— -->
+  <!-- ————— 问 AI 模式（多轮对话） ————— -->
   <section id="pane-ask" class="hide">
-    <div class="searchbox">
+    <div class="chat-bar">
+      <div class="ask-hint" data-en="The AI answers only from the knowledge base, and remembers the conversation so you can ask follow-ups. Each turn it retrieves the most relevant notes and cites the ones it used; if the knowledge base doesn't cover it, it says so. Your chat is saved on this device.">AI 只依据知识库作答，并记住上下文、支持追问：每轮检索最相关的笔记、据此推理并标注引用来源；知识库没有就直说没有、不编造。聊天记录保存在本机。</div>
+      <button id="new-chat" class="chat-newbtn" type="button" onclick="WR.newChat()" data-en="＋ New chat">＋ 新对话</button>
+    </div>
+    <div id="chat-log" class="chat-log"></div>
+    <div class="ask-samples" id="ask-samples"></div>
+    <div class="chat-input">
       <label class="field">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 1 0 18c-1.4 0-2.7-.3-3.9-.9L3 21l1.9-5.1A9 9 0 0 1 12 3z"/></svg>
-        <input id="ask-q" type="text" placeholder="问一个问题，例如：铜的核心矛盾是什么？" data-ph-en="Ask a question, e.g.: What is the key contradiction for copper?" autocomplete="off">
+        <input id="ask-q" type="text" placeholder="问一个问题，例如：铜的核心矛盾是什么？（可继续追问）" data-ph-en="Ask a question, e.g.: What's the key contradiction for copper? (follow-ups OK)" autocomplete="off">
       </label>
-      <button id="ask-btn" class="btn-primary" type="button" onclick="WR.ask()" data-en="Ask">提问</button>
+      <button id="ask-btn" class="btn-primary" type="button" onclick="WR.ask()" data-en="Send">发送</button>
     </div>
-    <div class="ask-hint" data-en="The AI answers only from the knowledge base: it first retrieves the 6–8 most relevant notes for your question, then reasons over them and cites the notes it used. If the knowledge base doesn't cover it, it will say so.">AI 只依据知识库作答：先检索与问题最相关的 6–8 篇笔记，再据此推理并标注引用来源；知识库没有就直说没有、不编造。</div>
-    <div class="ask-samples" id="ask-samples"></div>
-    <div id="ask-out"></div>
   </section>
 
   <div class="foot" data-en="Research Workbench · Search &amp; AI Q&amp;A. Answers are generated from internal research notes for reference only and do not constitute investment advice.">研究工作台 · 检索问答。回答由内部研究笔记生成，仅供研究参考，不构成投资建议。</div>
@@ -193,7 +214,6 @@
   var DATA = [];              // 索引（kb-index.json，含全文「正文」+ 摘要等字段）
   var mode = 'search';
   var lastResults = [];       // 当前检索结果（用于语言切换重渲染）
-  var lastAnswer = null;      // 最近一次 AI 回答（用于语言切换重渲染引用等）
   var MAX_RESULTS = 30;       // 列表最多渲染条数，避免主线程卡顿
 
   // 来源类型的英文标签
@@ -538,14 +558,17 @@
     return false;
   }
 
-  function pickCandidates(question) {
+  function pickCandidates(question, contextText) {
     var q = question.trim();
     var qlow = q.toLowerCase();
     var words = queryWords(q); // 空格分词，含单字（如「铜」），修复单字品种不计分的漏洞
+    // 品种/机构 的识别范围 = 本轮问题 + 上文（多轮里追问「永安怎么看」时仍能对上上文的「铜」）；
+    // 关键词重合打分仍以本轮问题为准，避免历史噪音。
+    var scopeQ = (q + ' ' + (contextText || '')).trim();
 
-    // 1) 解析问题里命中的「品种」（对照索引 品种 字段，单字也算）
+    // 1) 解析命中的「品种」（对照索引 品种 字段，单字也算；结合上文）
     var hitV = {};
-    DATA.forEach(function (n) { if (n.品种 && q.indexOf(n.品种) > -1) hitV[n.品种] = 1; });
+    DATA.forEach(function (n) { if (n.品种 && scopeQ.indexOf(n.品种) > -1) hitV[n.品种] = 1; });
     var hasVariety = Object.keys(hitV).length > 0;
 
     // 2) 打分
@@ -554,7 +577,7 @@
       var tit = (n.标题 || '').toLowerCase();
       var sc = 0;
       if (n.品种 && hitV[n.品种]) sc += 1000;              // 命中品种：极高权重（强制层）
-      if (instMatches(q, n.机构)) sc += 30;                // 机构命中：加权
+      if (instMatches(scopeQ, n.机构)) sc += 30;           // 机构命中：加权（结合上文）
       if (qlow && hay.indexOf(qlow) > -1) sc += 15;        // 整串命中
       words.forEach(function (w) {                          // 关键词/全文重合
         var wl = w.toLowerCase();
@@ -572,7 +595,7 @@
     if (hasVariety) {
       var forced = DATA.filter(function (n) { return n.品种 && hitV[n.品种]; });
       forced.sort(function (a, b) {
-        var am = instMatches(q, a.机构) ? 1 : 0, bm = instMatches(q, b.机构) ? 1 : 0;
+        var am = instMatches(scopeQ, a.机构) ? 1 : 0, bm = instMatches(scopeQ, b.机构) ? 1 : 0;
         return bm - am || (b.日期 || '').localeCompare(a.日期 || '');
       });
       forced.forEach(function (n) { if (!seen[n.id]) { seen[n.id] = 1; chosen.push(n); } });
@@ -599,57 +622,123 @@
     return chosen.slice(0, ASK_MAX_CANDS);
   }
 
-  function ask() {
-    var q = document.getElementById('ask-q').value.trim();
-    var out = document.getElementById('ask-out');
-    var btn = document.getElementById('ask-btn');
-    if (!q) { document.getElementById('ask-q').focus(); return; }
+  // —— 多轮对话状态 + 本机按用户保存 ——
+  var CHAT_KEY = 'wr_chat:_local'; // boot 时按登录邮箱改写
+  var thread = [];                 // [{role:'user'|'assistant', content, cites?, cands?, pending?, error?}]
+  var chatBusy = false;
+  var MAX_HISTORY_MSGS = 16;       // 传给 worker 的最近历史条数上限（控制上下文长度）
 
-    var cands = pickCandidates(q);
-    lastAnswer = null;
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>';
-    out.innerHTML = '<div class="answer"><div class="a-kick"><span class="spinner"></span>' +
-      (isEN() ? 'AI is reading ' + cands.length + ' notes…' : 'AI 正在阅读 ' + cands.length + ' 篇相关笔记…') + '</div></div>';
-
-    // 只把候选笔记的 id 传给 worker；正文由 worker 端从 kb-index.json 按 id 取
-    var ids = cands.map(function (n) { return n.id; });
-
-    fetch('/api/ask', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: q, ids: ids })
-    }).then(function (r) {
-      return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
-    }).then(function (r) {
-      if (!r.ok) throw new Error(r.j && r.j.error ? r.j.error : ('HTTP ' + r.status));
-      lastAnswer = { answer: r.j.answer || '', cites: r.j['引用标题'] || [], cands: cands.map(function (n) { return n.标题; }) };
-      renderAnswer();
-    }).catch(function (e) {
-      out.innerHTML = '<div class="err">' + (isEN() ? 'Request failed: ' : '请求失败：') + esc(e.message || String(e)) + '</div>';
-    }).then(function () {
-      btn.disabled = false;
-      btn.innerHTML = isEN() ? 'Ask' : '提问';
-    });
+  function loadThread() {
+    try { var s = localStorage.getItem(CHAT_KEY); thread = s ? JSON.parse(s) : []; }
+    catch (e) { thread = []; }
+    if (!Array.isArray(thread)) thread = [];
+  }
+  function saveThread() {
+    try { localStorage.setItem(CHAT_KEY, JSON.stringify(thread)); } catch (e) {}
   }
 
-  function renderAnswer() {
-    if (!lastAnswer) return;
-    var out = document.getElementById('ask-out');
-    var citeBtns = (lastAnswer.cites || []).map(function (t) {
+  function bubbleUser(content) {
+    return '<div class="msg msg-user"><div class="bubble">' + esc(content) + '</div></div>';
+  }
+  function answerBlock(m) {
+    if (m.pending) {
+      return '<div class="msg msg-ai"><div class="answer"><div class="a-kick"><span class="spinner"></span>' +
+        (isEN() ? 'AI is reading ' + (m.candCount || 0) + ' notes…' : 'AI 正在阅读 ' + (m.candCount || 0) + ' 篇相关笔记…') + '</div></div></div>';
+    }
+    if (m.error) {
+      return '<div class="msg msg-ai"><div class="err">' + (isEN() ? 'Request failed: ' : '请求失败：') + esc(m.content) + '</div></div>';
+    }
+    var citeBtns = (m.cites || []).map(function (t) {
       return '<button class="cite" onclick="WR.openNote(' + JSON.stringify(t).replace(/"/g, '&quot;') + ')">' + esc(t) + '</button>';
     }).join('');
     var citesBlock = citeBtns
       ? '<div class="cites"><div class="lab">' + (isEN() ? 'Based on these notes (click to open):' : '依据（点击查看原笔记）：') + '</div><div class="row">' + citeBtns + '</div></div>'
       : '';
-    var candLine = '<div class="cand">' +
-      (isEN() ? 'Retrieved candidates: ' : '检索候选：') +
-      lastAnswer.cands.map(function (t) { return esc(t); }).join(' · ') + '</div>';
-    out.innerHTML = '<div class="answer">' +
+    var candLine = (m.cands && m.cands.length)
+      ? '<div class="cand">' + (isEN() ? 'Retrieved candidates: ' : '检索候选：') + m.cands.map(function (t) { return esc(t); }).join(' · ') + '</div>'
+      : '';
+    return '<div class="msg msg-ai"><div class="answer">' +
       '<div class="a-kick"><span class="dot"></span>' + (isEN() ? 'AI Answer' : 'AI 回答') + '</div>' +
-      '<div class="md-body">' + renderMarkdown(lastAnswer.answer) + '</div>' +
-      citesBlock + candLine + '</div>';
-    // 同样不调用 WRLang.apply()，避免 onChange → renderAnswer 递归。
+      '<div class="md-body">' + renderMarkdown(m.content || '') + '</div>' +
+      citesBlock + candLine + '</div></div>';
+  }
+
+  function renderChat(scrollToEnd) {
+    var log = document.getElementById('chat-log');
+    var samples = document.getElementById('ask-samples');
+    if (!thread.length) {
+      log.innerHTML = '';
+      if (samples) samples.style.display = '';
+      return;
+    }
+    if (samples) samples.style.display = 'none';
+    log.innerHTML = thread.map(function (m) {
+      return m.role === 'user' ? bubbleUser(m.content) : answerBlock(m);
+    }).join('');
+    if (scrollToEnd !== false) log.scrollTop = log.scrollHeight;
+  }
+
+  function newChat() {
+    thread = [];
+    saveThread();
+    renderChat();
+    document.getElementById('ask-q').focus();
+  }
+
+  function ask() {
+    if (chatBusy) return;
+    var input = document.getElementById('ask-q');
+    var q = input.value.trim();
+    if (!q) { input.focus(); return; }
+    var btn = document.getElementById('ask-btn');
+
+    // 本轮候选：按新问题重新检索，结合上文提到的品种/机构
+    var contextText = thread.filter(function (m) { return m.role === 'user'; })
+      .map(function (m) { return m.content; }).join(' ');
+    var cands = pickCandidates(q, contextText);
+    var ids = cands.map(function (n) { return n.id; });
+    var candTitles = cands.map(function (n) { return n.标题; });
+
+    // 入列：用户消息 + 占位的 AI 消息（spinner）
+    thread.push({ role: 'user', content: q });
+    var aiMsg = { role: 'assistant', content: '', pending: true, candCount: cands.length };
+    thread.push(aiMsg);
+    saveThread();
+    input.value = '';
+    renderChat();
+
+    chatBusy = true;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>';
+
+    // 传整段对话历史（user/assistant 交替，仅 role+content）——不含正在 pending 的这条
+    var messages = thread.filter(function (m) { return !m.pending; })
+      .map(function (m) { return { role: m.role, content: m.content }; })
+      .slice(-MAX_HISTORY_MSGS);
+
+    fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: messages, ids: ids })
+    }).then(function (r) {
+      return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
+    }).then(function (r) {
+      if (!r.ok) throw new Error(r.j && r.j.error ? r.j.error : ('HTTP ' + r.status));
+      aiMsg.pending = false;
+      aiMsg.content = r.j.answer || '';
+      aiMsg.cites = r.j['引用标题'] || [];
+      aiMsg.cands = candTitles;
+    }).catch(function (e) {
+      aiMsg.pending = false;
+      aiMsg.error = true;
+      aiMsg.content = e.message || String(e);
+    }).then(function () {
+      chatBusy = false;
+      btn.disabled = false;
+      btn.innerHTML = isEN() ? 'Send' : '发送';
+      saveThread();
+      renderChat();
+    });
   }
 
   // —————————————— 模式切换 & 初始化 ——————————————
@@ -710,6 +799,13 @@
         (isEN() ? 'Failed to load knowledge base index.' : '知识库索引加载失败。') + ' ' + esc(e.message || '') + '</div>';
     });
 
+    // 取当前登录邮箱作为聊天记录的存储键（按用户各自保存）；失败则退回本机默认键
+    fetch('/api/me').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (j && j.email) CHAT_KEY = 'wr_chat:' + j.email;
+      loadThread();
+      renderChat();
+    }).catch(function () { loadThread(); renderChat(); });
+
     // 事件绑定
     var qEl = document.getElementById('q');
     var deb;
@@ -722,7 +818,7 @@
     // 语言切换时重渲染动态内容
     if (window.WRLang) WRLang.onChange(function () {
       if (DATA.length) { renderResults(lastResults, qEl.value.trim()); }
-      if (lastAnswer) renderAnswer();
+      renderChat(false);
     });
   }
 
@@ -738,6 +834,7 @@
       runSearch();
     },
     ask: ask,
+    newChat: newChat,
     openNote: openNoteByTitle,
     useSample: function (btn) { document.getElementById('ask-q').value = btn.textContent; ask(); }
   };
