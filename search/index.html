@@ -381,8 +381,8 @@
     var list = document.getElementById('rlist');
     if (!res.length) {
       meta.textContent = '';
-      list.innerHTML = '<div class="empty" data-en="No matching notes. Try different keywords or clear the filters.">没有匹配的笔记，换个关键词或清除筛选试试。</div>';
-      if (window.WRLang) WRLang.apply();
+      list.innerHTML = '<div class="empty">' +
+        (isEN() ? 'No matching notes. Try different keywords or clear the filters.' : '没有匹配的笔记，换个关键词或清除筛选试试。') + '</div>';
       return;
     }
     var shown = res.slice(0, MAX_RESULTS);
@@ -409,7 +409,8 @@
           '<div class="rbody" data-loaded="0"></div>' +
         '</div>';
     }).join('');
-    if (window.WRLang) WRLang.apply();
+    // 注意：不要在这里调用 WRLang.apply()——它会触发 onChange 回调再次进入 renderResults，
+    // 造成无限递归卡死。结果项已在渲染时按当前语言用 isEN()/T() 生成，无需再翻译。
   }
 
   // 展开/收起：首次展开时懒加载 kb-full.json（只拉一次、缓存），渲染该篇正文
@@ -538,7 +539,7 @@
       return '<button class="cite" onclick="WR.openNote(' + JSON.stringify(t).replace(/"/g, '&quot;') + ')">' + esc(t) + '</button>';
     }).join('');
     var citesBlock = citeBtns
-      ? '<div class="cites"><div class="lab" data-en="Based on these notes (click to open):">依据（点击查看原笔记）：</div><div class="row">' + citeBtns + '</div></div>'
+      ? '<div class="cites"><div class="lab">' + (isEN() ? 'Based on these notes (click to open):' : '依据（点击查看原笔记）：') + '</div><div class="row">' + citeBtns + '</div></div>'
       : '';
     var candLine = '<div class="cand">' +
       (isEN() ? 'Retrieved candidates: ' : '检索候选：') +
@@ -547,7 +548,7 @@
       '<div class="a-kick"><span class="dot"></span>' + (isEN() ? 'AI Answer' : 'AI 回答') + '</div>' +
       '<div class="md-body">' + renderMarkdown(lastAnswer.answer) + '</div>' +
       citesBlock + candLine + '</div>';
-    if (window.WRLang) WRLang.apply();
+    // 同样不调用 WRLang.apply()，避免 onChange → renderAnswer 递归。
   }
 
   // —————————————— 模式切换 & 初始化 ——————————————
