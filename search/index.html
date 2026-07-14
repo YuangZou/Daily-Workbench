@@ -83,6 +83,9 @@
 .md-body table{border-collapse:collapse;width:100%;margin:12px 0;font-size:12.8px;display:block;overflow-x:auto;}
 .md-body th,.md-body td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;}
 .md-body th{background:var(--soft);font-weight:600;color:var(--text);white-space:nowrap;}
+/* 正文命中高亮 */
+.md-body mark{background:rgba(79,70,229,.16);color:var(--accent);border-radius:3px;padding:0 2px;font-weight:600;}
+.md-body mark.mark-first{background:#fde68a;color:#92400e;box-shadow:0 0 0 2px rgba(245,158,11,.5);}
 
 /* AI 问答 */
 .ask-hint{font-size:12.5px;color:var(--faint);margin:0 2px 14px;line-height:1.7;}
@@ -311,6 +314,55 @@
     return out.filter(function (v, idx, a) { return a.indexOf(v) === idx; });
   }
 
+  // —————————————— 高亮：按空格分词，逐词高亮，大小写/中文都匹配 ——————————————
+  function queryWords(q) {
+    return String(q || '').trim().split(/\s+/).filter(function (w) { return w.length > 0; });
+  }
+  function escRe(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  // forEscaped=true：正则作用在已 HTML 转义的字符串上（词也要先转义，才能匹配到 &amp; 等）
+  function wordsRegex(words, forEscaped) {
+    var parts = words.map(function (w) { return escRe(forEscaped ? esc(w) : w); }).filter(Boolean);
+    if (!parts.length) return null;
+    return new RegExp('(' + parts.join('|') + ')', 'gi');
+  }
+  // 在「已转义」的纯文本片段上给命中词包 <mark>（用于摘要片段）
+  function markEscaped(escaped, words) {
+    var re = wordsRegex(words, true);
+    return re ? escaped.replace(re, '<mark>$1</mark>') : escaped;
+  }
+  // 在渲染好的 DOM 里，只对文本节点高亮命中词（不碰标签/属性），返回第一个 <mark>
+  function highlightNodes(root, words) {
+    var re = wordsRegex(words, false);
+    if (!re) return null;
+    var first = null;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (node) {
+        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        var p = node.parentNode ? node.parentNode.nodeName : '';
+        if (p === 'MARK' || p === 'SCRIPT' || p === 'STYLE' || p === 'CODE') return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var targets = [], node;
+    while ((node = walker.nextNode())) { re.lastIndex = 0; if (re.test(node.nodeValue)) targets.push(node); }
+    targets.forEach(function (n) {
+      re.lastIndex = 0;
+      var text = n.nodeValue, frag = document.createDocumentFragment(), last = 0, m;
+      while ((m = re.exec(text))) {
+        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        var mk = document.createElement('mark');
+        mk.textContent = m[0];
+        frag.appendChild(mk);
+        if (!first) { first = mk; mk.className = 'mark-first'; }
+        last = m.index + m[0].length;
+        if (re.lastIndex === m.index) re.lastIndex++; // 防零长匹配死循环
+      }
+      if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      n.parentNode.replaceChild(frag, n);
+    });
+    return first;
+  }
+
   function runSearch() {
     var q = document.getElementById('q').value.trim();
     var fb = document.getElementById('f-board').value;
@@ -348,17 +400,20 @@
   function snippet(n, q) {
     var text = n.摘要 || '';
     if (!text) return '';
-    if (!q) return esc(text.slice(0, 160)) + (text.length > 160 ? '…' : '');
+    var words = queryWords(q);
+    if (!words.length) return esc(text.slice(0, 160)) + (text.length > 160 ? '…' : '');
+    // 取窗口：定位到第一个命中词处，居中截取
     var low = text.toLowerCase();
-    var pos = low.indexOf(q.toLowerCase());
-    if (pos < 0) {
-      var ts = terms(q);
-      for (var j = 0; j < ts.length; j++) { pos = low.indexOf(ts[j]); if (pos > -1) { q = ts[j]; break; } }
+    var pos = -1;
+    words.forEach(function (w) { var p = low.indexOf(w.toLowerCase()); if (p > -1 && (pos < 0 || p < pos)) pos = p; });
+    var frag, pre = false, suf = false;
+    if (pos < 0) { frag = text.slice(0, 160); suf = text.length > 160; }
+    else {
+      var start = Math.max(0, pos - 50), end = Math.min(text.length, pos + 120);
+      frag = text.slice(start, end); pre = start > 0; suf = end < text.length;
     }
-    if (pos < 0) return esc(text.slice(0, 160)) + (text.length > 160 ? '…' : '');
-    var start = Math.max(0, pos - 50), end = Math.min(text.length, pos + 120);
-    var frag = (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
-    return esc(frag).replace(new RegExp('(' + esc(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>');
+    // 命中词全部高亮（作用在转义后的片段上）
+    return (pre ? '…' : '') + markEscaped(esc(frag), words) + (suf ? '…' : '');
   }
 
   // id → 轻索引笔记的映射，供懒加载展开时取 原文链接/标题
@@ -414,11 +469,23 @@
     var willOpen = !item.classList.contains('open');
     item.classList.toggle('open', willOpen);
     if (!willOpen) return;
+    var freshOpen = body.getAttribute('data-loaded') !== '1';
+    if (freshOpen) {
+      body.setAttribute('data-loaded', '1');
+      // 正文已随索引载入内存（byId），此处只在展开该篇时才渲染它的 Markdown（懒渲染，不在加载时渲染全部正文）
+      body.innerHTML = bodyHtml(id);
+      // 高亮正文里所有命中的关键词，并把第一个命中处滚动到视野中央
+      var words = queryWords(document.getElementById('q').value.trim());
+      var mdRoot = body.querySelector('.md-body');
+      var firstMark = (words.length && mdRoot) ? highlightNodes(mdRoot, words) : null;
+      if (firstMark) {
+        // 即时定位到第一个命中处（不用 smooth，本页环境下 smooth 会落空；不用 rAF，
+        // 后台标签页里 rAF 会被挂起不触发）。setTimeout 稳定触发，60ms 让正文布局先稳定。
+        setTimeout(function () { firstMark.scrollIntoView({ block: 'center' }); }, 60);
+        return;
+      }
+    }
     item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    if (body.getAttribute('data-loaded') === '1') return;
-    body.setAttribute('data-loaded', '1');
-    // 正文已随索引载入内存（byId），此处只在展开该篇时才渲染它的 Markdown（懒渲染，不在加载时渲染全部正文）
-    body.innerHTML = bodyHtml(id);
   }
 
   function bodyHtml(id) {
