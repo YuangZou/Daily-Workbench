@@ -520,33 +520,83 @@
     }
   }
 
-  // —————————————— 问 AI ——————————————
+  // —————————————— 问 AI：候选笔记检索 ——————————————
+  var ASK_MAX_CANDS = 8;
+
+  // 「关于什么」的字段（品种/标题/摘要）——用于判断某笔记是否真的在讲某品种，避免无关品种混入
+  function aboutText(n) { return [n.品种, n.标题, n.摘要].filter(Boolean).join(' '); }
+
+  // 机构简称匹配：问题里的「永安/中信/国君/国泰君安」等能对上笔记的机构全名
+  function instMatches(q, inst) {
+    if (!inst) return false;
+    if (q.indexOf(inst) > -1) return true;
+    // 去掉「期货/证券/建投/研究所/括注」等尾缀后的核心词
+    var core = inst.replace(/期货|证券|建投|研究(所|院)?|股份|有限公司|（[^）]*）|\([^)]*\)/g, '');
+    if (core.length >= 2 && q.indexOf(core) > -1) return true;
+    // 别名：国泰君安 <-> 国君
+    if (inst.indexOf('国泰君安') > -1 && (q.indexOf('国君') > -1 || q.indexOf('国泰君安') > -1)) return true;
+    return false;
+  }
+
   function pickCandidates(question) {
     var q = question.trim();
-    // 1) 若问题里点名了某个品种/机构，则限定其范围
-    var scoped = DATA.filter(function (n) {
-      return (n.品种 && q.indexOf(n.品种) > -1) || (n.机构 && q.indexOf(n.机构) > -1) ||
-             (n.相关品种 && String(n.相关品种).split(/[,，、\s]+/).some(function (v) { return v && q.indexOf(v) > -1; }));
-    });
-    var pool = scoped.length ? scoped : DATA;
-    // 2) 关键词重合度打分
-    var ts = terms(q);
     var qlow = q.toLowerCase();
-    pool.forEach(function (n) {
+    var words = queryWords(q); // 空格分词，含单字（如「铜」），修复单字品种不计分的漏洞
+
+    // 1) 解析问题里命中的「品种」（对照索引 品种 字段，单字也算）
+    var hitV = {};
+    DATA.forEach(function (n) { if (n.品种 && q.indexOf(n.品种) > -1) hitV[n.品种] = 1; });
+    var hasVariety = Object.keys(hitV).length > 0;
+
+    // 2) 打分
+    DATA.forEach(function (n) {
       var hay = haystack(n);
-      var sc = 0;
-      if (hay.indexOf(qlow) > -1) sc += 20;
-      ts.forEach(function (t) { if (hay.indexOf(t) > -1) sc += 1; });
-      // 标题命中加权
       var tit = (n.标题 || '').toLowerCase();
-      ts.forEach(function (t) { if (tit.indexOf(t) > -1) sc += 2; });
+      var sc = 0;
+      if (n.品种 && hitV[n.品种]) sc += 1000;              // 命中品种：极高权重（强制层）
+      if (instMatches(q, n.机构)) sc += 30;                // 机构命中：加权
+      if (qlow && hay.indexOf(qlow) > -1) sc += 15;        // 整串命中
+      words.forEach(function (w) {                          // 关键词/全文重合
+        var wl = w.toLowerCase();
+        if (hay.indexOf(wl) > -1) sc += 2;
+        if (tit.indexOf(wl) > -1) sc += 3;
+      });
+      var ab = aboutText(n);
+      Object.keys(hitV).forEach(function (v) { if (ab.indexOf(v) > -1) sc += 8; }); // 与命中品种相关
       n._as = sc;
     });
-    var ranked = pool.slice().sort(function (a, b) { return b._as - a._as || (b.日期 || '').localeCompare(a.日期 || ''); });
-    // scoped 命中即使无关键词也全带上（但最多 8 篇）；否则取有分的 top
-    var chosen = scoped.length ? ranked.slice(0, 8) : ranked.filter(function (n) { return n._as > 0; }).slice(0, 8);
-    if (!chosen.length) chosen = ranked.slice(0, 6); // 兜底：至少给几篇
-    return chosen;
+
+    var chosen = [], seen = {};
+
+    // 3) 强制纳入：命中品种的「全部机构版本」（问「铜」→ 铜_永安 + 铜_中信 + 铜_国君 全进，跨机构对比才成立）
+    if (hasVariety) {
+      var forced = DATA.filter(function (n) { return n.品种 && hitV[n.品种]; });
+      forced.sort(function (a, b) {
+        var am = instMatches(q, a.机构) ? 1 : 0, bm = instMatches(q, b.机构) ? 1 : 0;
+        return bm - am || (b.日期 || '').localeCompare(a.日期 || '');
+      });
+      forced.forEach(function (n) { if (!seen[n.id]) { seen[n.id] = 1; chosen.push(n); } });
+    }
+
+    // 4) 补足到 6-8 篇：按分数从高到低；命中品种时只补「确实与该品种相关」的（关于字段含命中品种），
+    //    不让甲醇/塑料等无关品种挤占候选位；无品种时按关键词/全文重合度补。
+    var ranked = DATA.slice().sort(function (a, b) { return b._as - a._as || (b.日期 || '').localeCompare(a.日期 || ''); });
+    for (var i = 0; i < ranked.length && chosen.length < ASK_MAX_CANDS; i++) {
+      var n = ranked[i];
+      if (seen[n.id]) continue;
+      if (hasVariety) {
+        var ab = aboutText(n);
+        var related = Object.keys(hitV).some(function (v) { return ab.indexOf(v) > -1; });
+        if (!related) continue;                            // 无关品种不补
+      } else {
+        if (n._as <= 0) continue;                          // 无品种时只补有重合度的
+      }
+      seen[n.id] = 1; chosen.push(n);
+    }
+
+    // 兜底：极冷门问题也至少给几篇
+    if (!chosen.length) chosen = ranked.slice(0, 6);
+    return chosen.slice(0, ASK_MAX_CANDS);
   }
 
   function ask() {
