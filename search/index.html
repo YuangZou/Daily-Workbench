@@ -187,11 +187,25 @@
   var T = function (zh) { return (window.WRLang && WRLang.get() === 'en') ? WRLang.t(zh) : zh; };
   var isEN = function () { return window.WRLang && WRLang.get() === 'en'; };
 
-  var DATA = [];
+  var DATA = [];              // 轻索引（kb-index.json，无正文，仅到摘要）
   var mode = 'search';
-  var openId = null;          // 当前展开的笔记 id
   var lastResults = [];       // 当前检索结果（用于语言切换重渲染）
   var lastAnswer = null;      // 最近一次 AI 回答（用于语言切换重渲染引用等）
+  var MAX_RESULTS = 30;       // 列表最多渲染条数，避免主线程卡顿
+
+  // —— 正文懒加载（kb-full.json，仅在首次展开某篇时按需拉取一次并缓存）——
+  var FULL = null;            // Map(id → 正文)
+  var fullPromise = null;
+  function loadFull() {
+    if (FULL) return Promise.resolve(FULL);
+    if (fullPromise) return fullPromise;
+    fullPromise = fetch('/data/kb-full.json').then(function (r) { return r.json(); }).then(function (arr) {
+      FULL = new Map();
+      (Array.isArray(arr) ? arr : []).forEach(function (x) { FULL.set(x.id, x.正文 || ''); });
+      return FULL;
+    });
+    return fullPromise;
+  }
 
   // 来源类型的英文标签
   var SRC_EN = { '研报': 'Report', '公众号': 'WeChat', '公众号文章': 'WeChat' };
@@ -284,9 +298,9 @@
     return '<span class="chip ' + cls + '">' + esc(T(dir)) + '</span>';
   }
 
-  // —————————————— 检索 ——————————————
+  // —————————————— 检索（只用轻索引，不含正文）——————————————
   function searchable(n) {
-    return [n.标题, n.标题, n.品种, n.品种, n.机构, n.机构, n.相关品种, n.作者, n.摘要, n.正文]
+    return [n.标题, n.标题, n.品种, n.品种, n.机构, n.机构, n.相关品种, n.作者, n.摘要]
       .filter(Boolean).join('\n');
   }
   function terms(q) {
@@ -340,22 +354,27 @@
   }
 
   function snippet(n, q) {
-    var text = n.摘要 || n.正文 || '';
+    var text = n.摘要 || '';
+    if (!text) return '';
     if (!q) return esc(text.slice(0, 160)) + (text.length > 160 ? '…' : '');
-    var full = (n.摘要 ? n.摘要 + ' ' : '') + (n.正文 || '');
-    var low = full.toLowerCase();
+    var low = text.toLowerCase();
     var pos = low.indexOf(q.toLowerCase());
     if (pos < 0) {
       var ts = terms(q);
       for (var j = 0; j < ts.length; j++) { pos = low.indexOf(ts[j]); if (pos > -1) { q = ts[j]; break; } }
     }
-    if (pos < 0) return esc(full.slice(0, 160)) + (full.length > 160 ? '…' : '');
-    var start = Math.max(0, pos - 50), end = Math.min(full.length, pos + 120);
-    var frag = (start > 0 ? '…' : '') + full.slice(start, end) + (end < full.length ? '…' : '');
-    // 高亮
-    var re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+    if (pos < 0) return esc(text.slice(0, 160)) + (text.length > 160 ? '…' : '');
+    var start = Math.max(0, pos - 50), end = Math.min(text.length, pos + 120);
+    var frag = (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
     return esc(frag).replace(new RegExp('(' + esc(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>');
   }
+
+  // id → 轻索引笔记的映射，供懒加载展开时取 原文链接/标题
+  var byId = {};
+  // id 安全传参（含斜杠/引号），用短 key 映射
+  var idMap = {};
+  function encId(id) { var k = 'k' + Object.keys(idMap).length; idMap[k] = id; return k; }
+  function cssEsc(s) { return String(s).replace(/["\\]/g, '\\$&'); }
 
   function renderResults(res, q) {
     var meta = document.getElementById('result-meta');
@@ -366,32 +385,60 @@
       if (window.WRLang) WRLang.apply();
       return;
     }
+    var shown = res.slice(0, MAX_RESULTS);
+    var more = res.length - shown.length;
     meta.innerHTML = isEN()
-      ? (res.length + ' notes' + (q ? ' · keyword “' + esc(q) + '”' : ''))
-      : ('共 ' + res.length + ' 篇' + (q ? ' · 关键词「' + esc(q) + '」' : ''));
+      ? (res.length + ' notes' + (more > 0 ? ' · showing first ' + MAX_RESULTS : '') + (q ? ' · keyword “' + esc(q) + '”' : ''))
+      : ('共 ' + res.length + ' 篇' + (more > 0 ? ' · 显示前 ' + MAX_RESULTS + ' 条' : '') + (q ? ' · 关键词「' + esc(q) + '」' : ''));
 
-    list.innerHTML = res.map(function (n) {
+    // 只渲染标题+标签+摘要，不含任何正文（正文点开时懒加载）
+    list.innerHTML = shown.map(function (n) {
       var tags = [];
       if (n.机构) tags.push('<span class="tag">' + esc(T(n.机构)) + '</span>');
       if (n.日期) tags.push('<span class="tag">' + esc(n.日期) + '</span>');
       if (n.板块) tags.push('<span class="chip">' + esc(T(n.板块)) + '</span>');
       if (n.来源类型) tags.push('<span class="chip src">' + esc(srcLabel(n.来源类型)) + '</span>');
       if (n.方向) tags.push(dirChip(n.方向));
-      var open = (openId === n.id);
-      return '<div class="ritem' + (open ? ' open' : '') + '" data-id="' + esc(n.id) + '">' +
+      var snip = snippet(n, q);
+      return '<div class="ritem" data-id="' + esc(n.id) + '">' +
           '<div class="rhead" onclick="WR.toggle(\'' + encId(n.id) + '\')">' +
             '<div class="rtitle"><span class="caret"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>' + esc(n.标题 || '(无标题)') + '</div>' +
             '<div class="rtags">' + tags.join('<span class="sep">·</span>') + '</div>' +
-            '<div class="rsnip">' + snippet(n, q) + '</div>' +
+            (snip ? '<div class="rsnip">' + snip + '</div>' : '') +
           '</div>' +
-          '<div class="rbody">' + (open ? bodyHtml(n) : '') + '</div>' +
+          '<div class="rbody" data-loaded="0"></div>' +
         '</div>';
     }).join('');
     if (window.WRLang) WRLang.apply();
   }
 
-  function bodyHtml(n) {
-    var h = '<div class="md-body">' + renderMarkdown(n.正文 || (isEN() ? '_No full text._' : '_暂无正文。_')) + '</div>';
+  // 展开/收起：首次展开时懒加载 kb-full.json（只拉一次、缓存），渲染该篇正文
+  function toggle(key) {
+    var id = idMap[key] || key;
+    var item = document.querySelector('.ritem[data-id="' + cssEsc(id) + '"]');
+    if (!item) return;
+    var body = item.querySelector('.rbody');
+    var willOpen = !item.classList.contains('open');
+    item.classList.toggle('open', willOpen);
+    if (!willOpen) return;
+    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (body.getAttribute('data-loaded') === '1') return;
+    body.setAttribute('data-loaded', '1');
+    body.innerHTML = '<div class="md-body" style="color:var(--faint)"><span class="spinner"></span> ' +
+      (isEN() ? 'Loading…' : '正在加载正文…') + '</div>';
+    loadFull().then(function (map) {
+      // 展开期间可能已切语言/重渲染，重新定位 body
+      var cur = document.querySelector('.ritem[data-id="' + cssEsc(id) + '"] .rbody');
+      if (cur) cur.innerHTML = bodyHtml(id, map.get(id));
+    }).catch(function () {
+      body.setAttribute('data-loaded', '0');
+      body.innerHTML = '<div class="err">' + (isEN() ? 'Failed to load full text.' : '正文加载失败，请重试。') + '</div>';
+    });
+  }
+
+  function bodyHtml(id, fulltext) {
+    var n = byId[id] || {};
+    var h = '<div class="md-body">' + renderMarkdown(fulltext || (isEN() ? '_No full text._' : '_暂无正文。_')) + '</div>';
     if (n.原文链接) {
       h += '<div class="linkrow"><a href="' + esc(n.原文链接) + '" target="_blank" rel="noopener">' +
         '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>' +
@@ -399,22 +446,6 @@
     }
     return h;
   }
-
-  // id 里可能含引号/斜杠，做安全传参
-  var idMap = {};
-  function encId(id) { var k = 'k' + Object.keys(idMap).length; idMap[k] = id; return k; }
-
-  function toggle(key) {
-    var id = idMap[key] || key;
-    openId = (openId === id) ? null : id;
-    // 只重渲染受影响项：简单起见整体重渲染当前结果
-    renderResults(lastResults, document.getElementById('q').value.trim());
-    if (openId) {
-      var el = document.querySelector('.ritem[data-id="' + cssEsc(id) + '"]');
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  }
-  function cssEsc(s) { return String(s).replace(/["\\]/g, '\\$&'); }
 
   // 从引用/外部打开某篇笔记：切到检索、清筛选、按标题定位并展开
   function openNoteByTitle(title) {
@@ -425,12 +456,14 @@
     document.getElementById('f-board').value = '';
     document.getElementById('f-src').value = '';
     document.getElementById('f-pv').value = '';
-    openId = n ? n.id : null;
     runSearch();
     if (n) {
       setTimeout(function () {
-        var el = document.querySelector('.ritem[data-id="' + cssEsc(n.id) + '"]');
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        var item = document.querySelector('.ritem[data-id="' + cssEsc(n.id) + '"]');
+        if (item) {
+          item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          if (!item.classList.contains('open')) item.querySelector('.rhead').click();
+        }
       }, 60);
     }
   }
@@ -477,16 +510,13 @@
     out.innerHTML = '<div class="answer"><div class="a-kick"><span class="spinner"></span>' +
       (isEN() ? 'AI is reading ' + cands.length + ' notes…' : 'AI 正在阅读 ' + cands.length + ' 篇相关笔记…') + '</div></div>';
 
-    var notes = cands.map(function (n) {
-      var body = String(n.正文 || n.摘要 || '');
-      if (body.length > 4000) body = body.slice(0, 4000) + '…';
-      return { 标题: n.标题, 机构: n.机构, 日期: n.日期, 板块: n.板块, 正文: body };
-    });
+    // 只把候选笔记的 id 传给 worker；正文由 worker 端从 kb-full.json 按 id 取，不下发前端
+    var ids = cands.map(function (n) { return n.id; });
 
     fetch('/api/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: q, notes: notes })
+      body: JSON.stringify({ question: q, ids: ids })
     }).then(function (r) {
       return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
     }).then(function (r) {
@@ -569,6 +599,7 @@
   function boot() {
     fetch('/data/kb-index.json').then(function (r) { return r.json(); }).then(function (d) {
       DATA = Array.isArray(d) ? d : [];
+      DATA.forEach(function (n) { byId[n.id] = n; });
       initFilters();
       initSamples();
       runSearch();
@@ -580,7 +611,7 @@
     // 事件绑定
     var qEl = document.getElementById('q');
     var deb;
-    qEl.addEventListener('input', function () { clearTimeout(deb); deb = setTimeout(runSearch, 160); });
+    qEl.addEventListener('input', function () { clearTimeout(deb); deb = setTimeout(runSearch, 200); });
     ['f-board', 'f-src', 'f-pv'].forEach(function (id) {
       document.getElementById(id).addEventListener('change', runSearch);
     });
