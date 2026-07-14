@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="Search &amp; AI · Research Workbench">检索问答 · 研究工作台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+/* —— 检索问答页专属样式（沿用 site.css 变量） —— */
+.modebar{display:inline-flex;background:var(--line2,#eef0f5);border-radius:10px;padding:3px;margin:6px 0 18px;}
+.modebar button{border:0;background:none;padding:8px 20px;border-radius:8px;font-size:14px;font-weight:600;
+  color:var(--faint);cursor:pointer;font-family:inherit;transition:all .15s;}
+.modebar button:hover{color:var(--accent);}
+.modebar button.active{background:#fff;color:var(--accent);box-shadow:0 1px 2px rgba(17,24,39,.10);}
+
+.searchbox{display:flex;gap:10px;align-items:stretch;margin-bottom:14px;flex-wrap:wrap;}
+.searchbox .field{flex:1;min-width:240px;display:flex;align-items:center;gap:9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:11px;padding:0 14px;transition:border-color .15s,box-shadow .15s;}
+.searchbox .field:focus-within{border-color:rgba(79,70,229,.5);box-shadow:0 0 0 3px rgba(79,70,229,.10);}
+.searchbox .field svg{width:18px;height:18px;color:var(--faint);flex:none;}
+.searchbox input{flex:1;border:0;outline:0;background:none;font-family:inherit;font-size:15px;color:var(--text);
+  padding:13px 0;line-height:1.4;}
+.searchbox input::placeholder{color:var(--faint);}
+.btn-primary{border:0;background:var(--accent);color:#fff;font-family:inherit;font-size:14.5px;font-weight:600;
+  padding:0 22px;border-radius:11px;cursor:pointer;transition:filter .15s,opacity .15s;white-space:nowrap;}
+.btn-primary:hover{filter:brightness(1.06);}
+.btn-primary:disabled{opacity:.55;cursor:not-allowed;}
+
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
+.filters select{appearance:none;-webkit-appearance:none;background:var(--panel)
+  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>")
+  no-repeat right 11px center;
+  border:1px solid var(--line);border-radius:9px;padding:8px 30px 8px 12px;font-family:inherit;font-size:13px;
+  color:var(--text);cursor:pointer;max-width:240px;}
+.filters select:focus{outline:0;border-color:rgba(79,70,229,.5);}
+.filters .clear{background:none;border:0;color:var(--faint);font-family:inherit;font-size:12.5px;cursor:pointer;padding:8px 4px;}
+.filters .clear:hover{color:var(--accent);}
+
+.result-meta{font-size:12.5px;color:var(--faint);margin:14px 2px 12px;}
+
+/* 结果列表 */
+.rlist{display:flex;flex-direction:column;gap:11px;}
+.ritem{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:border-color .15s,box-shadow .15s;}
+.ritem:hover{border-color:rgba(79,70,229,.35);box-shadow:0 6px 18px rgba(17,24,39,.05);}
+.ritem.open{border-color:rgba(79,70,229,.45);}
+.rhead{padding:15px 18px;cursor:pointer;}
+.rtitle{font-size:15.5px;font-weight:600;color:var(--text);line-height:1.45;display:flex;align-items:flex-start;gap:8px;}
+.rtitle .caret{flex:none;margin-top:3px;transition:transform .18s;color:var(--faint);}
+.ritem.open .rtitle .caret{transform:rotate(90deg);color:var(--accent);}
+.rtags{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:9px 0 0 22px;font-size:12px;color:var(--sub);}
+.rtags .tag{display:inline-flex;align-items:center;gap:4px;}
+.rtags .sep{color:var(--line);}
+.chip{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;background:var(--soft);color:var(--accent);}
+.chip.src{background:#f3f4f6;color:var(--sub);}
+.chip.dir-up{background:#fdecec;color:var(--red);}
+.chip.dir-down{background:var(--green-bg);color:var(--green);}
+.chip.dir-flat{background:#fff7ed;color:var(--amber);}
+.rsnip{font-size:13px;color:var(--sub);line-height:1.65;margin:10px 0 0 22px;}
+.rsnip mark{background:rgba(79,70,229,.16);color:var(--accent);border-radius:3px;padding:0 2px;font-weight:600;}
+.rbody{border-top:1px solid var(--line2);padding:4px 22px 20px;display:none;}
+.ritem.open .rbody{display:block;}
+.rbody .linkrow{margin:14px 0 2px;}
+.rbody .linkrow a{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--accent);}
+.rbody .linkrow a:hover{text-decoration:underline;}
+
+/* markdown 正文 */
+.md-body{font-size:14px;line-height:1.8;color:#374151;padding-top:8px;}
+.md-body h1{font-size:19px;font-weight:700;margin:18px 0 10px;color:var(--text);}
+.md-body h2{font-size:16.5px;font-weight:700;margin:20px 0 9px;color:var(--text);padding-bottom:5px;border-bottom:1px solid var(--line2);}
+.md-body h3{font-size:14.5px;font-weight:700;margin:15px 0 7px;color:var(--text);}
+.md-body h4{font-size:13.5px;font-weight:700;margin:13px 0 6px;color:var(--sub);}
+.md-body p{margin:9px 0;}
+.md-body ul,.md-body ol{margin:8px 0 8px 22px;}
+.md-body li{margin:4px 0;}
+.md-body strong{font-weight:700;color:var(--text);}
+.md-body code{font-family:var(--mono);font-size:12.5px;background:var(--soft);border-radius:4px;padding:1px 5px;}
+.md-body blockquote{border-left:3px solid var(--accent);background:var(--soft);border-radius:0 8px 8px 0;
+  padding:8px 14px;margin:12px 0;color:var(--sub);}
+.md-body a{color:var(--accent);}.md-body a:hover{text-decoration:underline;}
+.md-body hr{border:0;border-top:1px solid var(--line);margin:16px 0;}
+.md-body table{border-collapse:collapse;width:100%;margin:12px 0;font-size:12.8px;display:block;overflow-x:auto;}
+.md-body th,.md-body td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;}
+.md-body th{background:var(--soft);font-weight:600;color:var(--text);white-space:nowrap;}
+
+/* AI 问答 */
+.ask-hint{font-size:12.5px;color:var(--faint);margin:0 2px 14px;line-height:1.7;}
+.ask-samples{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 20px;}
+.ask-samples button{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:6px 14px;
+  font-family:inherit;font-size:12.5px;color:var(--sub);cursor:pointer;transition:all .15s;}
+.ask-samples button:hover{border-color:rgba(79,70,229,.4);color:var(--accent);}
+.answer{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-top:6px;}
+.answer .a-kick{font-size:11px;font-weight:700;letter-spacing:1.2px;color:var(--accent);text-transform:uppercase;
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.answer .a-kick .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+.cites{margin-top:16px;padding-top:14px;border-top:1px solid var(--line2);}
+.cites .lab{font-size:11.5px;font-weight:600;color:var(--faint);letter-spacing:.4px;margin-bottom:8px;}
+.cites .row{display:flex;flex-wrap:wrap;gap:8px;}
+.cite{background:var(--soft);border:1px solid rgba(79,70,229,.15);border-radius:8px;padding:6px 12px;
+  font-family:inherit;font-size:12.5px;font-weight:500;color:var(--accent);cursor:pointer;text-align:left;transition:all .15s;}
+.cite:hover{background:var(--accent);color:#fff;}
+.cand{font-size:12px;color:var(--faint);margin-top:14px;line-height:1.7;}
+
+.spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;
+  border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;}
+.answer .spinner{border:2px solid var(--soft);border-top-color:var(--accent);}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.empty{text-align:center;color:var(--faint);font-size:13.5px;padding:50px 20px;line-height:1.8;}
+.err{background:#fdecec;border:1px solid rgba(220,38,38,.25);color:var(--red);border-radius:10px;padding:12px 16px;font-size:13px;margin-top:8px;}
+.hide{display:none !important;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="../">
+    <span class="nav-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span>
+    <b>研究工作台</b>
+  </a>
+  <div class="nav-links">
+    <a href="../macro/">宏观</a>
+    <a href="../fundamentals/">工业品基本面</a>
+    <a href="../capital/">资金分析</a>
+    <a href="../sentiment/">舆情分析</a>
+    <a href="../knowledge/">知识库</a>
+    <a href="../search/" class="active">检索问答</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn" data-lang="zh" type="button" onclick="WRLang.set('zh')">中</button>
+    <button class="lang-btn" data-lang="en" type="button" onclick="WRLang.set('en')">EN</button>
+  </div>
+  <span class="nav-status"><span class="dot"></span>数据截至 2026-07-14</span>
+</nav>
+
+<div class="wrap">
+  <div class="crumb" data-en="<a href='../'>Research Workbench</a> · <a href='../knowledge/'>Knowledge Base</a> · Search &amp; AI"><a href="../">研究工作台</a> · <a href="../knowledge/">知识库</a> · 检索问答</div>
+  <div class="sec-head">
+    <h1 data-en="Search &amp; AI Q&amp;A">知识库检索 · AI 问答</h1>
+    <div class="sub" data-en="Full-text search across all research notes, or ask the AI — every answer cites the notes it draws from.">全库研究笔记检索，或直接问 AI —— 每个回答都标注引用了哪几篇笔记。</div>
+  </div>
+
+  <div class="modebar" role="tablist">
+    <button id="tab-search" class="active" type="button" onclick="WR.setMode('search')" data-en="Search">检索</button>
+    <button id="tab-ask" type="button" onclick="WR.setMode('ask')" data-en="Ask AI">问 AI</button>
+  </div>
+
+  <!-- ————— 检索模式 ————— -->
+  <section id="pane-search">
+    <div class="searchbox">
+      <label class="field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="q" type="search" placeholder="搜索标题、品种、机构、摘要、正文…" data-ph-en="Search titles, varieties, institutions, summaries, full text…" autocomplete="off">
+      </label>
+    </div>
+    <div class="filters">
+      <select id="f-board"><option value="" data-en="All sections">全部板块</option></select>
+      <select id="f-src"><option value="" data-en="All sources">全部来源</option></select>
+      <select id="f-pv"><option value="" data-en="All varieties / institutions">全部品种·机构</option></select>
+      <button class="clear" type="button" onclick="WR.clearFilters()" data-en="Reset">重置</button>
+    </div>
+    <div id="result-meta" class="result-meta"></div>
+    <div id="rlist" class="rlist"></div>
+  </section>
+
+  <!-- ————— 问 AI 模式 ————— -->
+  <section id="pane-ask" class="hide">
+    <div class="searchbox">
+      <label class="field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 1 0 18c-1.4 0-2.7-.3-3.9-.9L3 21l1.9-5.1A9 9 0 0 1 12 3z"/></svg>
+        <input id="ask-q" type="text" placeholder="问一个问题，例如：铜的核心矛盾是什么？" data-ph-en="Ask a question, e.g.: What is the key contradiction for copper?" autocomplete="off">
+      </label>
+      <button id="ask-btn" class="btn-primary" type="button" onclick="WR.ask()" data-en="Ask">提问</button>
+    </div>
+    <div class="ask-hint" data-en="The AI answers only from the knowledge base: it first retrieves the 6–8 most relevant notes for your question, then reasons over them and cites the notes it used. If the knowledge base doesn't cover it, it will say so.">AI 只依据知识库作答：先检索与问题最相关的 6–8 篇笔记，再据此推理并标注引用来源；知识库没有就直说没有、不编造。</div>
+    <div class="ask-samples" id="ask-samples"></div>
+    <div id="ask-out"></div>
+  </section>
+
+  <div class="foot" data-en="Research Workbench · Search &amp; AI Q&amp;A. Answers are generated from internal research notes for reference only and do not constitute investment advice.">研究工作台 · 检索问答。回答由内部研究笔记生成，仅供研究参考，不构成投资建议。</div>
+</div>
+
+<script src="../assets/i18n.js"></script>
+<script>
+(function () {
+  var T = function (zh) { return (window.WRLang && WRLang.get() === 'en') ? WRLang.t(zh) : zh; };
+  var isEN = function () { return window.WRLang && WRLang.get() === 'en'; };
+
+  var DATA = [];
+  var mode = 'search';
+  var openId = null;          // 当前展开的笔记 id
+  var lastResults = [];       // 当前检索结果（用于语言切换重渲染）
+  var lastAnswer = null;      // 最近一次 AI 回答（用于语言切换重渲染引用等）
+
+  // 来源类型的英文标签
+  var SRC_EN = { '研报': 'Report', '公众号': 'WeChat', '公众号文章': 'WeChat' };
+  function srcLabel(s) { return isEN() ? (SRC_EN[s] || s) : s; }
+
+  // —————————————— 轻量 Markdown 渲染 ——————————————
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function inline(s) {
+    // 先转义，再还原受控的行内语法
+    s = esc(s);
+    s = s.replace(/`([^`]+)`/g, function (_, c) { return '<code>' + c + '</code>'; });
+    s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (_, txt, url) {
+      var u = url.replace(/"/g, '%22');
+      return '<a href="' + u + '" target="_blank" rel="noopener">' + txt + '</a>';
+    });
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
+    return s;
+  }
+  function renderMarkdown(md) {
+    if (!md) return '';
+    var lines = String(md).replace(/\r\n/g, '\n').split('\n');
+    var html = '', i = 0;
+    function flushList(tag, items) {
+      html += '<' + tag + '>' + items.map(function (x) { return '<li>' + inline(x) + '</li>'; }).join('') + '</' + tag + '>';
+    }
+    while (i < lines.length) {
+      var line = lines[i];
+      var t = line.trim();
+      if (!t) { i++; continue; }
+      // 表格：连续以 | 开头的行
+      if (/^\|(.+)\|\s*$/.test(t) && i + 1 < lines.length && /^\|?[\s:|-]+\|?\s*$/.test(lines[i + 1].trim()) && lines[i + 1].indexOf('-') > -1) {
+        var head = t.replace(/^\||\|$/g, '').split('|').map(function (c) { return c.trim(); });
+        i += 2;
+        var rows = [];
+        while (i < lines.length && /^\|(.+)\|\s*$/.test(lines[i].trim())) {
+          rows.push(lines[i].trim().replace(/^\||\|$/g, '').split('|').map(function (c) { return c.trim(); }));
+          i++;
+        }
+        html += '<table><thead><tr>' + head.map(function (h) { return '<th>' + inline(h) + '</th>'; }).join('') + '</tr></thead><tbody>';
+        html += rows.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + inline(c) + '</td>'; }).join('') + '</tr>'; }).join('');
+        html += '</tbody></table>';
+        continue;
+      }
+      // 标题
+      var h = /^(#{1,6})\s+(.*)$/.exec(t);
+      if (h) { var lv = h[1].length; html += '<h' + lv + '>' + inline(h[2]) + '</h' + lv + '>'; i++; continue; }
+      // 分隔线
+      if (/^(-{3,}|\*{3,}|_{3,})$/.test(t)) { html += '<hr>'; i++; continue; }
+      // 引用块
+      if (/^>\s?/.test(t)) {
+        var quote = [];
+        while (i < lines.length && /^>\s?/.test(lines[i].trim())) { quote.push(lines[i].trim().replace(/^>\s?/, '')); i++; }
+        html += '<blockquote>' + inline(quote.join(' ')) + '</blockquote>';
+        continue;
+      }
+      // 无序列表
+      if (/^[-*+]\s+/.test(t)) {
+        var ul = [];
+        while (i < lines.length && /^[-*+]\s+/.test(lines[i].trim())) { ul.push(lines[i].trim().replace(/^[-*+]\s+/, '')); i++; }
+        flushList('ul', ul);
+        continue;
+      }
+      // 有序列表
+      if (/^\d+[.)]\s+/.test(t)) {
+        var ol = [];
+        while (i < lines.length && /^\d+[.)]\s+/.test(lines[i].trim())) { ol.push(lines[i].trim().replace(/^\d+[.)]\s+/, '')); i++; }
+        flushList('ol', ol);
+        continue;
+      }
+      // 段落（合并连续非空、非特殊行）
+      var para = [t]; i++;
+      while (i < lines.length) {
+        var nt = lines[i].trim();
+        if (!nt || /^(#{1,6}\s|[-*+]\s|\d+[.)]\s|>\s?|\|)/.test(nt) || /^(-{3,}|\*{3,}|_{3,})$/.test(nt)) break;
+        para.push(nt); i++;
+      }
+      html += '<p>' + inline(para.join(' ')) + '</p>';
+    }
+    return html;
+  }
+
+  // —————————————— 方向 → chip 类 ——————————————
+  function dirChip(dir) {
+    if (!dir) return '';
+    var up = /多|涨|强|升/.test(dir), down = /空|跌|弱|降/.test(dir);
+    var cls = up ? 'dir-up' : down ? 'dir-down' : 'dir-flat';
+    return '<span class="chip ' + cls + '">' + esc(T(dir)) + '</span>';
+  }
+
+  // —————————————— 检索 ——————————————
+  function searchable(n) {
+    return [n.标题, n.标题, n.品种, n.品种, n.机构, n.机构, n.相关品种, n.作者, n.摘要, n.正文]
+      .filter(Boolean).join('\n');
+  }
+  function terms(q) {
+    q = String(q || '').trim();
+    if (!q) return [];
+    var out = [];
+    // 英文/数字词
+    (q.match(/[A-Za-z0-9]+/g) || []).forEach(function (w) { if (w.length > 1) out.push(w.toLowerCase()); });
+    // 中文：整段 + 2~3 字 n-gram
+    var cjk = q.match(/[一-龥]{2,}/g) || [];
+    cjk.forEach(function (seg) {
+      out.push(seg);
+      if (seg.length > 3) for (var k = 0; k < seg.length - 1; k++) out.push(seg.substr(k, 2));
+    });
+    // 去重
+    return out.filter(function (v, idx, a) { return a.indexOf(v) === idx; });
+  }
+
+  function runSearch() {
+    var q = document.getElementById('q').value.trim();
+    var fb = document.getElementById('f-board').value;
+    var fs = document.getElementById('f-src').value;
+    var fp = document.getElementById('f-pv').value;
+    var ts = terms(q);
+    var qlow = q.toLowerCase();
+
+    var res = DATA.filter(function (n) {
+      if (fb && n.板块 !== fb) return false;
+      if (fs && n.来源类型 !== fs) return false;
+      if (fp && n.品种 !== fp && n.机构 !== fp) return false;
+      if (!q) return true;
+      var hay = searchable(n).toLowerCase();
+      if (hay.indexOf(qlow) > -1) return true;              // 整串命中
+      return ts.every(function (t) { return hay.indexOf(t) > -1; }); // 或所有词各自命中
+    });
+
+    // 排序：有关键词按命中次数，否则按日期倒序
+    if (q) {
+      res.forEach(function (n) {
+        var hay = searchable(n).toLowerCase();
+        var sc = hay.indexOf(qlow) > -1 ? 100 : 0;
+        ts.forEach(function (t) { var m = hay.split(t).length - 1; sc += m; });
+        n._sc = sc;
+      });
+      res.sort(function (a, b) { return b._sc - a._sc || (b.日期 || '').localeCompare(a.日期 || ''); });
+    } else {
+      res.sort(function (a, b) { return (b.日期 || '').localeCompare(a.日期 || ''); });
+    }
+    lastResults = res;
+    renderResults(res, q);
+  }
+
+  function snippet(n, q) {
+    var text = n.摘要 || n.正文 || '';
+    if (!q) return esc(text.slice(0, 160)) + (text.length > 160 ? '…' : '');
+    var full = (n.摘要 ? n.摘要 + ' ' : '') + (n.正文 || '');
+    var low = full.toLowerCase();
+    var pos = low.indexOf(q.toLowerCase());
+    if (pos < 0) {
+      var ts = terms(q);
+      for (var j = 0; j < ts.length; j++) { pos = low.indexOf(ts[j]); if (pos > -1) { q = ts[j]; break; } }
+    }
+    if (pos < 0) return esc(full.slice(0, 160)) + (full.length > 160 ? '…' : '');
+    var start = Math.max(0, pos - 50), end = Math.min(full.length, pos + 120);
+    var frag = (start > 0 ? '…' : '') + full.slice(start, end) + (end < full.length ? '…' : '');
+    // 高亮
+    var re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+    return esc(frag).replace(new RegExp('(' + esc(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>');
+  }
+
+  function renderResults(res, q) {
+    var meta = document.getElementById('result-meta');
+    var list = document.getElementById('rlist');
+    if (!res.length) {
+      meta.textContent = '';
+      list.innerHTML = '<div class="empty" data-en="No matching notes. Try different keywords or clear the filters.">没有匹配的笔记，换个关键词或清除筛选试试。</div>';
+      if (window.WRLang) WRLang.apply();
+      return;
+    }
+    meta.innerHTML = isEN()
+      ? (res.length + ' notes' + (q ? ' · keyword “' + esc(q) + '”' : ''))
+      : ('共 ' + res.length + ' 篇' + (q ? ' · 关键词「' + esc(q) + '」' : ''));
+
+    list.innerHTML = res.map(function (n) {
+      var tags = [];
+      if (n.机构) tags.push('<span class="tag">' + esc(T(n.机构)) + '</span>');
+      if (n.日期) tags.push('<span class="tag">' + esc(n.日期) + '</span>');
+      if (n.板块) tags.push('<span class="chip">' + esc(T(n.板块)) + '</span>');
+      if (n.来源类型) tags.push('<span class="chip src">' + esc(srcLabel(n.来源类型)) + '</span>');
+      if (n.方向) tags.push(dirChip(n.方向));
+      var open = (openId === n.id);
+      return '<div class="ritem' + (open ? ' open' : '') + '" data-id="' + esc(n.id) + '">' +
+          '<div class="rhead" onclick="WR.toggle(\'' + encId(n.id) + '\')">' +
+            '<div class="rtitle"><span class="caret"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>' + esc(n.标题 || '(无标题)') + '</div>' +
+            '<div class="rtags">' + tags.join('<span class="sep">·</span>') + '</div>' +
+            '<div class="rsnip">' + snippet(n, q) + '</div>' +
+          '</div>' +
+          '<div class="rbody">' + (open ? bodyHtml(n) : '') + '</div>' +
+        '</div>';
+    }).join('');
+    if (window.WRLang) WRLang.apply();
+  }
+
+  function bodyHtml(n) {
+    var h = '<div class="md-body">' + renderMarkdown(n.正文 || (isEN() ? '_No full text._' : '_暂无正文。_')) + '</div>';
+    if (n.原文链接) {
+      h += '<div class="linkrow"><a href="' + esc(n.原文链接) + '" target="_blank" rel="noopener">' +
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>' +
+        (isEN() ? 'Original article' : '原文链接') + '</a></div>';
+    }
+    return h;
+  }
+
+  // id 里可能含引号/斜杠，做安全传参
+  var idMap = {};
+  function encId(id) { var k = 'k' + Object.keys(idMap).length; idMap[k] = id; return k; }
+
+  function toggle(key) {
+    var id = idMap[key] || key;
+    openId = (openId === id) ? null : id;
+    // 只重渲染受影响项：简单起见整体重渲染当前结果
+    renderResults(lastResults, document.getElementById('q').value.trim());
+    if (openId) {
+      var el = document.querySelector('.ritem[data-id="' + cssEsc(id) + '"]');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+  function cssEsc(s) { return String(s).replace(/["\\]/g, '\\$&'); }
+
+  // 从引用/外部打开某篇笔记：切到检索、清筛选、按标题定位并展开
+  function openNoteByTitle(title) {
+    var n = DATA.find(function (x) { return x.标题 === title; }) ||
+            DATA.find(function (x) { return (x.标题 || '').indexOf(title) > -1 || title.indexOf(x.标题 || '') > -1; });
+    setMode('search');
+    document.getElementById('q').value = '';
+    document.getElementById('f-board').value = '';
+    document.getElementById('f-src').value = '';
+    document.getElementById('f-pv').value = '';
+    openId = n ? n.id : null;
+    runSearch();
+    if (n) {
+      setTimeout(function () {
+        var el = document.querySelector('.ritem[data-id="' + cssEsc(n.id) + '"]');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 60);
+    }
+  }
+
+  // —————————————— 问 AI ——————————————
+  function pickCandidates(question) {
+    var q = question.trim();
+    // 1) 若问题里点名了某个品种/机构，则限定其范围
+    var scoped = DATA.filter(function (n) {
+      return (n.品种 && q.indexOf(n.品种) > -1) || (n.机构 && q.indexOf(n.机构) > -1) ||
+             (n.相关品种 && String(n.相关品种).split(/[,，、\s]+/).some(function (v) { return v && q.indexOf(v) > -1; }));
+    });
+    var pool = scoped.length ? scoped : DATA;
+    // 2) 关键词重合度打分
+    var ts = terms(q);
+    var qlow = q.toLowerCase();
+    pool.forEach(function (n) {
+      var hay = searchable(n).toLowerCase();
+      var sc = 0;
+      if (hay.indexOf(qlow) > -1) sc += 20;
+      ts.forEach(function (t) { if (hay.indexOf(t) > -1) sc += 1; });
+      // 标题命中加权
+      var tit = (n.标题 || '').toLowerCase();
+      ts.forEach(function (t) { if (tit.indexOf(t) > -1) sc += 2; });
+      n._as = sc;
+    });
+    var ranked = pool.slice().sort(function (a, b) { return b._as - a._as || (b.日期 || '').localeCompare(a.日期 || ''); });
+    // scoped 命中即使无关键词也全带上（但最多 8 篇）；否则取有分的 top
+    var chosen = scoped.length ? ranked.slice(0, 8) : ranked.filter(function (n) { return n._as > 0; }).slice(0, 8);
+    if (!chosen.length) chosen = ranked.slice(0, 6); // 兜底：至少给几篇
+    return chosen;
+  }
+
+  function ask() {
+    var q = document.getElementById('ask-q').value.trim();
+    var out = document.getElementById('ask-out');
+    var btn = document.getElementById('ask-btn');
+    if (!q) { document.getElementById('ask-q').focus(); return; }
+
+    var cands = pickCandidates(q);
+    lastAnswer = null;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>';
+    out.innerHTML = '<div class="answer"><div class="a-kick"><span class="spinner"></span>' +
+      (isEN() ? 'AI is reading ' + cands.length + ' notes…' : 'AI 正在阅读 ' + cands.length + ' 篇相关笔记…') + '</div></div>';
+
+    var notes = cands.map(function (n) {
+      var body = String(n.正文 || n.摘要 || '');
+      if (body.length > 4000) body = body.slice(0, 4000) + '…';
+      return { 标题: n.标题, 机构: n.机构, 日期: n.日期, 板块: n.板块, 正文: body };
+    });
+
+    fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: q, notes: notes })
+    }).then(function (r) {
+      return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
+    }).then(function (r) {
+      if (!r.ok) throw new Error(r.j && r.j.error ? r.j.error : ('HTTP ' + r.status));
+      lastAnswer = { answer: r.j.answer || '', cites: r.j['引用标题'] || [], cands: cands.map(function (n) { return n.标题; }) };
+      renderAnswer();
+    }).catch(function (e) {
+      out.innerHTML = '<div class="err">' + (isEN() ? 'Request failed: ' : '请求失败：') + esc(e.message || String(e)) + '</div>';
+    }).then(function () {
+      btn.disabled = false;
+      btn.innerHTML = isEN() ? 'Ask' : '提问';
+    });
+  }
+
+  function renderAnswer() {
+    if (!lastAnswer) return;
+    var out = document.getElementById('ask-out');
+    var citeBtns = (lastAnswer.cites || []).map(function (t) {
+      return '<button class="cite" onclick="WR.openNote(' + JSON.stringify(t).replace(/"/g, '&quot;') + ')">' + esc(t) + '</button>';
+    }).join('');
+    var citesBlock = citeBtns
+      ? '<div class="cites"><div class="lab" data-en="Based on these notes (click to open):">依据（点击查看原笔记）：</div><div class="row">' + citeBtns + '</div></div>'
+      : '';
+    var candLine = '<div class="cand">' +
+      (isEN() ? 'Retrieved candidates: ' : '检索候选：') +
+      lastAnswer.cands.map(function (t) { return esc(t); }).join(' · ') + '</div>';
+    out.innerHTML = '<div class="answer">' +
+      '<div class="a-kick"><span class="dot"></span>' + (isEN() ? 'AI Answer' : 'AI 回答') + '</div>' +
+      '<div class="md-body">' + renderMarkdown(lastAnswer.answer) + '</div>' +
+      citesBlock + candLine + '</div>';
+    if (window.WRLang) WRLang.apply();
+  }
+
+  // —————————————— 模式切换 & 初始化 ——————————————
+  function setMode(m) {
+    mode = m;
+    document.getElementById('tab-search').classList.toggle('active', m === 'search');
+    document.getElementById('tab-ask').classList.toggle('active', m === 'ask');
+    document.getElementById('pane-search').classList.toggle('hide', m !== 'search');
+    document.getElementById('pane-ask').classList.toggle('hide', m !== 'ask');
+  }
+
+  function fillSelect(id, values, allZh) {
+    var sel = document.getElementById(id);
+    values.forEach(function (v) {
+      var o = document.createElement('option'); o.value = v; o.textContent = v; o.setAttribute('data-en', v);
+      sel.appendChild(o);
+    });
+  }
+
+  function initFilters() {
+    var boards = {}, srcs = {}, pv = {};
+    DATA.forEach(function (n) {
+      if (n.板块) boards[n.板块] = 1;
+      if (n.来源类型) srcs[n.来源类型] = 1;
+      if (n.品种) pv[n.品种] = 1;
+      if (n.机构) pv[n.机构] = 1;
+    });
+    fillSelect('f-board', Object.keys(boards).sort());
+    // 来源类型：中文值，label 用 data-en 映射
+    var sSel = document.getElementById('f-src');
+    Object.keys(srcs).sort().forEach(function (v) {
+      var o = document.createElement('option'); o.value = v; o.textContent = v;
+      if (SRC_EN[v]) o.setAttribute('data-en', SRC_EN[v]);
+      sSel.appendChild(o);
+    });
+    fillSelect('f-pv', Object.keys(pv).sort(function (a, b) { return a.localeCompare(b, 'zh'); }));
+  }
+
+  function initSamples() {
+    var samples = ['铜的核心矛盾是什么？', '哪些品种提示了累库风险？', 'AI 半导体存储最新观点', '各机构对黄金的方向分歧'];
+    var samplesEn = ['What is the key contradiction for copper?', 'Which varieties flag inventory-build risk?', 'Latest view on AI semiconductor memory', 'How do institutions differ on gold?'];
+    var box = document.getElementById('ask-samples');
+    box.innerHTML = samples.map(function (s, i) {
+      return '<button type="button" data-en="' + esc(samplesEn[i]) + '" onclick="WR.useSample(this)">' + esc(s) + '</button>';
+    }).join('');
+    if (window.WRLang) WRLang.apply();
+  }
+
+  function boot() {
+    fetch('/data/kb-index.json').then(function (r) { return r.json(); }).then(function (d) {
+      DATA = Array.isArray(d) ? d : [];
+      initFilters();
+      initSamples();
+      runSearch();
+    }).catch(function (e) {
+      document.getElementById('rlist').innerHTML = '<div class="err">' +
+        (isEN() ? 'Failed to load knowledge base index.' : '知识库索引加载失败。') + ' ' + esc(e.message || '') + '</div>';
+    });
+
+    // 事件绑定
+    var qEl = document.getElementById('q');
+    var deb;
+    qEl.addEventListener('input', function () { clearTimeout(deb); deb = setTimeout(runSearch, 160); });
+    ['f-board', 'f-src', 'f-pv'].forEach(function (id) {
+      document.getElementById(id).addEventListener('change', runSearch);
+    });
+    document.getElementById('ask-q').addEventListener('keydown', function (e) { if (e.key === 'Enter') ask(); });
+
+    // 语言切换时重渲染动态内容
+    if (window.WRLang) WRLang.onChange(function () {
+      if (DATA.length) { renderResults(lastResults, qEl.value.trim()); }
+      if (lastAnswer) renderAnswer();
+    });
+  }
+
+  // 暴露给内联事件
+  window.WR = {
+    setMode: setMode,
+    toggle: toggle,
+    clearFilters: function () {
+      document.getElementById('q').value = '';
+      document.getElementById('f-board').value = '';
+      document.getElementById('f-src').value = '';
+      document.getElementById('f-pv').value = '';
+      runSearch();
+    },
+    ask: ask,
+    openNote: openNoteByTitle,
+    useSample: function (btn) { document.getElementById('ask-q').value = btn.textContent; ask(); }
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+</body>
+</html>

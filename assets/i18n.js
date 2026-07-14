@@ -19,7 +19,8 @@
     fundamentals: 'Industrial Fundamentals',
     capital: 'Capital / Flow',
     sentiment: 'Sentiment',
-    knowledge: 'Knowledge Base'
+    knowledge: 'Knowledge Base',
+    search: 'Search & AI'
   };
 
   // —— 品种名 + 交易术语 zh→en 字典 ——
