@@ -721,9 +721,19 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: messages, ids: ids })
     }).then(function (r) {
-      return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
+      // 先读文本再尝试解析 JSON——即便后端异常返回了 HTML（如登录页），也不会抛 "Unexpected token '<'"
+      return r.text().then(function (t) {
+        var j = null; try { j = JSON.parse(t); } catch (e) {}
+        return { ok: r.ok, status: r.status, j: j };
+      });
     }).then(function (r) {
-      if (!r.ok) throw new Error(r.j && r.j.error ? r.j.error : ('HTTP ' + r.status));
+      if (!r.j) {
+        // 非 JSON：多半是未登录被下发了登录页 HTML，或运行时错误页
+        throw new Error((r.status === 401 || r.status === 302 || r.status === 0)
+          ? (isEN() ? 'Please sign in first.' : '请先登录后使用')
+          : (isEN() ? 'Service error (HTTP ' + r.status + '). Please try again.' : '服务异常（HTTP ' + r.status + '），请稍后重试'));
+      }
+      if (!r.ok) throw new Error(r.j.error || ('HTTP ' + r.status));
       aiMsg.pending = false;
       aiMsg.content = r.j.answer || '';
       aiMsg.cites = r.j['引用标题'] || [];
