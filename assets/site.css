@@ -30,6 +30,31 @@ a{text-decoration:none;color:inherit;}
 .lang-toggle .lang-btn:hover{color:var(--accent);}
 .lang-toggle .lang-btn.active{background:#fff;color:var(--accent);box-shadow:0 1px 2px rgba(17,24,39,.10);}
 
+/* 账户头像 + 下拉（各页顶栏右上角，assets/i18n.js 自动注入） */
+.wr-acct{position:relative;flex:none;display:inline-flex;}
+.wr-acct-btn{border:0;background:none;padding:0;margin:0;cursor:pointer;display:grid;place-items:center;line-height:0;}
+.wr-avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;
+  display:grid;place-items:center;font-family:inherit;text-transform:uppercase;box-shadow:0 1px 2px rgba(17,24,39,.18);
+  transition:filter .15s,box-shadow .15s;}
+.wr-acct-btn:hover .wr-avatar{filter:brightness(1.08);box-shadow:0 2px 6px rgba(79,70,229,.35);}
+.wr-acct-menu{position:absolute;top:42px;right:0;width:256px;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;box-shadow:0 14px 36px rgba(17,24,39,.16);padding:8px;z-index:100;}
+.wr-acct-menu[hidden]{display:none;}
+.wr-acct-email{font-size:13px;font-weight:600;color:var(--text);padding:8px 10px 2px;word-break:break-all;line-height:1.4;}
+.wr-acct-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:5px 10px;font-size:12.5px;}
+.wr-acct-row .wr-acct-lab{color:var(--faint);white-space:nowrap;}
+.wr-acct-row .wr-acct-val{color:var(--text);font-weight:600;text-align:right;}
+.wr-acct-row .wr-acct-val.is-member{color:var(--accent);}
+.wr-acct-sep{height:1px;background:var(--line2);margin:7px 4px;}
+.wr-acct-item{display:block;width:100%;text-align:left;border:0;background:none;font-family:inherit;font-size:13px;
+  color:var(--text);padding:9px 10px;border-radius:8px;cursor:pointer;transition:background .12s,color .12s;}
+.wr-acct-item:hover{background:var(--soft);color:var(--accent);}
+.wr-acct-item.wr-acct-admin{color:var(--accent);font-weight:600;}
+.wr-acct-item.wr-acct-logout{color:var(--red);}
+.wr-acct-item.wr-acct-logout:hover{background:#fdecec;color:var(--red);}
+.wr-acct-note{font-size:11.5px;color:var(--sub);background:var(--soft);border-radius:8px;padding:8px 10px;margin:4px 2px 2px;line-height:1.55;}
+.wr-acct-note[hidden]{display:none;}
+
 .wrap{max-width:1120px;margin:0 auto;padding:30px 22px 60px;}
 
 /* hero / section head */

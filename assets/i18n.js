@@ -177,3 +177,120 @@
   apply(getLang());
   document.addEventListener('DOMContentLoaded', function () { apply(getLang()); });
 })();
+
+/* ————————————————————————————————————————————————————————————
+ * 账户头像 + 下拉菜单（各页顶栏右上角，统一注入、中英双语）
+ * 一期：头像 + 邮箱 + 退出登录可用；会员/额度/充值留好位置，接后端。
+ * 未登录（/api/me 401）则不显示。样式在 assets/site.css 的 .wr-acct*。
+ * ———————————————————————————————————————————————————————————— */
+(function () {
+  // 管理员邮箱（额外显示“后台管理”入口）——后端就绪后可改由 /api/me 返回 admin 字段
+  var ADMIN_EMAILS = ['yuangz326@uchicago.edu'];
+
+  var TXT = {
+    planLab: ['会员状态', 'Membership'],
+    planFree: ['免费用户', 'Free'],
+    planMember: ['会员', 'Member'],
+    quotaLab: ['今日剩余问答', 'Q&A left today'],
+    upgrade: ['升级会员 / 充值', 'Upgrade / Top up'],
+    admin: ['后台管理', 'Admin'],
+    logout: ['退出登录', 'Sign out'],
+    upgradeNote: ['会员 / 充值功能即将开放，请联系管理员开通。', 'Membership / top-up is coming soon — please contact the admin.'],
+    adminNote: ['后台管理开发中，敬请期待。', 'Admin console is under development.']
+  };
+  function isEN() { return window.WRLang && WRLang.get && WRLang.get() === 'en'; }
+  function tt(k) { return TXT[k][isEN() ? 1 : 0]; }
+
+  function initAccount() {
+    var nav = document.querySelector('.nav');
+    if (!nav || document.getElementById('wr-acct')) return; // 无顶栏（如登录页）或已注入则跳过
+
+    var wrap = document.createElement('div');
+    wrap.className = 'wr-acct';
+    wrap.id = 'wr-acct';
+    wrap.innerHTML =
+      '<button class="wr-acct-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Account"><span class="wr-avatar">·</span></button>' +
+      '<div class="wr-acct-menu" role="menu" hidden>' +
+        '<div class="wr-acct-email" data-role="email">—</div>' +
+        '<div class="wr-acct-row"><span class="wr-acct-lab" data-role="planLab"></span><span class="wr-acct-val" data-role="plan"></span></div>' +
+        '<div class="wr-acct-row"><span class="wr-acct-lab" data-role="quotaLab"></span><span class="wr-acct-val" data-role="quota">—</span></div>' +
+        '<div class="wr-acct-sep"></div>' +
+        '<button class="wr-acct-item" type="button" data-role="upgrade"></button>' +
+        '<div class="wr-acct-note" data-role="upgradeNote" hidden></div>' +
+        '<button class="wr-acct-item wr-acct-admin" type="button" data-role="admin" hidden></button>' +
+        '<div class="wr-acct-note" data-role="adminNote" hidden></div>' +
+        '<button class="wr-acct-item wr-acct-logout" type="button" data-role="logout"></button>' +
+      '</div>';
+    nav.appendChild(wrap);
+
+    var q = function (sel) { return wrap.querySelector(sel); };
+    var byRole = function (r) { return wrap.querySelector('[data-role=' + r + ']'); };
+    var btn = q('.wr-acct-btn');
+    var menu = q('.wr-acct-menu');
+    var avatar = q('.wr-avatar');
+    var state = { email: '', member: false, expiry: '', admin: false, quota: null };
+
+    function refreshLang() {
+      byRole('planLab').textContent = tt('planLab');
+      byRole('quotaLab').textContent = tt('quotaLab');
+      byRole('upgrade').textContent = tt('upgrade');
+      byRole('admin').textContent = tt('admin');
+      byRole('logout').textContent = tt('logout');
+      byRole('upgradeNote').textContent = tt('upgradeNote');
+      byRole('adminNote').textContent = tt('adminNote');
+      var planEl = byRole('plan');
+      if (state.member) {
+        planEl.textContent = tt('planMember') + (state.expiry ? ' · ' + state.expiry : '');
+        planEl.classList.add('is-member');
+      } else {
+        planEl.textContent = tt('planFree');
+        planEl.classList.remove('is-member');
+      }
+    }
+
+    function toggleMenu(open) {
+      var show = (open === undefined) ? menu.hidden : open;
+      menu.hidden = !show;
+      btn.setAttribute('aria-expanded', show ? 'true' : 'false');
+      if (!show) { byRole('upgradeNote').hidden = true; byRole('adminNote').hidden = true; }
+    }
+
+    btn.addEventListener('click', function (e) { e.stopPropagation(); toggleMenu(); });
+    document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) toggleMenu(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') toggleMenu(false); });
+
+    byRole('upgrade').addEventListener('click', function () {
+      var n = byRole('upgradeNote'); n.textContent = tt('upgradeNote'); n.hidden = !n.hidden;
+    });
+    byRole('admin').addEventListener('click', function () {
+      var n = byRole('adminNote'); n.textContent = tt('adminNote'); n.hidden = !n.hidden;
+    });
+    byRole('logout').addEventListener('click', function () {
+      fetch('/api/logout', { method: 'POST' })
+        .then(function () { location.href = '/login'; })
+        .catch(function () { location.href = '/login'; });
+    });
+
+    // 拉取当前用户；未登录则移除组件
+    fetch('/api/me').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j || !j.email) { wrap.parentNode && wrap.parentNode.removeChild(wrap); return; }
+      state.email = j.email;
+      state.member = !!j.member;                 // 后端后续返回
+      state.expiry = j.expiry || '';
+      state.admin = ADMIN_EMAILS.indexOf(j.email) > -1 || !!j.admin;
+      state.quota = (j.quota && typeof j.quota.left === 'number' && typeof j.quota.total === 'number') ? j.quota : null;
+
+      avatar.textContent = (j.email.charAt(0) || '·').toUpperCase();
+      byRole('email').textContent = j.email;
+      byRole('quota').textContent = state.quota ? (state.quota.left + ' / ' + state.quota.total) : '—';
+      byRole('admin').hidden = !state.admin;
+      refreshLang();
+    }).catch(function () { wrap.parentNode && wrap.parentNode.removeChild(wrap); });
+
+    // 语言切换时重译菜单
+    if (window.WRLang && WRLang.onChange) WRLang.onChange(refreshLang);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAccount);
+  else initAccount();
+})();
