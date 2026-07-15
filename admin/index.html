@@ -7,6 +7,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
+<style>
+.utable-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel);}
+table.utable{border-collapse:collapse;width:100%;font-size:13px;min-width:720px;}
+table.utable th,table.utable td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line2);vertical-align:middle;}
+table.utable th{background:var(--soft);font-weight:600;color:var(--text);white-space:nowrap;font-size:12px;letter-spacing:.3px;}
+table.utable tr:last-child td{border-bottom:0;}
+table.utable td.email{font-weight:600;word-break:break-all;}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;}
+.pill.free{background:#f3f4f6;color:var(--sub);}
+.pill.member{background:var(--accent-soft);color:var(--accent);}
+.pill.admin{background:#ecfdf5;color:var(--green);}
+.pill.expired{background:#fdecec;color:var(--red);}
+.uact{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.uact input[type=date]{border:1px solid var(--line);border-radius:7px;padding:5px 8px;font-family:inherit;font-size:12px;color:var(--text);}
+.ubtn{border:0;border-radius:7px;padding:6px 11px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:filter .15s;white-space:nowrap;}
+.ubtn.set{background:var(--accent);color:#fff;}
+.ubtn.cancel{background:#fff;color:var(--red);border:1px solid rgba(220,38,38,.3);}
+.ubtn:hover{filter:brightness(1.05);}
+.ubtn:disabled{opacity:.5;cursor:not-allowed;}
+.admin-msg{font-size:12.5px;margin:12px 2px 0;min-height:18px;}
+.admin-msg.ok{color:var(--green);} .admin-msg.err{color:var(--red);}
+</style>
 </head>
 <body>
 
@@ -33,8 +55,8 @@
 <div class="wrap">
   <div class="crumb" data-en="<a href='../'>Research Workbench</a> · Admin Console"><a href="../">研究工作台</a> · 后台管理</div>
   <div class="sec-head">
-    <h1 data-en="Admin Console">后台管理</h1>
-    <div class="sub" data-en="Administrators only. This page is protected server-side (users.role='admin'); non-admins get 403 even via direct URL.">仅管理员可访问。本页由服务端按 users.role='admin' 强校验，非管理员即使直接输网址也会被 403 拦截。</div>
+    <h1 data-en="Admin · Users">后台管理 · 用户管理</h1>
+    <div class="sub" data-en="Administrators only (enforced server-side, users.role='admin'). Grant/cancel membership and set expiry. Members get 100 Q&A/day; free users 5/day.">仅管理员可访问（服务端按 users.role='admin' 强校验）。可开通/取消会员并设到期日。会员每日 100 次问答，免费用户 5 次。</div>
   </div>
 
   <div class="brief">
@@ -42,40 +64,121 @@
     <p><b data-role="admin-email">—</b> · <span data-en="Administrator">管理员</span></p>
   </div>
 
-  <div class="label" data-en="Management (coming soon)">管理功能（规划中）</div>
-  <div class="grid">
-    <div class="card todo">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="badge todo" data-en="Coming soon">待补充</span></div>
-      <h3 data-en="Users">用户管理</h3>
-      <p data-en="View registered users, set roles (admin/user), disable accounts.">查看注册用户、设置角色（管理员/普通）、停用账号。</p>
-      <div class="card-foot"><span class="meta" data-en="Planned">规划中</span><span data-en="Stay tuned">敬请期待</span></div>
-    </div>
-    <div class="card todo">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span class="badge todo" data-en="Coming soon">待补充</span></div>
-      <h3 data-en="Membership & Quota">会员与额度</h3>
-      <p data-en="Grant/renew membership, set daily Q&A quota, handle top-ups.">开通/续费会员、设置每日问答额度、处理充值。</p>
-      <div class="card-foot"><span class="meta" data-en="Planned">规划中</span><span data-en="Stay tuned">敬请期待</span></div>
-    </div>
-    <div class="card todo">
-      <div class="card-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span><span class="badge todo" data-en="Coming soon">待补充</span></div>
-      <h3 data-en="Usage & Logs">用量与日志</h3>
-      <p data-en="Q&A usage stats, DeepSeek cost, access logs.">问答用量统计、DeepSeek 消耗、访问日志。</p>
-      <div class="card-foot"><span class="meta" data-en="Planned">规划中</span><span data-en="Stay tuned">敬请期待</span></div>
-    </div>
+  <div class="label" data-en="Users">用户列表</div>
+  <div class="utable-wrap">
+    <table class="utable">
+      <thead>
+        <tr>
+          <th data-en="Email">邮箱</th>
+          <th data-en="Role">角色</th>
+          <th data-en="Membership">会员状态</th>
+          <th data-en="Expires">到期日</th>
+          <th data-en="Used today">今日已用</th>
+          <th data-en="Actions">操作</th>
+        </tr>
+      </thead>
+      <tbody id="utbody">
+        <tr><td colspan="6" style="color:var(--faint);text-align:center;padding:24px" data-en="Loading…">加载中…</td></tr>
+      </tbody>
+    </table>
   </div>
+  <div id="admin-msg" class="admin-msg"></div>
 
-  <div class="foot" data-en="Admin Console · Access is enforced on the server by user role; the front-end entry is only a convenience, not the security boundary.">后台管理 · 访问权限由服务端按用户角色强制校验；前端入口只是便捷，不是安全边界。</div>
+  <div class="foot" data-en="Access is enforced on the server by user role; the front-end entry is only a convenience, not the security boundary. Online payment is not enabled yet — grant membership manually here.">访问权限由服务端按用户角色强制校验；前端入口只是便捷，不是安全边界。在线支付暂未接入——会员在此手动开通。</div>
 </div>
 
 <script src="../assets/i18n.js"></script>
 <script>
-// 填入当前管理员邮箱（能进到这一页说明服务端已确认是 admin）
-fetch('/api/me').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
-  if (j && j.email) {
-    var el = document.querySelector('[data-role=admin-email]');
-    if (el) el.textContent = j.email;
+(function () {
+  var isEN = function () { return window.WRLang && WRLang.get() === 'en'; };
+  var today = '';           // 由后端返回的北京时间当天
+  var rows = [];
+
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function plus30() { var d = new Date(Date.now() + 30 * 864e5); return d.toISOString().slice(0, 10); }
+
+  function msg(text, ok) {
+    var el = document.getElementById('admin-msg');
+    el.textContent = text; el.className = 'admin-msg ' + (ok ? 'ok' : 'err');
+    if (text) setTimeout(function () { if (el.textContent === text) { el.textContent = ''; el.className = 'admin-msg'; } }, 4000);
   }
-}).catch(function () {});
+
+  function planCell(u) {
+    if (u.role === 'admin') return '<span class="pill admin">' + (isEN() ? 'Admin (unlimited)' : '管理员（不限）') + '</span>';
+    if (u.plan === 'member') {
+      var expired = u.plan_expires && u.plan_expires < today;
+      if (expired) return '<span class="pill expired">' + (isEN() ? 'Member (expired)' : '会员（已过期）') + '</span>';
+      return '<span class="pill member">' + (isEN() ? 'Member' : '会员') + '</span>';
+    }
+    return '<span class="pill free">' + (isEN() ? 'Free' : '免费') + '</span>';
+  }
+
+  function render() {
+    var tb = document.getElementById('utbody');
+    if (!rows.length) { tb.innerHTML = '<tr><td colspan="6" style="color:var(--faint);text-align:center;padding:24px">' + (isEN() ? 'No users.' : '暂无用户') + '</td></tr>'; return; }
+    tb.innerHTML = rows.map(function (u, i) {
+      var isMember = u.plan === 'member' && u.role !== 'admin';
+      var actions = u.role === 'admin'
+        ? '<span style="color:var(--faint);font-size:12px">' + (isEN() ? 'n/a' : '—') + '</span>'
+        : '<div class="uact">' +
+            '<input type="date" id="exp-' + i + '" value="' + esc(u.plan_expires || plus30()) + '">' +
+            '<button class="ubtn set" onclick="WRAdmin.setMember(' + i + ')">' + (isEN() ? 'Make member' : '设为会员') + '</button>' +
+            (isMember ? '<button class="ubtn cancel" onclick="WRAdmin.cancelMember(' + i + ')">' + (isEN() ? 'Cancel' : '取消会员') + '</button>' : '') +
+          '</div>';
+      return '<tr>' +
+        '<td class="email">' + esc(u.email) + '</td>' +
+        '<td>' + esc(u.role) + '</td>' +
+        '<td>' + planCell(u) + '</td>' +
+        '<td>' + (u.plan_expires ? esc(u.plan_expires) : '<span style="color:var(--faint)">—</span>') + '</td>' +
+        '<td>' + u.used_today + ' / ' + u.cap + '</td>' +
+        '<td>' + actions + '</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  function load() {
+    return fetch('/api/admin/users').then(function (r) {
+      if (r.status === 403) { msg(isEN() ? 'Forbidden (admins only).' : '无权限：仅管理员。', false); return null; }
+      return r.ok ? r.json() : null;
+    }).then(function (j) {
+      if (!j) return;
+      rows = j.users || []; today = j.today || '';
+      render();
+    }).catch(function () { msg(isEN() ? 'Failed to load users.' : '加载用户失败。', false); });
+  }
+
+  function setPlan(email, plan, expires) {
+    msg('', true);
+    return fetch('/api/admin/set-plan', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, plan: plan, expires: expires || '' })
+    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (r) {
+        if (!r.ok) { msg((isEN() ? 'Failed: ' : '失败：') + (r.j.error || ''), false); return; }
+        msg((isEN() ? 'Updated: ' : '已更新：') + email + ' → ' + plan + (expires ? ' (' + expires + ')' : ''), true);
+        return load();
+      }).catch(function () { msg(isEN() ? 'Request failed.' : '请求失败。', false); });
+  }
+
+  window.WRAdmin = {
+    setMember: function (i) {
+      var u = rows[i]; if (!u) return;
+      var exp = (document.getElementById('exp-' + i) || {}).value || '';
+      setPlan(u.email, 'member', exp);
+    },
+    cancelMember: function (i) {
+      var u = rows[i]; if (!u) return;
+      setPlan(u.email, 'free', '');
+    }
+  };
+
+  fetch('/api/me').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+    if (j && j.email) { var el = document.querySelector('[data-role=admin-email]'); if (el) el.textContent = j.email; }
+  }).catch(function () {});
+
+  if (window.WRLang && WRLang.onChange) WRLang.onChange(function () { render(); });
+  load();
+})();
 </script>
 </body>
 </html>

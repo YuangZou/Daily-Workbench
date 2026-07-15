@@ -130,6 +130,9 @@
 
 .empty{text-align:center;color:var(--faint);font-size:13.5px;padding:50px 20px;line-height:1.8;}
 .err{background:#fdecec;border:1px solid rgba(220,38,38,.25);color:var(--red);border-radius:10px;padding:12px 16px;font-size:13px;margin-top:8px;}
+.quota-note{display:flex;align-items:flex-start;gap:10px;background:#fff7ed;border:1px solid rgba(192,125,10,.28);
+  color:#92400e;border-radius:12px;padding:13px 16px;font-size:13.5px;line-height:1.65;width:100%;}
+.quota-note svg{flex:none;margin-top:1px;color:var(--amber);}
 .hide{display:none !important;}
 </style>
 </head>
@@ -648,6 +651,11 @@
     if (m.error) {
       return '<div class="msg msg-ai"><div class="err">' + (isEN() ? 'Request failed: ' : '请求失败：') + esc(m.content) + '</div></div>';
     }
+    if (m.quota) {
+      return '<div class="msg msg-ai"><div class="quota-note">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>' +
+        '<span>' + esc(m.content) + '</span></div></div>';
+    }
     var citeBtns = (m.cites || []).map(function (t) {
       return '<button class="cite" onclick="WR.openNote(' + JSON.stringify(t).replace(/"/g, '&quot;') + ')">' + esc(t) + '</button>';
     }).join('');
@@ -734,10 +742,20 @@
           : (isEN() ? 'Service error (HTTP ' + r.status + '). Please try again.' : '服务异常（HTTP ' + r.status + '），请稍后重试'));
       }
       if (!r.ok) throw new Error(r.j.error || ('HTTP ' + r.status));
+      // 额度用尽（HTTP 200 + code）：不显示答案，改显示升级提示
+      if (r.j.code === 'QUOTA_EXCEEDED') {
+        aiMsg.pending = false;
+        aiMsg.quota = true;
+        aiMsg.content = quotaMsg(r.j.cap, r.j.plan);
+        if (window.WRAccount) WRAccount.setQuota(0, r.j.cap);
+        return;
+      }
       aiMsg.pending = false;
       aiMsg.content = r.j.answer || '';
       aiMsg.cites = r.j['引用标题'] || [];
       aiMsg.cands = candTitles;
+      // 同步账户菜单里的今日剩余
+      if (window.WRAccount && typeof r.j.remaining === 'number') WRAccount.setQuota(r.j.remaining, r.j.cap);
     }).catch(function (e) {
       aiMsg.pending = false;
       aiMsg.error = true;
@@ -749,6 +767,19 @@
       saveThread();
       renderChat();
     });
+  }
+
+  // 额度用尽文案：免费(cap<=5)引导升级；会员(cap>5)提示明日重置。检索不受限。
+  function quotaMsg(cap, plan) {
+    cap = cap || 5;
+    if (cap > 5) {
+      return isEN()
+        ? 'You have used all ' + cap + ' Q&As for today. The quota resets at midnight (Beijing time). Full-text search stays available.'
+        : '今日 ' + cap + ' 次问答已用完，北京时间次日 0 点重置。检索不受限，照常可用。';
+    }
+    return isEN()
+      ? 'You have used all ' + cap + ' free Q&As today. Membership gives 100/day — please contact the admin to upgrade. Full-text search stays available.'
+      : '今日免费 ' + cap + ' 次已用完，升级会员可享每日 100 次，请联系管理员开通。检索不受限，照常可用。';
   }
 
   // —————————————— 模式切换 & 初始化 ——————————————

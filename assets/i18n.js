@@ -193,7 +193,7 @@
     upgrade: ['升级会员 / 充值', 'Upgrade / Top up'],
     admin: ['后台管理', 'Admin'],
     logout: ['退出登录', 'Sign out'],
-    upgradeNote: ['会员 / 充值功能即将开放，请联系管理员开通。', 'Membership / top-up is coming soon — please contact the admin.'],
+    upgradeNote: ['升级会员请联系管理员开通（在线支付即将开放）。', 'To upgrade, please contact the admin (online payment coming soon).'],
     adminNote: ['后台管理开发中，敬请期待。', 'Admin console is under development.']
   };
   function isEN() { return window.WRLang && WRLang.get && WRLang.get() === 'en'; }
@@ -238,12 +238,15 @@
       byRole('adminNote').textContent = tt('adminNote');
       var planEl = byRole('plan');
       if (state.member) {
-        planEl.textContent = tt('planMember') + (state.expiry ? ' · ' + state.expiry : '');
+        var until = state.expiry ? (isEN() ? ' · until ' + state.expiry : ' · 至 ' + state.expiry) : '';
+        planEl.textContent = tt('planMember') + until;
         planEl.classList.add('is-member');
       } else {
         planEl.textContent = tt('planFree');
         planEl.classList.remove('is-member');
       }
+      // 今日剩余问答：remaining / cap（后端已按北京时间跨天归零）
+      byRole('quota').textContent = (state.remaining == null || state.cap == null) ? '—' : (state.remaining + ' / ' + state.cap);
     }
 
     function toggleMenu(open) {
@@ -269,21 +272,35 @@
         .catch(function () { location.href = '/login'; });
     });
 
-    // 拉取当前用户；未登录则移除组件
-    fetch('/api/me').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
-      if (!j || !j.email) { wrap.parentNode && wrap.parentNode.removeChild(wrap); return; }
-      state.email = j.email;
-      state.member = !!j.member;                 // 后端后续返回
-      state.expiry = j.expiry || '';
-      state.admin = !!j.admin;                    // 服务端 users.role==='admin'
-      state.quota = (j.quota && typeof j.quota.left === 'number' && typeof j.quota.total === 'number') ? j.quota : null;
+    // 从 /api/me 载入用户 + 会员/额度；未登录则移除组件
+    function load() {
+      return fetch('/api/me').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+        if (!j || !j.email) { wrap.parentNode && wrap.parentNode.removeChild(wrap); return; }
+        state.email = j.email;
+        state.member = j.plan === 'member';
+        state.expiry = j.plan_expires || '';
+        state.admin = !!j.admin;                    // 服务端 users.role==='admin'
+        state.cap = (typeof j.cap === 'number') ? j.cap : null;
+        state.remaining = (typeof j.remaining === 'number') ? j.remaining : null;
 
-      avatar.textContent = (j.email.charAt(0) || '·').toUpperCase();
-      byRole('email').textContent = j.email;
-      byRole('quota').textContent = state.quota ? (state.quota.left + ' / ' + state.quota.total) : '—';
-      byRole('admin').hidden = !state.admin;
-      refreshLang();
-    }).catch(function () { wrap.parentNode && wrap.parentNode.removeChild(wrap); });
+        avatar.textContent = (j.email.charAt(0) || '·').toUpperCase();
+        byRole('email').textContent = j.email;
+        byRole('admin').hidden = !state.admin;
+        refreshLang();
+      }).catch(function () { wrap.parentNode && wrap.parentNode.removeChild(wrap); });
+    }
+    load();
+
+    // 供其它页面（如检索问答）问答后刷新剩余次数
+    window.WRAccount = {
+      refresh: load,
+      // 已知本轮 remaining/cap 时可直接更新，省一次请求
+      setQuota: function (remaining, cap) {
+        if (typeof remaining === 'number') state.remaining = remaining;
+        if (typeof cap === 'number') state.cap = cap;
+        refreshLang();
+      }
+    };
 
     // 语言切换时重译菜单
     if (window.WRLang && WRLang.onChange) WRLang.onChange(refreshLang);
