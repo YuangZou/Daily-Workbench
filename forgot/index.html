@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="Forgot password · Research Workbench">忘记密码 · 研究工作台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f4f6fb;--panel:#fff;--line:rgba(17,24,39,.10);--text:#111827;--sub:#6b7280;--faint:#9ca3af;--accent:#4f46e5;--red:#dc2626;--green:#0f9d58;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+    background:radial-gradient(900px 500px at 50% -10%,rgba(79,70,229,.07),transparent 60%),var(--bg);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);}
+  .card{width:100%;max-width:380px;background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:30px 28px;box-shadow:0 10px 40px rgba(17,24,39,.08);position:relative;}
+  .lang-toggle{position:absolute;top:16px;right:16px;display:inline-flex;background:#eef0f5;border-radius:8px;padding:2px;}
+  .lang-toggle .lang-btn{border:0;background:none;padding:4px 9px;border-radius:6px;font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;font-family:inherit;line-height:1.4;}
+  .lang-toggle .lang-btn.active{background:#fff;color:var(--accent);box-shadow:0 1px 2px rgba(17,24,39,.10);}
+  .brand{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:6px;}
+  .logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(145deg,#2a6bef,#7c56e6);display:grid;place-items:center;}
+  .brand b{font-size:17px;font-weight:600;}
+  .tagline{text-align:center;color:var(--sub);font-size:12.5px;margin-bottom:22px;line-height:1.6;}
+  h2{font-size:16px;font-weight:600;text-align:center;margin-bottom:6px;}
+  label{display:block;font-size:12.5px;font-weight:600;color:var(--sub);margin:14px 0 6px;}
+  input{width:100%;height:42px;border:1px solid var(--line);border-radius:10px;padding:0 13px;font-size:14px;font-family:inherit;transition:border-color .15s;}
+  input:focus{outline:none;border-color:var(--accent);}
+  .submit{width:100%;height:44px;margin-top:22px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .15s;}
+  .submit:hover{opacity:.92;} .submit:disabled{opacity:.5;cursor:default;}
+  .msg{margin-top:14px;font-size:12.5px;text-align:center;min-height:16px;line-height:1.6;}
+  .msg.err{color:var(--red);} .msg.ok{color:var(--green);}
+  .linkrow{margin-top:16px;text-align:center;font-size:12px;}
+  .linkrow a{color:var(--accent);text-decoration:none;}
+  .foot{margin-top:20px;text-align:center;font-size:11px;color:var(--faint);line-height:1.6;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="lang-toggle">
+      <button class="lang-btn" data-lang="zh" type="button" onclick="setLang('zh')">中</button>
+      <button class="lang-btn" data-lang="en" type="button" onclick="setLang('en')">EN</button>
+    </div>
+    <div class="brand">
+      <span class="logo"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span>
+      <b data-en="Research Workbench">研究工作台</b>
+    </div>
+    <h2 data-en="Forgot password">忘记密码</h2>
+    <div class="tagline" data-en="Enter your registered email and we'll send a reset link.">输入注册邮箱，我们会发送一封重置密码的邮件。</div>
+
+    <form id="form" onsubmit="return submitForgot(event)">
+      <label data-en="Email">邮箱</label>
+      <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+      <button class="submit" id="submit" type="submit" data-en="Send reset link">发送重置邮件</button>
+      <div class="msg" id="msg"></div>
+    </form>
+    <div class="linkrow"><a href="/login" data-en="← Back to sign in">← 返回登录</a></div>
+    <div class="foot" data-en="Internal research reference · Not investment advice">内部研究参考 · 不构成投资建议</div>
+  </div>
+
+<script>
+  var LANG_KEY = 'wr_lang';
+  var T = {
+    zh: { sending:'发送中…', neterr:'网络错误，请重试', tooMany:'操作过于频繁，请 2 分钟后再试' },
+    en: { sending:'Sending…', neterr:'Network error, please retry', tooMany:'Too many requests, try again in 2 minutes' }
+  };
+  function lang(){ return localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'zh'; }
+  function t(k){ return T[lang()][k]; }
+  function applyLang(){
+    var l = lang();
+    document.documentElement.lang = (l === 'en' ? 'en' : 'zh-CN');
+    document.querySelectorAll('[data-en]').forEach(function(el){
+      if (el.dataset.zh === undefined) el.dataset.zh = el.innerHTML;
+      el.innerHTML = (l === 'en') ? el.dataset.en : el.dataset.zh;
+    });
+    document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  }
+  function setLang(l){ localStorage.setItem(LANG_KEY, l); applyLang(); }
+  function setMsg(text, ok){ var el = document.getElementById('msg'); el.textContent = text; el.className = 'msg' + (text ? (ok ? ' ok' : ' err') : ''); }
+
+  async function submitForgot(e){
+    e.preventDefault();
+    var btn = document.getElementById('submit'); btn.disabled = true;
+    var email = document.getElementById('email').value.trim();
+    setMsg(t('sending'), true);
+    try {
+      var r = await fetch('/api/forgot', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ email: email }) });
+      var d = await r.json().catch(function(){ return {}; });
+      if (r.status === 429) { setMsg(d.error || t('tooMany')); btn.disabled = false; return false; }
+      // 无论邮箱是否注册，都显示统一成功提示（不泄露账号是否存在）
+      setMsg(d.message || (lang()==='en' ? 'If that email is registered, a reset link has been sent.' : '若该邮箱已注册，重置邮件已发送，请查收邮箱（含垃圾箱）。'), true);
+      // 保持按钮禁用，避免连点；用户去邮箱点链接
+    } catch (err) { setMsg(t('neterr')); btn.disabled = false; }
+    return false;
+  }
+
+  applyLang();
+</script>
+</body>
+</html>

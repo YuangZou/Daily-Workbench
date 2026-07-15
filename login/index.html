@@ -69,6 +69,7 @@
         <input id="password" type="password" autocomplete="current-password" placeholder="至少 8 位" data-ph-en="At least 8 characters" required minlength="8">
         <button class="submit" id="submit" type="submit" data-en="Sign in">登录</button>
         <div class="msg" id="msg"></div>
+        <div class="linkrow" id="forgot-row"><span></span><a href="/forgot" data-en="Forgot password?">忘记密码？</a></div>
       </form>
     </div>
 
@@ -140,6 +141,7 @@
     document.getElementById('tab-login').classList.toggle('active', m === 'login');
     document.getElementById('tab-reg').classList.toggle('active', m === 'register');
     document.getElementById('password').setAttribute('autocomplete', m === 'login' ? 'current-password' : 'new-password');
+    document.getElementById('forgot-row').classList.toggle('hidden', m !== 'login'); // 忘记密码只在登录模式显示
     setMsg('');
     updateSubmitLabel();
   }
