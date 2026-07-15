@@ -184,9 +184,7 @@
  * 未登录（/api/me 401）则不显示。样式在 assets/site.css 的 .wr-acct*。
  * ———————————————————————————————————————————————————————————— */
 (function () {
-  // 管理员邮箱（额外显示“后台管理”入口）——后端就绪后可改由 /api/me 返回 admin 字段
-  var ADMIN_EMAILS = ['yuangz326@uchicago.edu'];
-
+  // 管理员判定由后端 /api/me 的 admin 字段（源自 users.role='admin'）决定，前端不写死邮箱。
   var TXT = {
     planLab: ['会员状态', 'Membership'],
     planFree: ['免费用户', 'Free'],
@@ -263,7 +261,7 @@
       var n = byRole('upgradeNote'); n.textContent = tt('upgradeNote'); n.hidden = !n.hidden;
     });
     byRole('admin').addEventListener('click', function () {
-      var n = byRole('adminNote'); n.textContent = tt('adminNote'); n.hidden = !n.hidden;
+      location.href = '/admin/'; // 真实后台页，服务端按 users.role 再校验一次
     });
     byRole('logout').addEventListener('click', function () {
       fetch('/api/logout', { method: 'POST' })
@@ -277,7 +275,7 @@
       state.email = j.email;
       state.member = !!j.member;                 // 后端后续返回
       state.expiry = j.expiry || '';
-      state.admin = ADMIN_EMAILS.indexOf(j.email) > -1 || !!j.admin;
+      state.admin = !!j.admin;                    // 服务端 users.role==='admin'
       state.quota = (j.quota && typeof j.quota.left === 'number' && typeof j.quota.total === 'number') ? j.quota : null;
 
       avatar.textContent = (j.email.charAt(0) || '·').toUpperCase();
