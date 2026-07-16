@@ -20,8 +20,20 @@
     capital: 'Capital / Flow',
     sentiment: 'Sentiment',
     knowledge: 'Knowledge Base',
-    search: 'Search & AI'
+    search: 'Search & AI',
+    'ai-semi': 'AI Semis'
   };
+
+  // 各页顶栏统一补上「AI 半导体」入口（绝对路径 /ai-semi/，从任意深度都可用）。
+  // 已有该链接的页面（如 AI 半导体页自身）跳过，避免重复。
+  function ensureAiSemiNav() {
+    var links = document.querySelector('.nav-links');
+    if (!links || links.querySelector('a[href*="ai-semi"]')) return;
+    var a = document.createElement('a');
+    a.href = '/ai-semi/';
+    a.textContent = 'AI 半导体';
+    links.appendChild(a);
+  }
 
   // —— 品种名 + 交易术语 zh→en 字典 ——
   // JS 动态渲染（品种名来自中文数据源、图例/表头/徽章等）用 t(zh) 查这里；缺映射兜底返回原中文。
@@ -112,6 +124,7 @@
 
   function apply(l) {
     document.documentElement.lang = (l === 'en' ? 'en' : 'zh-CN');
+    ensureAiSemiNav(); // 确保导航里有「AI 半导体」入口，再统一翻译
 
     // —— 通用 data-en 元素 ——
     document.querySelectorAll('[data-en]').forEach(function (el) {

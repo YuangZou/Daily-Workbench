@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 半导体业绩跟踪 · 产业链全景 · Q2 2026 财报季</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+  :root{
+    --bg:#FAF8F4;--bg-card:#FFFFFF;--bg-soft:#F2EFE8;--border:#E5E0D5;--border-dark:#C4BDB0;
+    --text:#1A1A1A;--text-mid:#555;--text-soft:#888;--text-faint:#B5B0A5;
+    --navy:#0B2545;--accent:#2563EB;--green:#15803D;--green-soft:#DCFCE7;
+    --amber:#B45309;--amber-soft:#FEF3C7;--red:#B91C1C;--red-soft:#FEE2E2;
+    --serif:'Fraunces',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{padding:32px 26px 60px;max-width:1240px;margin:0 auto}
+  a{color:inherit}
+  .masthead{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:24px;flex-wrap:wrap;gap:10px}
+  .brand{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--navy);letter-spacing:-.01em}
+  .brand-sub{font-size:11px;color:var(--text-soft);letter-spacing:.13em;text-transform:uppercase;margin-top:3px}
+  .masthead-right{text-align:right;font-size:12px;color:var(--text-mid)}
+  .pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:6px;animation:pulse 2.5s ease-in-out infinite;vertical-align:middle}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(21,128,61,.5)}50%{box-shadow:0 0 0 8px rgba(21,128,61,0)}}
+  .verdict{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:30px 34px;margin-bottom:28px;position:relative;overflow:hidden}
+  .verdict::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent)}
+  .verdict-label{font-size:11px;color:var(--text-soft);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
+  .verdict-summary{font-family:var(--serif);font-size:20px;line-height:1.5;color:var(--text);max-width:960px;font-weight:500}
+  .verdict-summary em{color:var(--red);font-style:normal;font-weight:600}
+  .verdict-reasons{margin-top:18px;padding:16px 20px;background:var(--bg-soft);border-radius:4px}
+  .vr-label{font-size:11px;color:var(--text-soft);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+  .verdict-reasons ol{margin:0;padding-left:20px}
+  .verdict-reasons li{font-size:14px;line-height:1.7;margin-bottom:5px}
+  .verdict-reasons b{color:var(--navy)}
+  .section-title{font-family:var(--serif);font-size:25px;font-weight:600;color:var(--navy);letter-spacing:-.01em;margin-bottom:4px}
+  .section-sub{font-size:13px;color:var(--text-mid);margin-bottom:16px}
+  .section{margin-bottom:40px}
+  /* matrix */
+  .matrix-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:4px;background:var(--bg-card)}
+  table.matrix{border-collapse:collapse;width:100%;min-width:900px;font-size:12px}
+  table.matrix th,table.matrix td{border:1px solid var(--border);padding:8px 10px;vertical-align:top;text-align:left}
+  table.matrix thead th{background:var(--navy);color:#fff;font-weight:600;font-size:12px;position:sticky;top:0}
+  table.matrix tbody th{background:var(--bg-soft);color:var(--navy);font-weight:600;white-space:nowrap;font-family:var(--serif);font-size:13px}
+  table.matrix td{color:var(--text-mid);line-height:1.7}
+  table.matrix td .co{display:inline-block;background:var(--bg-soft);border-radius:100px;padding:1px 8px;margin:2px 3px 2px 0;font-size:11px;color:var(--text);white-space:nowrap}
+  table.matrix td.empty{color:var(--text-faint)}
+  /* spotlight */
+  .spot-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .spot{background:var(--bg-card);border:1px solid var(--border);border-left:4px solid var(--green);border-radius:4px;padding:15px 17px}
+  .spot-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px;gap:6px}
+  .spot-name{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--navy)}
+  .spot-date{font-family:var(--mono);font-size:11px;font-weight:600}
+  .spot ul{margin:0;padding-left:15px}
+  .spot li{font-size:12px;line-height:1.55;margin-bottom:3px}
+  .spot li b{color:var(--navy);font-family:var(--mono)}
+  .spot-src{font-size:10px;margin-top:7px}
+  /* chart */
+  .chart-block{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:22px 24px 16px}
+  .chart-title{font-family:var(--serif);font-size:18px;font-weight:600;margin-bottom:4px}
+  .chart-sub{font-size:12px;color:var(--text-soft);margin-bottom:8px}
+  #yoyChart{width:100%;height:1000px}
+  .chart-footnote{font-size:10px;color:var(--text-faint);font-style:italic;margin-top:8px;padding-top:10px;border-top:1px solid var(--bg-soft);line-height:1.6}
+  /* segment groups */
+  .seg-head{display:flex;align-items:baseline;gap:10px;margin:30px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--navy)}
+  .seg-num{font-family:var(--mono);font-size:12px;color:#fff;background:var(--navy);border-radius:4px;padding:2px 8px;font-weight:600}
+  .seg-name{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--navy)}
+  .seg-count{font-size:11px;color:var(--text-soft);margin-left:auto;font-family:var(--mono)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:15px}
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:18px 20px;transition:border-color .15s}
+  .card:hover{border-color:var(--border-dark)}
+  .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:3px}
+  .card-name{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2}
+  .card-ticker{font-family:var(--mono);font-size:11px;color:var(--text-soft);margin-top:2px}
+  .flag-tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;background:var(--bg-soft);color:var(--text-mid);white-space:nowrap}
+  .card-period{font-size:11px;color:var(--text-soft);margin:7px 0 11px;padding-bottom:9px;border-bottom:1px dashed var(--border)}
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:11px 15px;margin-bottom:10px}
+  .m-label{font-size:10px;color:var(--text-soft);letter-spacing:.05em;text-transform:uppercase}
+  .m-value{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--navy);line-height:1.25;margin-top:2px;word-break:break-word}
+  .m-yoy{font-size:12px;font-weight:600;font-family:var(--mono)}
+  .m-yoy.up{color:var(--green)}.m-yoy.down{color:var(--red)}
+  .segd-row{background:#F5F3FF;border:1px solid #DDD6FE;border-radius:4px;padding:6px 10px;margin-bottom:9px}
+  .segd-row .m-label{color:#6D28D9}
+  .segd-val{font-size:12px;font-weight:500;color:#5B21B6}
+  .capex-row{background:#FFF7ED;border:1px solid #FED7AA;border-radius:4px;padding:6px 10px;margin-bottom:9px;display:flex;gap:8px;align-items:baseline}
+  .capex-row .m-label{color:var(--amber)}
+  .capex-val{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--amber)}
+  .card-note{font-size:12px;color:var(--text-mid);line-height:1.5;padding:9px 0;border-top:1px solid var(--border)}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;gap:8px;flex-wrap:wrap}
+  .next-pill{font-size:10px;padding:3px 9px;border-radius:100px;letter-spacing:.03em}
+  .next-pill.done{background:var(--green-soft);color:var(--green)}
+  .next-pill.upcoming{background:var(--amber-soft);color:var(--amber)}
+  .next-pill.thisweek{background:#DBEAFE;color:var(--accent);font-weight:600}
+  .src{color:var(--accent);text-decoration:none;font-size:10px}
+  .src:hover{text-decoration:underline}
+  .disclaimer{margin-top:38px;padding:18px 22px;background:var(--bg-soft);border-radius:4px;font-size:11.5px;color:var(--text-mid);line-height:1.7}
+  .disclaimer b{color:var(--navy)}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div>
+    <div class="brand">AI 半导体业绩跟踪 · 产业链全景</div>
+    <div class="brand-sub">China · US · Japan · Korea (含中国台湾) &nbsp;|&nbsp; Q2 2026 Earnings Season</div>
+  </div>
+  <div class="masthead-right">
+    <div><span class="pulse"></span>数据截至 2026-07-15</div>
+    <div style="margin-top:4px;color:var(--text-faint)">55 家龙头 · 20 产业链环节</div>
+  </div>
+</div>
+
+<div class="verdict">
+  <div class="verdict-label">全产业链 · 一句话总览</div>
+  <div class="verdict-summary">
+    AI 需求贯穿整条半导体产业链，从 EDA/材料/设备到设计/存储/代工/封测/光模块/服务器<em>全环节高景气</em>，弹性由下而上放大——存储、光模块、AI 服务器、测试机同比动辄翻倍。本轮 Q2 财报季 <b>明天 7/16 TSMC 打头</b>，日韩存储、美系算力接力验证景气高度。
+  </div>
+  <div class="verdict-reasons">
+    <div class="vr-label">全链主线</div>
+    <ol>
+      <li><b>弹性最大在"卖水人"与下游承接</b>：光模块（中际旭创 +262%、新易盛 +77%）、AI 服务器（工业富联 +103%、广达 +67%、SMCI +123%）、测试机（Teradyne +87%）随算力资本开支直接放量。</li>
+      <li><b>存储超级周期贯穿上下</b>：SK 海力士 +198%、三星营业利润约 19 倍、美光单季 $41.5B、铠侠 NAND 全年 +37%——HBM/涨价缺货是全链最强驱动。</li>
+      <li><b>设备/材料满载、上游卡位牢</b>：KLA 市占 58%、Advantest +45%、Lam 上调 WFE 至 $140B；材料端（信越/沪硅）因扩产与消费疲软利润承压，是链上少数弱点。</li>
+    </ol>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">产业链环节 × 国别 · 龙头矩阵</div>
+  <div class="section-sub">每格按国别精选 1–2 龙头；🔹=中国台湾（归中国口径）</div>
+  <div class="matrix-wrap"><table class="matrix" id="matrix"></table></div>
+</div>
+
+<div class="section">
+  <div class="section-title">最近已发布财报 · 核心提炼</div>
+  <div class="section-sub">本轮 Q2 财报季开场：TSMC 明天(7/16)打头，日韩存储、美系算力接力</div>
+  <div class="spot-wrap" id="spot"></div>
+</div>
+
+<div class="section">
+  <div class="chart-block">
+    <div class="chart-title">最新一期营收同比增速（%）· 全产业链</div>
+    <div class="chart-sub">按增速排序；颜色=产业链大类。日系为财年口径，其余为最新季度</div>
+    <div id="yoyChart"></div>
+    <div class="chart-footnote">注：光模块/AI服务器/存储/测试环节弹性最大（美光 +346%、中际旭创 +262%、SK海力士 +198%、SMCI +123%、工业富联 +103%、新易盛 +106%）。负增长仅联发科(-2.7%)、长电(-1.8%)。三星(营业利润口径)、应用材料、SUMCO 未披露可比营收同比，未入图。</div>
+  </div>
+</div>
+
+<div id="segments"></div>
+
+<div class="disclaimer">
+  <b>数据来源与口径</b>：各公司数字取自官方财报新闻稿 / SEC·6-K/8-K / 交易所公告 / 主流财经媒体（每卡附来源链接），已标注报告期与发布日。各公司财年不同：英伟达、美光、博通、Marvell、Synopsys、KLA、Lam、应用材料、Coherent、Supermicro，以及日系（信越/SUMCO/东京电子/爱德万/迪思科/铠侠，3 月制）财季与自然季度错位，卡片已注明"报告期"。中国大陆公司 Q2 并入半年报，预计 8 月下旬披露。范围限中美日韩（含中国台湾）。<br>
+  <b>免责</b>：本页为公开财报信息的整理跟踪，数字以公司正式公告为准，不构成任何投资建议。制作：研究整理 · 2026-07-15。
+</div>
+
+<script>
+// region -> flag
+const FLAG={"美国":"🇺🇸","中国大陆":"🇨🇳","中国台湾":"🔹","日本":"🇯🇵","韩国":"🇰🇷"};
+// 14 产业链环节（上游→下游）
+const SEGMENTS=[
+ "EDA / IP","材料（硅片等）","材料·光刻胶","材料·电子特气","材料·CMP/靶材",
+ "设备·光刻/涂胶","设备·刻蚀/薄膜/清洗","设备·清洗/其他","设备·量检测/测试/封装设备",
+ "设计·GPU/加速器","设计·CPU/处理器","设计·FPGA","设计·ASIC/网络","设计·内存接口","设计·模拟/电源",
+ "存储（DRAM/NAND/HBM）","晶圆代工","封装测试","光模块/光互连","AI服务器/系统"];
+const SEG_CLASS={ // 图表配色大类
+ "EDA / IP":"#0EA5E9","材料（硅片等）":"#0D9488","材料·光刻胶":"#0D9488","材料·电子特气":"#0D9488","材料·CMP/靶材":"#0D9488",
+ "设备·光刻/涂胶":"#16A34A","设备·刻蚀/薄膜/清洗":"#16A34A","设备·清洗/其他":"#16A34A","设备·量检测/测试/封装设备":"#16A34A",
+ "设计·GPU/加速器":"#8B5CF6","设计·CPU/处理器":"#8B5CF6","设计·FPGA":"#8B5CF6","设计·ASIC/网络":"#8B5CF6","设计·内存接口":"#8B5CF6","设计·模拟/电源":"#8B5CF6",
+ "存储（DRAM/NAND/HBM）":"#DC2626","晶圆代工":"#2563EB","封装测试":"#0891B2","光模块/光互连":"#DB2777","AI服务器/系统":"#EA580C"};
+
+const DATA=[
+ // ① EDA/IP
+ {seg:"EDA / IP",region:"美国",name:"Synopsys 新思",ticker:"SNPS",period:"FQ2 FY2026（5/27发布）",revenue:"$2.28B",rev_yoy:41.9,profit:"非GAAP净利 $644M（EPS $3.35）",note:"含 Ansys 并表推高营收；GAAP净利受摊销压至 $0.09；上调全年指引。",next:"~8月底(FQ3)",nstatus:"upcoming",src:"https://www.stocktitan.net/sec-filings/SNPS/8-k-synopsys-inc-reports-material-event-cbc0fdf27739.html",srcname:"Synopsys 8-K"},
+ {seg:"EDA / IP",region:"美国",name:"Cadence",ticker:"CDNS",period:"Q1 2026（4月发布）",revenue:"$1.474B",rev_yoy:19,profit:"净利 $335.7M（+22.7%）",note:"backlog 创 $8B；非GAAP EPS $1.96；EDA/IP/系统全双位数增。",next:"~7月底(Q2)",nstatus:"upcoming",src:"https://futurumgroup.com/insights/cadence-q1-fy-2026-earnings-driven-by-agentic-ai-expansion-and-emulation-hardware/",srcname:"Cadence 业绩"},
+ {seg:"EDA / IP",region:"中国大陆",name:"华大九天",ticker:"301269",period:"Q1 2026（4/27发布）",revenue:"2.57 亿元",rev_yoy:9.65,profit:"归母净利 -0.73 亿元（亏损）",note:"增收不增利，高研发投入拖累；毛利率 78.8%；AI+EDA 新品推进。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://stock.stockstar.com/RB2026042900041087.shtml",srcname:"证券之星"},
+ // ② 材料
+ {seg:"材料（硅片等）",region:"日本",name:"信越化学 Shin-Etsu",ticker:"4063",period:"FY2026 全年（4/28发布，截至3/31）",revenue:"¥2,573.9B",rev_yoy:0.5,profit:"净利 ¥474.4B（-11.2%）",note:"电子材料好、氯乙烯拖累；营业利润 -14.4%；硅片全球龙头。",next:"~7月底(Q1 FY27)",nstatus:"upcoming",src:"https://www.nikkei.com/nkd/company/kessan/?scode=4063",srcname:"信越 决算"},
+ {seg:"材料（硅片等）",region:"日本",name:"SUMCO",ticker:"3436",period:"Q1 FY2026（5月发布，1–3月）",revenue:"¥101.4B",rev_yoy:null,profit:"净亏 ¥8.4B（营业亏损 ¥5.2B）",note:"AI 先进硅片需求强，但消费/工业/车用疲软拖累转亏。",next:"~8月(Q2)",nstatus:"upcoming",src:"https://finance.biggo.com/news/jpx_tdnet_140120260511523138",srcname:"SUMCO 决算"},
+ {seg:"材料（硅片等）",region:"中国大陆",name:"沪硅产业",ticker:"688126",period:"Q1 2026（4/30发布）",revenue:"10.84 亿元",rev_yoy:35.22,profit:"归母净利 -4.83 亿元（亏损扩大）",note:"300mm 硅片销量 +90%，但扩产/研发/降价拖累；毛利率 -11.85%。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://finance.sina.com.cn/stock/aigc/stockfs/2026-04-30/doc-inhwfyeh7131877.shtml",srcname:"新浪财经"},
+ {seg:"材料（硅片等）",region:"美国",name:"Entegris 恩特格里斯",ticker:"ENTG",period:"Q1 2026（4月发布）",revenue:"$811.9M",rev_yoy:5,profit:"调整后 EBITDA $226M（27.8%）",note:"液体过滤/先进沉积驱动；非GAAP EPS $0.86；Q2 指引 ~$830M。",next:"~7月底/8月初(Q2)",nstatus:"upcoming",src:"https://www.entegris.com/en/home/about-us/news/entegris-reports-results-for-first-quarter-2026.html",srcname:"Entegris IR"},
+ // ③ 设备·光刻/涂胶/量产设备
+ {seg:"设备·光刻/涂胶",region:"日本",name:"Tokyo Electron 东京电子",ticker:"8035",period:"FY2026 全年（4/30发布，截至3/31）",revenue:"¥2,443.5B",rev_yoy:0.5,profit:"净利 ¥574.4B",note:"结构转向 2nm/先进 DRAM/HBM 封装设备；H1 FY27 指引 +33%。",next:"~8月上旬(Q1 FY27)",nstatus:"upcoming",src:"https://www.tel.com/ir/library/report/index.html",srcname:"TEL IR"},
+ // ④ 设备·刻蚀/薄膜/清洗
+ {seg:"设备·刻蚀/薄膜/清洗",region:"美国",name:"Applied Materials 应用材料",ticker:"AMAT",period:"FQ2 2026（5/14发布，截至4/26）",revenue:"$7.91B",rev_yoy:null,profit:"GAAP 营业利润 $2.52B（31.9%）",note:"营收创纪录；GAAP EPS $3.51/非GAAP $2.86；毛利率 49.9%。",next:"~8月中(FQ3)",nstatus:"upcoming",src:"https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-announces-second-quarter-2026-results/",srcname:"AMAT IR"},
+ {seg:"设备·刻蚀/薄膜/清洗",region:"美国",name:"Lam Research",ticker:"LRCX",period:"FQ3 2026（4/22发布）",revenue:"$5.84B",rev_yoy:24,profit:"营业利润率 35%",note:"AI 驱动记录营收，上调 2026 全球 WFE 至 $140B；非GAAP EPS $1.47。",next:"7/29(FQ4)",nstatus:"upcoming",src:"https://ca.investing.com/news/company-news/lam-research-q3-2026-slides-ai-drives-record-revenue-raises-outlook-93CH-4581262",srcname:"Lam Q3"},
+ {seg:"设备·刻蚀/薄膜/清洗",region:"中国大陆",name:"北方华创 NAURA",ticker:"002371",period:"Q1 2026（4月底发布）",revenue:"103.23 亿元",rev_yoy:25.8,profit:"归母净利 16.35 亿元（+3.4%）",note:"刻蚀/薄膜/清洗多品类市占率升；研发大增压制利润。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://finance.eastmoney.com/a/202605013727341211.html",srcname:"东方财富"},
+ {seg:"设备·刻蚀/薄膜/清洗",region:"中国大陆",name:"中微公司 AMEC",ticker:"688012",period:"Q1 2026（4月底发布）",revenue:"29.15 亿元",rev_yoy:34.1,profit:"归母净利 9.30 亿元（+197%）",note:"含拓荆减持收益；扣非 4.78 亿(+60%)；高端刻蚀付运量升。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://www.stcn.com/article/detail/3829413.html",srcname:"证券时报"},
+ // ⑤ 设备·量检测/测试/封装设备
+ {seg:"设备·量检测/测试/封装设备",region:"美国",name:"KLA",ticker:"KLAC",period:"FQ3 2026（4/29发布）",revenue:"$3.415B",rev_yoy:11,profit:"非GAAP净利 $1.24B（EPS $9.40）",segd:"过程控制 $3.08B（占90%）",note:"量检测市占 58%；服务 +16%；WFE>$140B。",next:"~7月底(FQ4)",nstatus:"upcoming",src:"https://www.investing.com/news/company-news/kla-q3-fy2026-slides-market-leadership-drives-earnings-beat-ambitious-targets-93CH-4647441",srcname:"KLA Q3"},
+ {seg:"设备·量检测/测试/封装设备",region:"美国",name:"Teradyne 泰瑞达",ticker:"TER",period:"Q1 2026（4月发布）",revenue:"$1.283B",rev_yoy:87,profit:"净利 $398.9M（EPS $2.53）",segd:"半导体测试 $1.11B（约70%来自AI）",note:"AI 算力/存储测试驱动营收 +87%；Q2 指引 $1.15–1.25B。",next:"~7月底(Q2)",nstatus:"upcoming",src:"https://investors.teradyne.com/news-events/press-releases/detail/440/teradyne-reports-first-quarter-2026-results",srcname:"Teradyne IR"},
+ {seg:"设备·量检测/测试/封装设备",region:"日本",name:"Advantest 爱德万",ticker:"6857",period:"FY2026 全年（4/27发布，截至3/31）",revenue:"¥1,128.6B",rev_yoy:44.7,profit:"营业利润 ¥499.1B（+118.8%）",note:"AI 测试机需求爆发，营业利润率 44.2%；净利 +132.9%。",next:"~7月底/8月初(Q1 FY27)",nstatus:"upcoming",src:"https://www.advantest.com/en/investors/financial-highlights/review/",srcname:"Advantest IR"},
+ {seg:"设备·量检测/测试/封装设备",region:"日本",name:"Disco 迪思科",ticker:"6146",period:"FY2026 全年（截至3/31）",revenue:"¥436.9B",rev_yoy:11,profit:"净利 ¥135.5B（+9.4%）",note:"晶圆切割/减薄封测设备，受益先进封装（HBM 堆叠）。",next:"~7月底(Q1 FY27)",nstatus:"upcoming",src:"https://www.investing.com/equities/disco-corp-earnings",srcname:"Disco 业绩"},
+ // ⑥ 设计·GPU/加速器
+ {seg:"设计·GPU/加速器",region:"美国",name:"NVIDIA 英伟达",ticker:"NVDA",period:"Q1 FY2027（5月底发布，截至4/26）",revenue:"$81.6B",rev_yoy:85,profit:"净利 $58.3B（+211%）",segd:"数据中心营收 $75.2B（+92%）",note:"数据中心占比超九成，Blackwell 放量；毛利率 74.9%。",next:"~8月底(Q2 FY27)",nstatus:"upcoming",src:"https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027",srcname:"NVIDIA IR"},
+ {seg:"设计·GPU/加速器",region:"美国",name:"AMD",ticker:"AMD",period:"Q1 2026（5/5发布）",revenue:"$10.3B",rev_yoy:38,profit:"非GAAP EPS $1.37",segd:"数据中心营收 $5.8B（+57%），分部营业利润 $1.6B",note:"MI350 GPU + 第五代 EPYC 驱动；Q2 指引 $11.2B±0.3B。",next:"8/4(Q2)",nstatus:"upcoming",src:"https://www.datacenterdynamics.com/en/news/amd-posts-q1-2026-data-center-revenue-of-58bn-forecasts-120bn-server-cpu-income-by-2030/",srcname:"AMD 8-K"},
+ {seg:"设计·GPU/加速器",region:"中国大陆",name:"寒武纪 Cambricon",ticker:"688256",period:"Q1 2026（4月发布）",revenue:"28.85 亿元",rev_yoy:159.6,profit:"归母净利 10.13 亿元（+185%）",note:"国产 AI 算力龙头，需求加速国产化，市值一度破万亿。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://www.marketscreener.com/news/cambricon-s-profit-soars-185-in-q1-revenue-jumps-160-on-ai-boom-ce7f58d8d080f020",srcname:"Cambricon"},
+ // ⑦ 设计·CPU/处理器
+ {seg:"设计·CPU/处理器",region:"美国",name:"Intel 英特尔",ticker:"INTC",period:"Q1 2026（4/23发布）",revenue:"$13.6B",rev_yoy:7,profit:"非GAAP EPS $0.29",segd:"数据中心与AI $5.1B(+22%)、代工 $5.4B(亏 $2.4B)",capex:"2026 与 2025 持平（Q1 毛 capex $5B）",note:"连续六季超指引；代工减亏是关键看点；Q2 指引 $13.8–14.8B。",next:"7/23(Q2)",nstatus:"upcoming",src:"https://newsroom.intel.com/corporate/intel-to-report-second-quarter-2026-financial-results",srcname:"Intel"},
+ {seg:"设计·CPU/处理器",region:"中国大陆",name:"海光信息 Hygon",ticker:"688041",period:"Q1 2026（4/7发布）",revenue:"40.34 亿元",rev_yoy:68.1,profit:"归母净利 6.87 亿元（+35.8%）",note:"CPU + DCU 双线，AI 算力需求兑现，单季营收创纪录。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://www.stcn.com/article/detail/3730460.html",srcname:"证券时报"},
+ // ⑧ 设计·ASIC/网络
+ {seg:"设计·ASIC/网络",region:"美国",name:"Broadcom 博通",ticker:"AVGO",period:"Q2 FY2026（6/3发布，截至5/3）",revenue:"$22.2B",rev_yoy:48,profit:"调整后 EBITDA $13.1B（68%）",segd:"AI 半导体营收 $10.8B（+143%）",note:"定制 AI 加速器 + AI 网络；Q3 指引 AI 收入 $16.0B(+>200%)。",next:"~9月初(Q3 FY26)",nstatus:"done",src:"https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announces-second-quarter-fiscal-year-2026-financial",srcname:"Broadcom IR"},
+ {seg:"设计·ASIC/网络",region:"美国",name:"Marvell",ticker:"MRVL",period:"Q1 FY2027（5月发布）",revenue:"$2.42B",rev_yoy:28,profit:"非GAAP净利 $718M（EPS $0.80）",segd:"数据中心营收 $1.8B（+27%，占76%）",note:"定制 XPU + AI 光互连/以太网领增；GAAP净利仅 $34.5M（摊销）。",next:"~8月底(Q2 FY27)",nstatus:"upcoming",src:"https://www.businesswire.com/news/home/20260527144543/en/Marvell-Technology-Inc.-Reports-First-Quarter-of-Fiscal-Year-2027-Financial-Results",srcname:"Marvell IR"},
+ {seg:"设计·ASIC/网络",region:"中国台湾",name:"MediaTek 联发科",ticker:"2454",period:"Q1 2026（4/30发布）",revenue:"NT$149.2B",rev_yoy:-2.7,profit:"非TIFRS 净利 NT$25.0B（-16.9%）",note:"手机 -15%、智能边缘 +13%；AI ASIC 放量能见度提升；毛利率 46.3%。",next:"~7月底(Q2)",nstatus:"upcoming",src:"https://www.mediatek.com/investor-relations/financial-information",srcname:"MediaTek IR"},
+ // ⑨ 设计·内存接口
+ {seg:"设计·内存接口",region:"中国大陆",name:"澜起科技 Montage",ticker:"688008",period:"Q1 2026（4/28发布）",revenue:"14.61 亿元",rev_yoy:19.5,profit:"归母净利 8.47 亿元（+61.3%）",segd:"DDR5 RCD + 互连芯片新品放量",note:"MRCD/MDB、PCIe Retimer、CKD、CXL MXC 收入攀升；毛利率 69.8%；单季创纪录。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://finance.sina.com.cn/roll/2026-04-29/doc-inhwckrq6799988.shtml",srcname:"新浪财经"},
+ // ⑩ 存储
+ {seg:"存储（DRAM/NAND/HBM）",region:"韩国",name:"Samsung 三星电子",ticker:"005930",period:"Q2 2026 预估（7/7 披露初值）",revenue:"约 ₩171 万亿",rev_yoy:null,profit:"营业利润 约 ₩89.4 万亿",note:"约 19 倍 YoY、环比 +56%，创纪录；HBM+DRAM 涨价缺货；完整财报待 7 月下旬。",next:"完整Q2 ~7月下旬",nstatus:"done",src:"https://news.samsung.com/global/samsung-electronics-announces-earnings-guidance-for-second-quarter-2026",srcname:"Samsung"},
+ {seg:"存储（DRAM/NAND/HBM）",region:"韩国",name:"SK Hynix 海力士",ticker:"000660",period:"Q1 2026（4/23–24发布）",revenue:"₩52.58 万亿 ($35.5B)",rev_yoy:198,profit:"营业利润 ₩37.61 万亿（利润率72%）",note:"营收首破 50 万亿韩元；HBM 全球第一（56.4%）；净利 ₩40.35 万亿。",next:"7/22(Q2)",nstatus:"upcoming",src:"https://www.prnewswire.com/news-releases/sk-hynix-announces-1q26-financial-results-302750959.html",srcname:"SK hynix"},
+ {seg:"存储（DRAM/NAND/HBM）",region:"美国",name:"Micron 美光",ticker:"MU",period:"FQ3 2026（6/24发布，截至5/28）",revenue:"$41.46B",rev_yoy:346,profit:"GAAP 净利 $28.24B",capex:"$7.08B（本季净）",note:"AI 存储超级景气，HBM4 量产；FQ4 指引营收 $50.0B±1.0B、毛利率约 86%。",next:"~9月下旬(FQ4)",nstatus:"done",src:"https://www.globenewswire.com/news-release/2026/06/24/3317151/14450/en/micron-technology-inc-reports-record-results-for-the-third-quarter-of-fiscal-2026.html",srcname:"Micron"},
+ {seg:"存储（DRAM/NAND/HBM）",region:"日本",name:"Kioxia 铠侠",ticker:"285A",period:"FY2026 全年（5月发布，截至3/31）",revenue:"¥2,337.6B",rev_yoy:37,profit:"净利 ¥554.4B（约2倍）",note:"NAND/AI SSD 爆发；营业利润近翻倍 ¥870B；Q1 FY27 净利指引约 48 倍 YoY。",next:"~7月底/8月初(Q1 FY27)",nstatus:"upcoming",src:"https://www.storagenewsletter.com/2026/05/19/kioxia-fiscal-4q25-and-fy25-financial-results/",srcname:"Kioxia"},
+ // ⑪ 晶圆代工
+ {seg:"晶圆代工",region:"中国台湾",name:"TSMC 台积电",ticker:"TSM / 2330",period:"Q1 2026（4/16发布）",revenue:"NT$1,134B ($35.9B)",rev_yoy:35.1,profit:"净利 NT$572.5B（+58.3%）",capex:"2026 指引 $52–56B（偏上限）",note:"AI 拉动，全年营收增速上调 30%+；Q2 指引 $39.0–40.2B。",next:"7/16(Q2)",nstatus:"thisweek",src:"https://investor.tsmc.com/english/quarterly-results/2026/q2",srcname:"TSMC IR"},
+ {seg:"晶圆代工",region:"中国台湾",name:"UMC 联电",ticker:"2303",period:"Q1 2026（4/29发布）",revenue:"NT$61.04B",rev_yoy:5.5,profit:"净利 NT$16.17B（EPS NT$1.29）",note:"22nm 创纪录占 14%；净利同比翻倍；毛利率 29.2%；Q2 稼动率升至 80%+。",next:"~7月底(Q2)",nstatus:"upcoming",src:"https://www.businesswire.com/news/home/20260429074239/en/UMC-Reports-First-Quarter-2026-Results",srcname:"UMC IR"},
+ {seg:"晶圆代工",region:"中国大陆",name:"中芯国际 SMIC",ticker:"688981 / 0981.HK",period:"Q1 2026（5月中发布）",revenue:"25.05 亿美元 / 176 亿元",rev_yoy:11.5,profit:"归母净利 13.61 亿元（+0.4%）",capex:"2026 与 2025 大致持平（指引）",note:"AI 服务器/汽车芯片成增长动力；Q2 指引环比 +14–16%、毛利率 20–22%。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://www.dramx.com/News/made-sealing/20260515-40425.html",srcname:"财报报道"},
+ {seg:"晶圆代工",region:"中国大陆",name:"华虹半导体 Hua Hong",ticker:"1347.HK / 688347",period:"Q1 2026（发布）",revenue:"$660.9M",rev_yoy:22.2,profit:"归母净利 $20.9M（+458%）",note:"MCU/flash/BCD 需求强；毛利率 13%；Q2 指引 $690–700M、毛利率 14–16%。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://quartr.com/events/hua-hong-semiconductor-limited-1347-q1-2026_FgI1osS0",srcname:"Hua Hong"},
+ {seg:"晶圆代工",region:"美国",name:"GlobalFoundries",ticker:"GFS",period:"Q1 2026（发布）",revenue:"$1.634B",rev_yoy:3,profit:"非IFRS 净利 $227M（EPS $0.40）",note:"毛利率升至 29%；光子/差异化工艺驱动；Q2 指引 $1.76B。",next:"~7月底/8月初(Q2)",nstatus:"upcoming",src:"https://www.investing.com/news/company-news/globalfoundries-q1-2026-slides-margins-expand-photonics-drive-growth-93CH-4659701",srcname:"GF 业绩"},
+ // ⑫ 封装测试
+ {seg:"封装测试",region:"中国台湾",name:"日月光 ASE",ticker:"3711",period:"Q1 2026（发布）",revenue:"NT$173.66B ($5.44B)",rev_yoy:17.2,profit:"归母净利 NT$14.15B（+87%）",segd:"封测 ATM 段 NT$112.4B（+29.7%，占63%）",capex:"2026 创纪录 US$7B",note:"AI 先进封装需求旺；LEAP 服务全年目标 >$3.5B(+118%)。",next:"~7月底(Q2)",nstatus:"upcoming",src:"https://finsee.ai/earnings/asx/2026/q1/en/",srcname:"ASE 业绩"},
+ {seg:"封装测试",region:"美国",name:"Amkor",ticker:"AMKR",period:"Q1 2026（4月发布）",revenue:"$1.68B",rev_yoy:27,profit:"净利 $83M（EPS $0.33）",segd:"先进封装 $1.37B（+29%，占81%）",note:"AI 数据中心先进封装（2.5D/Fan-Out）驱动；Q2 指引 $1.75–1.85B。",next:"~7月底/8月初(Q2)",nstatus:"upcoming",src:"https://amkortech.gcs-web.com/static-files/819e825e-c207-468d-97b0-e3e6592d2042",srcname:"Amkor IR"},
+ {seg:"封装测试",region:"中国大陆",name:"长电科技 JCET",ticker:"600584",period:"Q1 2026（4/29发布）",revenue:"91.71 亿元",rev_yoy:-1.76,profit:"归母净利 2.9 亿元（+42.7%）",note:"全球封测龙头，全流程一站式；营收微降但盈利能力上升。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://finance.eastmoney.com/a/202605013727454060.html",srcname:"东方财富"},
+ {seg:"封装测试",region:"中国大陆",name:"通富微电",ticker:"002156",period:"Q1 2026（4/29发布）",revenue:"74.8 亿元",rev_yoy:22.8,profit:"归母净利 3.29 亿元（+224.5%）",note:"中高端产品增；扣非 1.72 亿(+64.8%)，公允价值变动推高归母。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://finance.sina.com.cn/stock/zqgd/2026-04-30/doc-inhwftwr1424322.shtml",srcname:"新浪财经"},
+ // ⑬ 光模块/光互连
+ {seg:"光模块/光互连",region:"中国大陆",name:"中际旭创 Innolight",ticker:"300308",period:"Q1 2026（4/16发布）",revenue:"194.96 亿元",rev_yoy:192.1,profit:"归母净利 57.35 亿元（+262%）",note:"800G/1.6T 光模块 + 硅光量产放量；全球光模块龙头；毛利率 46.06%。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://www.stcn.com/article/detail/3756750.html",srcname:"证券时报"},
+ {seg:"光模块/光互连",region:"中国大陆",name:"新易盛 Eoptolink",ticker:"300502",period:"Q1 2026（4/24发布）",revenue:"83.38 亿元",rev_yoy:105.8,profit:"归母净利 27.80 亿元（+76.8%）",note:"800G 主力 + 1.6T 放量；汇兑损失 5.22 亿拖累环比。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://wap.eastmoney.com/a/202604243717673839.html",srcname:"东方财富"},
+ {seg:"光模块/光互连",region:"美国",name:"Coherent",ticker:"COHR",period:"FQ3 2026（发布）",revenue:"$1.81B",rev_yoy:21,profit:"非GAAP EPS $1.41（GAAP $0.97）",segd:"数据中心与通信 $1.4B（+37%）",note:"800G/1.6T 光收发模块爬坡，早期毛利率更优；毛利率 37.7%。",next:"~8月中(FQ4)",nstatus:"upcoming",src:"https://www.coherent.com/news/press-releases/third-quarter-fiscal-year-2026-results",srcname:"Coherent IR"},
+ // ⑭ AI服务器/系统
+ {seg:"AI服务器/系统",region:"中国大陆",name:"工业富联 FII",ticker:"601138",period:"Q1 2026（4/28发布）",revenue:"2510.78 亿元",rev_yoy:56.52,profit:"归母净利 105.95 亿元（+102.6%）",note:"AI GPU 机柜出货 +3.8x、ASIC 服务器 +3.2x；连续 3 季净利破百亿。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://finance.eastmoney.com/a/202604293724650534.html",srcname:"东方财富"},
+ {seg:"AI服务器/系统",region:"中国台湾",name:"Quanta 广达",ticker:"2382",period:"Q1 2026（5/14发布）",revenue:"NT$809.2B ($25.7B)",rev_yoy:66.6,profit:"净利 NT$9.63B（EPS NT$3.06）",note:"AI 服务器占服务器营收 >75%；GB300 机柜/内存涨价稀释毛利至 4.78%。",next:"~8月中(Q2)",nstatus:"upcoming",src:"https://finance.biggo.com/news/TW_2382.TW_2026-05-14",srcname:"Quanta"},
+ {seg:"AI服务器/系统",region:"美国",name:"Supermicro 超微",ticker:"SMCI",period:"FQ3 2026（5/5发布，截至3/31）",revenue:"$10.2B",rev_yoy:123,profit:"净利 $483M（非GAAP EPS $0.84）",note:"营收 +123% 但环比 -19%、低于预期；毛利率回升至 9.9%；FY 目标 $40B。",next:"~8月初(FQ4)",nstatus:"upcoming",src:"https://ir.supermicro.com/news/news-details/2026/Supermicro-Announces-Third-Quarter-Fiscal-Year-2026-Financial-Results/default.aspx",srcname:"Supermicro IR"},
+ // ===== 补充细分领域 =====
+ {seg:"材料·光刻胶",region:"日本",name:"东京应化 TOK",ticker:"4186",period:"FY2025 全年（截至2025/12）",revenue:"¥237.0B",rev_yoy:17.9,profit:"利润创纪录（AI 驱动）",note:"先进光刻胶(EUV/ArF)领增 +20%；FY26 指引营收 ¥261B(+10%)。",next:"~8月(季报)",nstatus:"upcoming",src:"https://www.investing.com/news/company-news/tokyo-ohka-kogyo-fy2025-slides-record-profits-surge-on-ai-chip-demand-93CH-4519251",srcname:"TOK 决算"},
+ {seg:"材料·光刻胶",region:"中国大陆",name:"南大光电",ticker:"300346",period:"Q1 2026（4/23发布）",revenue:"6.62 亿元",rev_yoy:5.45,profit:"归母净利 1.24 亿元（+30%）",note:"ArF 光刻胶六款验证放量；先进前驱体 +22%；扣非 1.05 亿(+38.6%)。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://www.stcn.com/article/detail/3790085.html",srcname:"证券时报"},
+ {seg:"材料·电子特气",region:"中国大陆",name:"华特气体",ticker:"688268",period:"Q1 2026（4/28发布）",revenue:"3.84 亿元",rev_yoy:13.7,profit:"归母净利 0.34 亿元（-23.7%）",note:"进口替代产品增至 57 款；低毛利品增 + 新项目爬坡压制利润；毛利率 30.2%。",next:"半年报 ~8月",nstatus:"upcoming",src:"http://finance.sina.com.cn/stock/aiassist/yjbg/2026-04-28/doc-inhwapms8378001.shtml",srcname:"新浪财经"},
+ {seg:"材料·CMP/靶材",region:"中国大陆",name:"安集科技",ticker:"688019",period:"Q1 2026（发布）",revenue:"7.24 亿元",rev_yoy:32.76,profit:"归母净利 2.08 亿元（+23%）",segd:"CMP 抛光液（毛利率 55.5%）",note:"CMP 抛光液稳健增长 + 功能性湿电子化学品放量。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://finance.eastmoney.com/a/202605013727453867.html",srcname:"东方财富"},
+ {seg:"材料·CMP/靶材",region:"中国大陆",name:"江丰电子",ticker:"300666",period:"Q1 2026（4/29发布）",revenue:"13.06 亿元",rev_yoy:30.49,profit:"归母净利 2.10 亿元（+33.4%）",segd:"超高纯靶材 + 精密零部件",note:"靶材 + 零部件双轮驱动；2025 靶材收入 28.5 亿(+22%)。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://finance.eastmoney.com/a/202605013727178526.html",srcname:"东方财富"},
+ {seg:"设备·清洗/其他",region:"中国大陆",name:"盛美上海 ACM",ticker:"688082",period:"Q1 2026（4/28发布）",revenue:"14.76 亿元",rev_yoy:13.06,profit:"归母净利 1.04 亿元（-57.7%）",note:"清洗设备龙头（+电镀/炉管/涂胶/PECVD）；汇兑损失拖累利润；研发占比 20.9%。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://www.stcn.com/article/detail/3844148.html",srcname:"证券时报"},
+ {seg:"设计·FPGA",region:"中国大陆",name:"复旦微电",ticker:"688385",period:"Q1 2026（4/29发布）",revenue:"10.32 亿元",rev_yoy:16.23,profit:"归母净利 1.48 亿元（+8.9%）",segd:"FPGA 及其他 3.47 亿元",note:"FPGA 线 2025 收入 13.16 亿（高可靠约 12 亿）；各产品线全面增长。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://www.nbd.com.cn/articles/2026-04-29/4372920.html",srcname:"每经网"},
+ {seg:"设计·FPGA",region:"中国大陆",name:"安路科技",ticker:"688107",period:"Q1 2026（4/29发布）",revenue:"1.66 亿元",rev_yoy:77.46,profit:"归母净利 -0.41 亿元（亏损收窄32%）",note:"数据中心服务器成订单核心驱动；连续四季环比增；研发占比 53%。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://finance.eastmoney.com/a/202604303726414279.html",srcname:"东方财富"},
+ {seg:"设计·模拟/电源",region:"美国",name:"Texas Instruments 德州仪器",ticker:"TXN",period:"Q1 2026（4/22发布）",revenue:"$4.83B",rev_yoy:19,profit:"净利 $1.55B（EPS $1.68）",segd:"模拟 $3.92B（+22%）",note:"工业与数据中心领增；Q2 指引 $5.0–5.4B。",next:"~7月底(Q2)",nstatus:"upcoming",src:"https://www.ti.com/about-ti/newsroom/news-releases/2026/2026-04-22-ti-reports-first-quarter-2026-financial-results-and-shareholder-returns.html",srcname:"TI IR"},
+ {seg:"设计·模拟/电源",region:"美国",name:"Analog Devices ADI",ticker:"ADI",period:"FQ2 2026（5月发布）",revenue:"$3.62B",rev_yoy:37,profit:"调整后 EPS $3.09（+67%）",note:"工业 +56%、通信 +79%；AI 数据中心/电源需求；调整后毛利率 73%。",next:"~8月底(FQ3)",nstatus:"upcoming",src:"https://www.stocktitan.net/sec-filings/ADI/8-k-analog-devices-inc-reports-material-event-256343c95b9a.html",srcname:"ADI 8-K"},
+ {seg:"设计·模拟/电源",region:"中国大陆",name:"圣邦股份",ticker:"300661",period:"Q1 2026（发布）",revenue:"11.0 亿元",rev_yoy:39.1,profit:"归母净利 1.24 亿元（+107%）",note:"国产模拟龙头；单季营收创新高；扣非 1.0 亿(+194.9%)。",next:"半年报 ~8月",nstatus:"upcoming",src:"https://news.qq.com/rain/a/20260426A05IRV00",srcname:"腾讯财经"},
+];
+
+// ---- 短名（矩阵用）----
+function shortName(n){const m=n.match(/[一-龥]{2,}|[A-Za-z][A-Za-z0-9.& ]*[A-Za-z0-9]/);return m?m[0].trim():n;}
+
+// ---- 矩阵 环节×国别 ----
+const COLS=["美国","中国大陆","中国台湾","日本","韩国"];
+function colOf(region){return region;}
+const mtx=document.getElementById("matrix");
+let thead="<thead><tr><th>产业链环节 ＼ 国别</th>"+COLS.map(c=>`<th>${c}</th>`).join("")+"</tr></thead>";
+let tbody="<tbody>";
+SEGMENTS.forEach(seg=>{
+  tbody+=`<tr><th>${seg}</th>`;
+  COLS.forEach(col=>{
+    const cs=DATA.filter(d=>d.seg===seg&&colOf(d.region)===col);
+    if(cs.length) tbody+=`<td>${cs.map(d=>`<span class="co">${FLAG[d.region]} ${shortName(d.name)}</span>`).join("")}</td>`;
+    else tbody+=`<td class="empty">—</td>`;
+  });
+  tbody+="</tr>";
+});
+tbody+="</tbody>";
+mtx.innerHTML=thead+tbody;
+
+// ---- 最近已发布 spotlight ----
+const SPOTLIGHT=[
+ {name:"Samsung 三星",date:"7/7 · Q2 初值",color:"#DC2626",bullets:["营收 <b>约 ₩171 万亿</b>","营业利润 <b>约 ₩89.4 万亿</b>（约 19 倍 YoY，创纪录）","驱动：HBM + DRAM 涨价缺货"],src:"https://news.samsung.com/global/samsung-electronics-announces-earnings-guidance-for-second-quarter-2026",srcname:"Samsung"},
+ {name:"Micron 美光",date:"6/24 · FQ3",color:"#DC2626",bullets:["营收 <b>$41.46B</b>（+346% YoY，创纪录）","GAAP 净利 <b>$28.24B</b>、资本开支(净) <b>$7.08B</b>","FQ4 指引营收 $50.0B±1.0B"],src:"https://www.globenewswire.com/news-release/2026/06/24/3317151/14450/en/micron-technology-inc-reports-record-results-for-the-third-quarter-of-fiscal-2026.html",srcname:"Micron"},
+ {name:"Broadcom 博通",date:"6/3 · Q2 FY26",color:"#8B5CF6",bullets:["营收 <b>$22.2B</b>（+48%）","AI 半导体 <b>$10.8B</b>（+143%）","Q3 指引 AI 收入 $16.0B（+>200%）"],src:"https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announces-second-quarter-fiscal-year-2026-financial",srcname:"Broadcom IR"},
+];
+const spotEl=document.getElementById("spot");
+SPOTLIGHT.forEach(s=>{const div=document.createElement("div");div.className="spot";div.style.borderLeftColor=s.color;
+  div.innerHTML=`<div class="spot-top"><span class="spot-name">${s.name}</span><span class="spot-date" style="color:${s.color}">${s.date}</span></div><ul>${s.bullets.map(b=>`<li>${b}</li>`).join("")}</ul><a class="src spot-src" href="${s.src}" target="_blank" rel="noopener">来源：${s.srcname} ↗</a>`;
+  spotEl.appendChild(div);});
+
+// ---- 分环节卡片 ----
+const segEl=document.getElementById("segments");
+SEGMENTS.forEach((seg,idx)=>{
+  const list=DATA.filter(d=>d.seg===seg);
+  const head=document.createElement("div");head.className="seg-head";
+  head.innerHTML=`<span class="seg-num">${String(idx+1).padStart(2,"0")}</span><span class="seg-name">${seg}</span><span class="seg-count">${list.length} 家</span>`;
+  segEl.appendChild(head);
+  const wrap=document.createElement("div");wrap.className="cards";
+  list.forEach(d=>{
+    let yoy="";if(d.rev_yoy!==null){const up=d.rev_yoy>=0;yoy=`<span class="m-yoy ${up?'up':'down'}">${up?'+':''}${d.rev_yoy}% YoY</span>`;}
+    const segd=d.segd?`<div class="segd-row"><div class="m-label">核心分部（营收）</div><div class="segd-val">${d.segd}</div></div>`:"";
+    const capex=d.capex?`<div class="capex-row"><span class="m-label">资本开支</span><span class="capex-val">${d.capex}</span></div>`:"";
+    const nstat=d.nstatus==="thisweek"?"thisweek":d.nstatus;
+    const card=document.createElement("div");card.className="card";
+    card.innerHTML=`<div class="card-head"><div><div class="card-name">${d.name}</div><div class="card-ticker">${d.ticker}</div></div><span class="flag-tag">${FLAG[d.region]} ${d.region}</span></div>
+      <div class="card-period">报告期：${d.period}</div>
+      <div class="metrics"><div><div class="m-label">营收</div><div class="m-value">${d.revenue} ${yoy}</div></div><div><div class="m-label">利润</div><div class="m-value">${d.profit}</div></div></div>
+      ${segd}${capex}
+      <div class="card-note">${d.note}</div>
+      <div class="card-foot"><span class="next-pill ${nstat}">下期：${d.next}</span><a class="src" href="${d.src}" target="_blank" rel="noopener">来源：${d.srcname} ↗</a></div>`;
+    wrap.appendChild(card);
+  });
+  segEl.appendChild(wrap);
+});
+
+// ---- 营收同比图 ----
+const cd=DATA.filter(d=>d.rev_yoy!==null).map(d=>({name:shortName(d.name),val:d.rev_yoy,seg:d.seg})).sort((a,b)=>a.val-b.val);
+const chart=echarts.init(document.getElementById("yoyChart"));
+chart.setOption({
+  grid:{left:120,right:70,top:8,bottom:8},
+  tooltip:{trigger:"axis",axisPointer:{type:"shadow"},formatter:p=>`${p[0].name}<br/>营收同比 <b>${p[0].value>=0?'+':''}${p[0].value}%</b>`},
+  xAxis:{type:"value",axisLabel:{formatter:"{value}%",color:"#888"},splitLine:{lineStyle:{color:"#EEE"}}},
+  yAxis:{type:"category",data:cd.map(d=>d.name),axisLabel:{color:"#333",fontSize:11},axisLine:{lineStyle:{color:"#CCC"}},axisTick:{show:false}},
+  series:[{type:"bar",data:cd.map(d=>({value:d.val,itemStyle:{color:SEG_CLASS[d.seg]||"#888",borderRadius:[0,3,3,0]}})),barWidth:"64%",
+    label:{show:true,position:"right",formatter:p=>(p.value>=0?'+':'')+p.value+'%',color:"#555",fontSize:10,fontFamily:"JetBrains Mono"}}]
+});
+window.addEventListener("resize",()=>chart.resize());
+</script>
+</body>
+</html>

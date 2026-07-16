@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="AI Semis · Research Workbench">AI 半导体 · 研究工作台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  /* 全屏容器：顶栏固定、财报看板铺满其余空间。看板在 iframe 里，与站点 CSS 完全隔离。 */
+  html, body { height: 100%; }
+  body { display: flex; flex-direction: column; overflow: hidden; }
+  .nav { flex: none; }
+  .ai-semi-frame { flex: 1 1 auto; width: 100%; border: 0; display: block; background: #FAF8F4; }
+  @media (max-width: 640px) { body { overflow: auto; } .ai-semi-frame { min-height: 82vh; } }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="../">
+    <span class="nav-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span>
+    <b>研究工作台</b>
+  </a>
+  <div class="nav-links">
+    <a href="../macro/">宏观</a>
+    <a href="../fundamentals/">工业品基本面</a>
+    <a href="../capital/">资金分析</a>
+    <a href="../sentiment/">舆情分析</a>
+    <a href="../knowledge/">知识库</a>
+    <a href="../search/">检索问答</a>
+    <a href="/ai-semi/" class="active">AI 半导体</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn" data-lang="zh" type="button" onclick="WRLang.set('zh')">中</button>
+    <button class="lang-btn" data-lang="en" type="button" onclick="WRLang.set('en')">EN</button>
+  </div>
+  <span class="nav-status"><span class="dot"></span>数据截至 2026-07-16</span>
+</nav>
+
+<!-- 财报看板：自包含单文件，放 iframe 里原样渲染，样式与站点全局 CSS 互不干扰 -->
+<iframe class="ai-semi-frame" src="dashboard.html" title="AI 半导体业绩跟踪" loading="eager"></iframe>
+
+<script src="../assets/i18n.js"></script>
+</body>
+</html>
