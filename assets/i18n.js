@@ -186,15 +186,9 @@
 (function () {
   // 管理员判定由后端 /api/me 的 admin 字段（源自 users.role='admin'）决定，前端不写死邮箱。
   var TXT = {
-    planLab: ['会员状态', 'Membership'],
-    planFree: ['免费用户', 'Free'],
-    planMember: ['会员', 'Member'],
     quotaLab: ['今日剩余问答', 'Q&A left today'],
-    upgrade: ['升级会员 / 充值', 'Upgrade / Top up'],
     admin: ['后台管理', 'Admin'],
-    logout: ['退出登录', 'Sign out'],
-    upgradeNote: ['升级会员请联系管理员开通（在线支付即将开放）。', 'To upgrade, please contact the admin (online payment coming soon).'],
-    adminNote: ['后台管理开发中，敬请期待。', 'Admin console is under development.']
+    logout: ['退出登录', 'Sign out']
   };
   function isEN() { return window.WRLang && WRLang.get && WRLang.get() === 'en'; }
   function tt(k) { return TXT[k][isEN() ? 1 : 0]; }
@@ -210,13 +204,9 @@
       '<button class="wr-acct-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Account"><span class="wr-avatar">·</span></button>' +
       '<div class="wr-acct-menu" role="menu" hidden>' +
         '<div class="wr-acct-email" data-role="email">—</div>' +
-        '<div class="wr-acct-row"><span class="wr-acct-lab" data-role="planLab"></span><span class="wr-acct-val" data-role="plan"></span></div>' +
         '<div class="wr-acct-row"><span class="wr-acct-lab" data-role="quotaLab"></span><span class="wr-acct-val" data-role="quota">—</span></div>' +
         '<div class="wr-acct-sep"></div>' +
-        '<button class="wr-acct-item" type="button" data-role="upgrade"></button>' +
-        '<div class="wr-acct-note" data-role="upgradeNote" hidden></div>' +
         '<button class="wr-acct-item wr-acct-admin" type="button" data-role="admin" hidden></button>' +
-        '<div class="wr-acct-note" data-role="adminNote" hidden></div>' +
         '<button class="wr-acct-item wr-acct-logout" type="button" data-role="logout"></button>' +
       '</div>';
     nav.appendChild(wrap);
@@ -226,43 +216,29 @@
     var btn = q('.wr-acct-btn');
     var menu = q('.wr-acct-menu');
     var avatar = q('.wr-avatar');
-    var state = { email: '', member: false, expiry: '', admin: false, quota: null };
+    var state = { email: '', admin: false, cap: null, remaining: null };
 
     function refreshLang() {
-      byRole('planLab').textContent = tt('planLab');
       byRole('quotaLab').textContent = tt('quotaLab');
-      byRole('upgrade').textContent = tt('upgrade');
       byRole('admin').textContent = tt('admin');
       byRole('logout').textContent = tt('logout');
-      byRole('upgradeNote').textContent = tt('upgradeNote');
-      byRole('adminNote').textContent = tt('adminNote');
-      var planEl = byRole('plan');
-      if (state.member) {
-        var until = state.expiry ? (isEN() ? ' · until ' + state.expiry : ' · 至 ' + state.expiry) : '';
-        planEl.textContent = tt('planMember') + until;
-        planEl.classList.add('is-member');
-      } else {
-        planEl.textContent = tt('planFree');
-        planEl.classList.remove('is-member');
-      }
-      // 今日剩余问答：remaining / cap（后端已按北京时间跨天归零）
-      byRole('quota').textContent = (state.remaining == null || state.cap == null) ? '—' : (state.remaining + ' / ' + state.cap);
+      // 今日剩余问答：remaining / cap（后端已按北京时间跨天归零；管理员显示 不限/Unlimited）
+      var quotaEl = byRole('quota');
+      if (state.remaining == null || state.cap == null) quotaEl.textContent = '—';
+      else if (state.cap >= 100000) quotaEl.textContent = isEN() ? 'Unlimited' : '不限';
+      else quotaEl.textContent = state.remaining + ' / ' + state.cap;
     }
 
     function toggleMenu(open) {
       var show = (open === undefined) ? menu.hidden : open;
       menu.hidden = !show;
       btn.setAttribute('aria-expanded', show ? 'true' : 'false');
-      if (!show) { byRole('upgradeNote').hidden = true; byRole('adminNote').hidden = true; }
     }
 
     btn.addEventListener('click', function (e) { e.stopPropagation(); toggleMenu(); });
     document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) toggleMenu(false); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') toggleMenu(false); });
 
-    byRole('upgrade').addEventListener('click', function () {
-      var n = byRole('upgradeNote'); n.textContent = tt('upgradeNote'); n.hidden = !n.hidden;
-    });
     byRole('admin').addEventListener('click', function () {
       location.href = '/admin/'; // 真实后台页，服务端按 users.role 再校验一次
     });
@@ -272,13 +248,11 @@
         .catch(function () { location.href = '/login'; });
     });
 
-    // 从 /api/me 载入用户 + 会员/额度；未登录则移除组件
+    // 从 /api/me 载入用户 + 今日额度；未登录则移除组件
     function load() {
       return fetch('/api/me').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
         if (!j || !j.email) { wrap.parentNode && wrap.parentNode.removeChild(wrap); return; }
         state.email = j.email;
-        state.member = j.plan === 'member';
-        state.expiry = j.plan_expires || '';
         state.admin = !!j.admin;                    // 服务端 users.role==='admin'
         state.cap = (typeof j.cap === 'number') ? j.cap : null;
         state.remaining = (typeof j.remaining === 'number') ? j.remaining : null;

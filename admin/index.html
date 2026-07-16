@@ -9,25 +9,25 @@
 <link rel="stylesheet" href="../assets/site.css">
 <style>
 .utable-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel);}
-table.utable{border-collapse:collapse;width:100%;font-size:13px;min-width:720px;}
+table.utable{border-collapse:collapse;width:100%;font-size:13px;min-width:680px;}
 table.utable th,table.utable td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line2);vertical-align:middle;}
 table.utable th{background:var(--soft);font-weight:600;color:var(--text);white-space:nowrap;font-size:12px;letter-spacing:.3px;}
 table.utable tr:last-child td{border-bottom:0;}
+table.utable tr.is-pending{background:#fffbeb;}
 table.utable td.email{font-weight:600;word-break:break-all;}
-.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;}
-.pill.free{background:#f3f4f6;color:var(--sub);}
-.pill.member{background:var(--accent-soft);color:var(--accent);}
-.pill.admin{background:#ecfdf5;color:var(--green);}
-.pill.expired{background:#fdecec;color:var(--red);}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;white-space:nowrap;}
+.pill.pending{background:#fff7ed;color:var(--amber);}
+.pill.approved{background:#ecfdf5;color:var(--green);}
+.pill.rejected{background:#fdecec;color:var(--red);}
+.pill.role-admin{background:var(--accent-soft);color:var(--accent);}
 .uact{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-.uact input[type=date]{border:1px solid var(--line);border-radius:7px;padding:5px 8px;font-family:inherit;font-size:12px;color:var(--text);}
-.ubtn{border:0;border-radius:7px;padding:6px 11px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:filter .15s;white-space:nowrap;}
-.ubtn.set{background:var(--accent);color:#fff;}
-.ubtn.cancel{background:#fff;color:var(--red);border:1px solid rgba(220,38,38,.3);}
-.ubtn:hover{filter:brightness(1.05);}
-.ubtn:disabled{opacity:.5;cursor:not-allowed;}
+.ubtn{border:0;border-radius:7px;padding:6px 12px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:filter .15s;white-space:nowrap;}
+.ubtn.ok{background:var(--green);color:#fff;} .ubtn.no{background:#fff;color:var(--red);border:1px solid rgba(220,38,38,.3);}
+.ubtn.ghost{background:#fff;color:var(--sub);border:1px solid var(--line);}
+.ubtn:hover{filter:brightness(1.05);} .ubtn:disabled{opacity:.5;cursor:not-allowed;}
 .admin-msg{font-size:12.5px;margin:12px 2px 0;min-height:18px;}
 .admin-msg.ok{color:var(--green);} .admin-msg.err{color:var(--red);}
+.count-chip{font-size:12px;color:var(--amber);font-weight:600;margin-left:8px;}
 </style>
 </head>
 <body>
@@ -49,14 +49,14 @@ table.utable td.email{font-weight:600;word-break:break-all;}
     <button class="lang-btn" data-lang="zh" type="button" onclick="WRLang.set('zh')">中</button>
     <button class="lang-btn" data-lang="en" type="button" onclick="WRLang.set('en')">EN</button>
   </div>
-  <span class="nav-status"><span class="dot"></span>数据截至 2026-07-15</span>
+  <span class="nav-status"><span class="dot"></span>数据截至 2026-07-16</span>
 </nav>
 
 <div class="wrap">
   <div class="crumb" data-en="<a href='../'>Research Workbench</a> · Admin Console"><a href="../">研究工作台</a> · 后台管理</div>
   <div class="sec-head">
-    <h1 data-en="Admin · Users">后台管理 · 用户管理</h1>
-    <div class="sub" data-en="Administrators only (enforced server-side, users.role='admin'). Grant/cancel membership and set expiry. Members get 100 Q&A/day; free users 5/day.">仅管理员可访问（服务端按 users.role='admin' 强校验）。可开通/取消会员并设到期日。会员每日 100 次问答，免费用户 5 次。</div>
+    <h1 data-en="Admin · Registration approvals">后台管理 · 注册审批</h1>
+    <div class="sub" data-en="Administrators only (enforced server-side, users.role='admin'). New sign-ups start as 'pending' and can't log in until approved here. Everyone gets 5 AI Q&A per day.">仅管理员可访问（服务端按 users.role='admin' 强校验）。新注册用户为「待审批」，通过后才能登录。所有用户每天 5 次 AI 问答。</div>
   </div>
 
   <div class="brief">
@@ -64,16 +64,16 @@ table.utable td.email{font-weight:600;word-break:break-all;}
     <p><b data-role="admin-email">—</b> · <span data-en="Administrator">管理员</span></p>
   </div>
 
-  <div class="label" data-en="Users">用户列表</div>
+  <div class="label"><span data-en="Users">用户列表</span><span class="count-chip" id="pending-count"></span></div>
   <div class="utable-wrap">
     <table class="utable">
       <thead>
         <tr>
           <th data-en="Email">邮箱</th>
+          <th data-en="Registered">注册时间</th>
+          <th data-en="Status">状态</th>
           <th data-en="Role">角色</th>
-          <th data-en="Membership">会员状态</th>
-          <th data-en="Expires">到期日</th>
-          <th data-en="Used today">今日已用</th>
+          <th data-en="Today">今日已用</th>
           <th data-en="Actions">操作</th>
         </tr>
       </thead>
@@ -84,53 +84,63 @@ table.utable td.email{font-weight:600;word-break:break-all;}
   </div>
   <div id="admin-msg" class="admin-msg"></div>
 
-  <div class="foot" data-en="Access is enforced on the server by user role; the front-end entry is only a convenience, not the security boundary. Online payment is not enabled yet — grant membership manually here.">访问权限由服务端按用户角色强制校验；前端入口只是便捷，不是安全边界。在线支付暂未接入——会员在此手动开通。</div>
+  <div class="foot" data-en="Access is enforced on the server by user role; the front-end entry is only a convenience, not the security boundary.">访问权限由服务端按用户角色强制校验；前端入口只是便捷，不是安全边界。</div>
 </div>
 
 <script src="../assets/i18n.js"></script>
 <script>
 (function () {
   var isEN = function () { return window.WRLang && WRLang.get() === 'en'; };
-  var today = '';           // 由后端返回的北京时间当天
   var rows = [];
 
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-  function plus30() { var d = new Date(Date.now() + 30 * 864e5); return d.toISOString().slice(0, 10); }
-
+  function fmtTime(ms) {
+    if (!ms) return '—';
+    try { var d = new Date(Number(ms)); if (isNaN(d.getTime())) return '—';
+      var p = function (n) { return (n < 10 ? '0' : '') + n; };
+      return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+    } catch (e) { return '—'; }
+  }
   function msg(text, ok) {
     var el = document.getElementById('admin-msg');
     el.textContent = text; el.className = 'admin-msg ' + (ok ? 'ok' : 'err');
     if (text) setTimeout(function () { if (el.textContent === text) { el.textContent = ''; el.className = 'admin-msg'; } }, 4000);
   }
 
-  function planCell(u) {
-    if (u.role === 'admin') return '<span class="pill admin">' + (isEN() ? 'Admin (unlimited)' : '管理员（不限）') + '</span>';
-    if (u.plan === 'member') {
-      var expired = u.plan_expires && u.plan_expires < today;
-      if (expired) return '<span class="pill expired">' + (isEN() ? 'Member (expired)' : '会员（已过期）') + '</span>';
-      return '<span class="pill member">' + (isEN() ? 'Member' : '会员') + '</span>';
-    }
-    return '<span class="pill free">' + (isEN() ? 'Free' : '免费') + '</span>';
+  var STATUS_TXT = { pending: ['待审批', 'Pending'], approved: ['已通过', 'Approved'], rejected: ['已拒绝', 'Rejected'] };
+  function statusPill(s) {
+    s = s || 'approved';
+    var label = (STATUS_TXT[s] || [s, s])[isEN() ? 1 : 0];
+    return '<span class="pill ' + s + '">' + label + '</span>';
   }
 
   function render() {
     var tb = document.getElementById('utbody');
+    var pend = rows.filter(function (u) { return u.status === 'pending'; }).length;
+    var pc = document.getElementById('pending-count');
+    pc.textContent = pend ? (isEN() ? pend + ' pending' : pend + ' 待审批') : '';
     if (!rows.length) { tb.innerHTML = '<tr><td colspan="6" style="color:var(--faint);text-align:center;padding:24px">' + (isEN() ? 'No users.' : '暂无用户') + '</td></tr>'; return; }
     tb.innerHTML = rows.map(function (u, i) {
-      var isMember = u.plan === 'member' && u.role !== 'admin';
-      var actions = u.role === 'admin'
-        ? '<span style="color:var(--faint);font-size:12px">' + (isEN() ? 'n/a' : '—') + '</span>'
-        : '<div class="uact">' +
-            '<input type="date" id="exp-' + i + '" value="' + esc(u.plan_expires || plus30()) + '">' +
-            '<button class="ubtn set" onclick="WRAdmin.setMember(' + i + ')">' + (isEN() ? 'Make member' : '设为会员') + '</button>' +
-            (isMember ? '<button class="ubtn cancel" onclick="WRAdmin.cancelMember(' + i + ')">' + (isEN() ? 'Cancel' : '取消会员') + '</button>' : '') +
+      var isAdmin = u.role === 'admin';
+      var actions;
+      if (isAdmin) {
+        actions = '<span style="color:var(--faint);font-size:12px">' + (isEN() ? 'n/a' : '—') + '</span>';
+      } else if (u.status === 'pending') {
+        actions = '<div class="uact">' +
+          '<button class="ubtn ok" onclick="WRAdmin.set(' + i + ',\'approved\')">' + (isEN() ? 'Approve' : '通过') + '</button>' +
+          '<button class="ubtn no" onclick="WRAdmin.set(' + i + ',\'rejected\')">' + (isEN() ? 'Reject' : '拒绝') + '</button>' +
           '</div>';
-      return '<tr>' +
+      } else if (u.status === 'approved') {
+        actions = '<button class="ubtn no" onclick="WRAdmin.set(' + i + ',\'rejected\')">' + (isEN() ? 'Revoke' : '停用') + '</button>';
+      } else { // rejected
+        actions = '<button class="ubtn ok" onclick="WRAdmin.set(' + i + ',\'approved\')">' + (isEN() ? 'Approve' : '通过') + '</button>';
+      }
+      return '<tr' + (u.status === 'pending' ? ' class="is-pending"' : '') + '>' +
         '<td class="email">' + esc(u.email) + '</td>' +
-        '<td>' + esc(u.role) + '</td>' +
-        '<td>' + planCell(u) + '</td>' +
-        '<td>' + (u.plan_expires ? esc(u.plan_expires) : '<span style="color:var(--faint)">—</span>') + '</td>' +
-        '<td>' + u.used_today + ' / ' + u.cap + '</td>' +
+        '<td style="white-space:nowrap;color:var(--sub)">' + fmtTime(u.created_at) + '</td>' +
+        '<td>' + statusPill(u.status) + '</td>' +
+        '<td>' + (isAdmin ? '<span class="pill role-admin">' + (isEN() ? 'Admin' : '管理员') + '</span>' : (isEN() ? 'User' : '普通')) + '</td>' +
+        '<td>' + u.used_today + ' / ' + (u.cap >= 100000 ? (isEN() ? '∞' : '不限') : u.cap) + '</td>' +
         '<td>' + actions + '</td>' +
         '</tr>';
     }).join('');
@@ -142,33 +152,24 @@ table.utable td.email{font-weight:600;word-break:break-all;}
       return r.ok ? r.json() : null;
     }).then(function (j) {
       if (!j) return;
-      rows = j.users || []; today = j.today || '';
+      rows = j.users || [];
       render();
     }).catch(function () { msg(isEN() ? 'Failed to load users.' : '加载用户失败。', false); });
   }
 
-  function setPlan(email, plan, expires) {
-    msg('', true);
-    return fetch('/api/admin/set-plan', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, plan: plan, expires: expires || '' })
-    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
-      .then(function (r) {
-        if (!r.ok) { msg((isEN() ? 'Failed: ' : '失败：') + (r.j.error || ''), false); return; }
-        msg((isEN() ? 'Updated: ' : '已更新：') + email + ' → ' + plan + (expires ? ' (' + expires + ')' : ''), true);
-        return load();
-      }).catch(function () { msg(isEN() ? 'Request failed.' : '请求失败。', false); });
-  }
-
   window.WRAdmin = {
-    setMember: function (i) {
+    set: function (i, status) {
       var u = rows[i]; if (!u) return;
-      var exp = (document.getElementById('exp-' + i) || {}).value || '';
-      setPlan(u.email, 'member', exp);
-    },
-    cancelMember: function (i) {
-      var u = rows[i]; if (!u) return;
-      setPlan(u.email, 'free', '');
+      msg('', true);
+      fetch('/api/admin/approve', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: u.email, status: status })
+      }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (r) {
+          if (!r.ok) { msg((isEN() ? 'Failed: ' : '失败：') + (r.j.error || ''), false); return; }
+          msg((isEN() ? 'Updated: ' : '已更新：') + u.email + ' → ' + status, true);
+          return load();
+        }).catch(function () { msg(isEN() ? 'Request failed.' : '请求失败。', false); });
     }
   };
 

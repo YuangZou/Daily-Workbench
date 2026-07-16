@@ -193,8 +193,11 @@
     try {
       var r = await fetch('/api/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ email: pendingEmail, code }) });
       var d = await r.json().catch(function(){ return {}; });
-      if (r.ok && d.ok) { setVMsg(t('enterInto'), true); location.href = '/'; }
-      else { setVMsg(d.error || t('verifyErr')); btn.disabled = false; }
+      if (r.ok && d.ok) {
+        // 注册成功但需管理员审批：不跳转，显示待审批提示
+        setVMsg(d.message || (lang()==='en' ? 'Registration submitted. You can sign in once an admin approves it.' : '注册已提交，待管理员审批通过后即可登录。'), true);
+        document.getElementById('code').disabled = true;
+      } else { setVMsg(d.error || t('verifyErr')); btn.disabled = false; }
     } catch (err) { setVMsg(t('neterr')); btn.disabled = false; }
     return false;
   }
