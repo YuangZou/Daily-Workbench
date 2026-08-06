@@ -12,6 +12,10 @@
   html, body { height: 100%; }
   body { display: flex; flex-direction: column; overflow: hidden; }
   .nav { flex: none; }
+  .ai-section-tabs { flex: none; display: flex; gap: 8px; padding: 10px 24px; background: #111827; border-top: 1px solid rgba(255,255,255,.08); }
+  .ai-section-tabs a { color: #9ca3af; text-decoration: none; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; transition: .15s ease; }
+  .ai-section-tabs a:hover { color: #fff; background: rgba(255,255,255,.08); }
+  .ai-section-tabs a.active { color: #0f172a; background: #fff; }
   .ai-semi-frame { flex: 1 1 auto; width: 100%; border: 0; display: block; background: #FAF8F4; }
   @media (max-width: 640px) { body { overflow: auto; } .ai-semi-frame { min-height: 82vh; } }
 </style>
@@ -30,7 +34,7 @@
     <a href="../sentiment/">舆情分析</a>
     <a href="../knowledge/">知识库</a>
     <a href="../search/">检索问答</a>
-    <a href="/ai-semi/" class="active">AI 半导体</a>
+    <a href="./" class="active">AI 半导体</a>
   </div>
   <div class="lang-toggle">
     <button class="lang-btn" data-lang="zh" type="button" onclick="WRLang.set('zh')">中</button>
@@ -38,6 +42,11 @@
   </div>
   <span class="nav-status"><span class="dot"></span>数据截至 2026-07-16</span>
 </nav>
+
+<div class="ai-section-tabs" aria-label="AI 半导体板块子导航">
+  <a href="./" class="active" aria-current="page">财报看板</a>
+  <a href="podcast.html">播客观点</a>
+</div>
 
 <!-- 财报看板：自包含单文件，放 iframe 里原样渲染，样式与站点全局 CSS 互不干扰 -->
 <iframe class="ai-semi-frame" src="dashboard.html" title="AI 半导体业绩跟踪" loading="eager"></iframe>

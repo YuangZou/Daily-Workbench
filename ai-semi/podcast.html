@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 播客观点 · 研究工作台</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --panel:#ffffff; --panel2:#f1f3f7; --border:#e4e7ec;
+    --text:#111827; --muted:#667085; --faint:#98a2b3;
+    --accent:#4f46e5; --accent2:#0f9f7f;
+    --invest:#b87318; --tech:#0f8f74; --macro:#7c3eb5;
+    --chip:#f2f4f7;
+    --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .site-nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:11px 22px;}
+  .site-brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;white-space:nowrap;}
+  .site-logo{width:28px;height:28px;border-radius:8px;background:var(--accent);display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;}
+  .site-brand b{font-size:15px;}
+  .site-links{display:flex;align-items:center;justify-content:center;gap:4px;flex:1;}
+  .site-links a{color:#374151;text-decoration:none;font-size:15px;font-weight:500;padding:7px 12px;border-radius:8px;white-space:nowrap;}
+  .site-links a:hover{color:var(--accent);background:#f0f1ff;}
+  .site-links a.active{color:var(--accent);background:#eef0ff;font-weight:700;}
+  .site-status{font-size:12px;color:var(--faint);white-space:nowrap;}
+  .ai-section-tabs{display:flex;gap:8px;padding:10px 24px;background:#111827;border-bottom:1px solid #1f2937;}
+  .ai-section-tabs a{color:#9ca3af;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;}
+  .ai-section-tabs a:hover{color:#fff;background:rgba(255,255,255,.08);}
+  .ai-section-tabs a.active{color:#0f172a;background:#fff;}
+  .wrap{max-width:1120px; margin:0 auto; padding:32px 22px 80px;}
+  header.top{margin-bottom:8px;}
+  h1{font-size:28px; margin:0 0 4px; letter-spacing:-.3px;}
+  .sub{color:var(--muted); font-size:14px; margin-bottom:20px;}
+  .meta-row{display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; font-size:13px; color:var(--faint); margin-bottom:24px;}
+  .meta-row b{color:var(--muted); font-weight:600;}
+  .tabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  .tab{
+    border:1px solid var(--border); background:var(--panel); color:var(--muted);
+    padding:7px 14px; border-radius:999px; font-size:13.5px; cursor:pointer; user-select:none;
+    transition:.15s;
+  }
+  .tab:hover{color:var(--text);}
+  .tab.active{background:var(--accent); border-color:var(--accent); color:#fff;}
+  .tab:focus-visible{outline:3px solid rgba(79,70,229,.22);outline-offset:2px;}
+  .latest-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:4px 0 24px;}
+  .latest-stat{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 14px;}
+  .latest-stat b{display:block;font-size:17px;color:var(--text);}
+  .latest-stat span{font-size:11.5px;color:var(--faint);}
+  .cat-head{
+    display:flex; align-items:center; gap:10px; margin:34px 0 14px;
+    font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+  }
+  .cat-head .dot{width:9px; height:9px; border-radius:50%;}
+  .cat-invest{color:var(--invest)} .cat-invest .dot{background:var(--invest)}
+  .cat-tech{color:var(--tech)} .cat-tech .dot{background:var(--tech)}
+  .cat-macro{color:var(--macro)} .cat-macro .dot{background:var(--macro)}
+  .cat-head .line{flex:1; height:1px; background:var(--border);}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px;}
+  .card{
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    padding:18px 18px 16px; box-shadow:var(--shadow); display:flex; flex-direction:column;
+    border-top:3px solid var(--border);
+  }
+  .card.latest{box-shadow:0 0 0 1px rgba(79,70,229,.18),var(--shadow);}
+  .card.invest{border-top-color:var(--invest)}
+  .card.tech{border-top-color:var(--tech)}
+  .card.macro{border-top-color:var(--macro)}
+  .card .pod{font-size:16.5px; font-weight:700; margin:0 0 2px;}
+  .card .host{font-size:12.5px; color:var(--faint); margin-bottom:12px;}
+  .ep{font-size:14px; font-weight:600; color:var(--text); margin:0 0 8px;}
+  .ep a{color:var(--accent); text-decoration:none;}
+  .ep a:hover{text-decoration:underline;}
+  .epmeta{display:flex; flex-wrap:wrap; gap:6px 10px; font-size:12px; color:var(--muted); margin-bottom:12px;}
+  .epmeta .g{color:var(--text);}
+  .date-badge{background:var(--chip); border-radius:6px; padding:1px 8px; font-variant-numeric:tabular-nums;}
+  .takeaway{font-size:13.5px;line-height:1.7;margin:0 0 10px;padding:10px 12px;background:var(--panel2);border-radius:9px;color:var(--text);}
+  details.more{margin:0 0 12px;}
+  details.more summary{cursor:pointer;color:var(--accent);font-size:12.5px;font-weight:600;list-style:none;}
+  details.more summary::-webkit-details-marker{display:none;}
+  details.more summary::before{content:"+";display:inline-block;width:18px;}
+  details.more[open] summary::before{content:"−";}
+  ul.pts{margin:10px 0 0; padding-left:18px;}
+  ul.pts li{font-size:13.3px; margin-bottom:6px; color:var(--text);}
+  ul.pts li::marker{color:var(--accent);}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; padding-top:10px; border-top:1px dashed var(--border);}
+  .chip{background:var(--chip); color:var(--muted); font-size:11.5px; padding:2px 9px; border-radius:999px;}
+  .note{
+    margin-top:40px; padding:16px 18px; background:var(--panel2); border:1px solid var(--border);
+    border-radius:12px; font-size:12.5px; color:var(--muted);
+  }
+  .note b{color:var(--text);}
+  footer{margin-top:30px; font-size:12px; color:var(--faint); text-align:center;}
+  .hidden{display:none !important;}
+  @media(max-width:760px){
+    .site-nav{padding:10px 14px;gap:8px}.site-links{order:3;flex:0 0 100%;justify-content:flex-start;overflow-x:auto}.site-links a{font-size:13px;padding:6px 9px}.site-status{margin-left:auto}.ai-section-tabs{padding:9px 14px}.wrap{padding:24px 16px 56px}.latest-strip{grid-template-columns:1fr}.grid{grid-template-columns:1fr}h1{font-size:24px}
+  }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a class="site-brand" href="../"><span class="site-logo">W</span><b>研究工作台</b></a>
+  <div class="site-links">
+    <a href="../macro/">宏观</a><a href="../fundamentals/">工业品基本面</a><a href="../capital/">资金分析</a><a href="../sentiment/">舆情分析</a><a href="../knowledge/">知识库</a><a href="../search/">检索问答</a><a href="./" class="active">AI 半导体</a>
+  </div>
+  <span class="site-status">数据更新 2026-08-05</span>
+</nav>
+<div class="ai-section-tabs" aria-label="AI 半导体板块子导航">
+  <a href="./">财报看板</a><a href="podcast.html" class="active" aria-current="page">播客观点</a>
+</div>
+<div class="wrap">
+  <header class="top">
+    <h1>AI 播客观点</h1>
+    <div class="sub">追踪 AI 投资人、技术研究者与宏观专家的最新发言，按发布时间由新到旧排列。</div>
+    <div class="meta-row">
+      <span><b>最后更新：</b><span id="updated">2026-08-05</span></span>
+      <span><b>追踪播客：</b>12 档</span>
+      <span><b>更新频率：</b>每周一（北京时间早上）自动刷新</span>
+    </div>
+  </header>
+
+  <div class="latest-strip" aria-label="追踪概览">
+    <div class="latest-stat"><b>12 档</b><span>持续追踪播客</span></div>
+    <div class="latest-stat"><b>3 类</b><span>AI 投资 · 技术 · 宏观</span></div>
+    <div class="latest-stat"><b>最新优先</b><span>全部观点统一按日期倒序</span></div>
+  </div>
+
+  <div class="tabs" id="tabs" role="tablist" aria-label="观点分类">
+    <button class="tab active" type="button" role="tab" aria-selected="true" data-cat="all">全部最新</button>
+    <button class="tab" type="button" role="tab" aria-selected="false" data-cat="invest">AI / 科技投资</button>
+    <button class="tab" type="button" role="tab" aria-selected="false" data-cat="tech">AI 技术研究</button>
+    <button class="tab" type="button" role="tab" aria-selected="false" data-cat="macro">宏观 / 市场</button>
+  </div>
+
+  <div id="content"></div>
+
+  <div class="note">
+    <b>说明与免责：</b>本页由自动抓取的播客节目信息与公开摘要整理而成，核心观点为提炼概括，可能存在遗漏或理解偏差，具体以原节目为准。多位嘉宾（如 Gavin Baker、Brad Gerstner）本身持有相关多头仓位，观点带有立场，投资决策请自行判断。部分播客更新频率不固定，"最新一期"以抓取当日可确认的最近一期为准。
+  </div>
+  <footer>研究工作台 · AI 播客观点 · 每周刷新</footer>
+</div>
+
+<script>
+const DATA = [
+  // ===== AI / 科技投资 =====
+  {cat:"invest", pod:"BG2 Pod", host:"Brad Gerstner & Bill Gurley",
+   ep:"The SpaceX IPO, Fable 5, AI Capex Update & Market Check",
+   guest:"Gavin Baker、Clark Tang 等", date:"2026-06-11",
+   url:"https://podcasts.apple.com/us/podcast/bg2pod-with-brad-gerstner-and-bill-gurley/id1727278168",
+   pts:[
+     "看 SpaceX IPO：Starship 可复用性 + Starlink 现金流是估值核心，xAI 算力布局是额外上行期权。",
+     "AI 资本开支仍在加速，大厂支出尚未见顶，算力供给依旧是最大瓶颈。",
+     "点评 Anthropic 新前沿模型 Fable 5，前沿能力仍在快速迭代。",
+     "对当前市场'体检'：估值偏高但由真实盈利与算力需求支撑，未到泡沫破裂阶段。"
+   ],
+   comp:["SpaceX","Starlink","xAI","Anthropic","Nvidia"]},
+
+  {cat:"invest", pod:"All-In Podcast", host:"Chamath · Jason · Sacks · Friedberg",
+   ep:"Chip Stocks Crash, $20B Fund Margin Called, Frontier Labs: SLOW DOWN AI (E283)",
+   guest:"四位主持人圆桌", date:"2026-08-01",
+   url:"https://allin.onpodcastai.com/episodes",
+   pts:[
+     "芯片股大跌 + 一只 200 亿美元基金遭追加保证金，激辩 AI 交易杠杆与风险心理。",
+     "前沿实验室罕见发出'放慢 AI'呼声，围绕 AI 安全、监管与自我约束争论。",
+     "开源 vs 闭源之争升温，讨论中国在 AI 竞赛中的'战略耐心'。",
+     "宏观聚焦联邦支出与通胀，看好核聚变等新能源长期潜力。"
+   ],
+   comp:["Nvidia/芯片股","Anthropic","OpenAI","Palantir"]},
+
+  {cat:"invest", pod:"Invest Like the Best", host:"Patrick O'Shaughnessy",
+   ep:"Gavin Baker — AI Market Jitters",
+   guest:"Gavin Baker（Atreides CIO）", date:"2026-08-04",
+   url:"https://podcasts.apple.com/us/podcast/gavin-baker-ai-market-jitters/id1154105909?i=1000779837048",
+   pts:[
+     "7 月公开市场回调类似 2022，但硅谷私募端 AI 投资毫无放缓，公私市场明显背离。",
+     "GPU 经济学：合约价与现货价分化，部分老型号 GPU 价格不跌反涨，算力仍供不应求。",
+     "开源模型 Kimi、GLM 5.2 改变格局；Anthropic 的 Claude 意外成为衡量前沿能力的风向标。",
+     "认为监管是 AI 持续扩张的最大单一风险，而非需求或技术瓶颈。"
+   ],
+   comp:["Nvidia","Anthropic","Kimi","GLM","SpaceX","HBM"]},
+
+  {cat:"invest", pod:"a16z Podcast", host:"Erik Torenberg（a16z）",
+   ep:"Can Anyone Catch NVIDIA? The Future of Chips and Infrastructure",
+   guest:"Dylan Patel（SemiAnalysis）等", date:"2026-07-15",
+   url:"https://a16z.com/podcasts/a16z-show/",
+   pts:[
+     "NVIDIA 护城河：只复制硬件不够，CUDA 软件生态与系统级整合才是关键。",
+     "Google/Amazon/Meta 自研 ASIC 崛起，但短期难撼动 NVIDIA 主导地位。",
+     "电力与数据中心成为比 GPU 更硬的约束，前沿模型基础设施成本高企。",
+     "出口管制正重塑全球算力竞争格局，基础设施瓶颈将持续多年。"
+   ],
+   comp:["NVIDIA","Google","Amazon","Meta","ASIC"]},
+
+  // ===== AI 技术研究 =====
+  {cat:"tech", pod:"Dwarkesh Podcast", host:"Dwarkesh Patel",
+   ep:"Why smarter AI models could drive up compute prices 10x",
+   guest:"本人视频短文（非访谈）", date:"2026-08-03",
+   url:"https://www.dwarkesh.com/podcast",
+   pts:[
+     "AI 实验室收入增速（Anthropic 约年增 10 倍）远快于算力供给（约 3 倍），错配将靠涨价弥合，推理 token 价格或涨约 10 倍。",
+     "弥合缺口三条路径：提利润率、提算力售价、把算力从训练转向推理，目前三者都在发生。",
+     "定价权显现：Anthropic 推理毛利率从约 40% 升到 80%+，Google 为锁产能付约两倍现货价。",
+     "违反直觉的结论：模型越聪明好用，需求爆发反而让单位算力更贵，而非更便宜。"
+   ],
+   comp:["Anthropic","OpenAI","Google","TSMC","ASML"]},
+
+  {cat:"tech", pod:"No Priors", host:"Sarah Guo & Elad Gil",
+   ep:"Building an Autonomous Enterprise for Real-World Services",
+   guest:"Melisa Tokmak（Netic 创始人）", date:"2026-08-01",
+   url:"https://www.youtube.com/watch?v=wWbX3NL6_Uo",
+   pts:[
+     "Netic 把 AI Agent 部署到'真实世界服务'（家庭维修、屋顶、酒店接待等蓝领本地服务）而非纯软件。",
+     "核心主张'别只用 AI 砍成本，要用 AI 多卖'——最大价值在提升成交与营收。",
+     "自主企业关键：让 Agent 端到端接管接单、调度、客服等运营环节。",
+     "被数字化忽视的线下服务业，正成为 AI Agent 落地的高价值蓝海。"
+   ],
+   comp:["Netic","AI Agents"]},
+
+  {cat:"tech", pod:"Lex Fridman Podcast", host:"Lex Fridman",
+   ep:"最新期为历史访谈 #499；最近 AI 重头期 #494 黄仁勋 / #490 State of AI in 2026",
+   guest:"#494 Jensen Huang；#490 Nathan Lambert & Sebastian Raschka", date:"2026-03-23 (#494)",
+   url:"https://lexfridman.com/podcast/",
+   pts:[
+     "#490《State of AI in 2026》：ChatGPT/Claude/Gemini/Grok 竞争格局与中美 AI 竞赛全景。",
+     "深入 scaling laws 与预训练/中训练/后训练方法的演进。",
+     "讨论编程是否被取代、开源与闭源之争、通往 AGI 的时间线。",
+     "注：Lex 当前最新一期（#499）为美国内战历史访谈，非 AI 主题。"
+   ],
+   comp:["OpenAI","Anthropic","Google DeepMind","xAI","Nvidia"]},
+
+  {cat:"tech", pod:"Latent Space", host:"swyx & Alessio",
+   ep:"The Inference Engineering Masterclass — Baseten",
+   guest:"Philip Kiely & Ali Taha（Baseten）", date:"2026-08-03",
+   url:"https://www.latent.space/podcast",
+   pts:[
+     "借 Baseten 约 130 亿美元新融资，剖析推理基础设施已成 AI 价值链核心环节。",
+     "生产级推理需三层叠加：模型层优化、集群横向扩展、跨云多区域部署。",
+     "单区域会撞产能上限，跨 GCP/AWS/Oracle 多云部署副本才能保规模与可用性。",
+     "推理工程正从'能跑起来'进化到在成本/延迟/吞吐间做精细权衡的专业学科。"
+   ],
+   comp:["Baseten","Nvidia H200","vLLM/SGLang"]},
+
+  // ===== 宏观 / 市场 =====
+  {cat:"macro", pod:"Odd Lots", host:"Joe Weisenthal & Tracy Alloway",
+   ep:"The Tungsten Market Is Warning of an Upcoming War",
+   guest:"David Fickling（Bloomberg）", date:"2026-08-03",
+   url:"https://omny.fm/shows/odd-lots/the-tungsten-market-is-warning-of-an-upcoming-war",
+   pts:[
+     "钨作为关键军工金属，其价格历史上常在战争临近时飙升，被视为地缘冲突的领先指标。",
+     "澳大利亚 Dolphin 矿等重启，反映西方急于摆脱对中国关键矿产供应链的依赖。",
+     "中国对钨的主导地位使其成为地缘与贸易博弈筹码，供给中断风险抬升价格。",
+     "关键矿产被重新定价，关注军工与再工业化主题下的资源类资产。"
+   ],
+   comp:["钨/关键矿产","国防主题","中国供应链"]},
+
+  {cat:"macro", pod:"Capital Allocators", host:"Ted Seides",
+   ep:"Building Durable Real Estate Portfolios at Morgan Stanley (Ep.514)",
+   guest:"Lauren Hochfelder（摩根士丹利，约 $80B AUM）", date:"2026-07-30",
+   url:"https://www.capitalallocators.com/shows/capital-allocators/",
+   pts:[
+     "高利率与再融资压力下，构建'耐久型'地产组合需强调现金流质量与抗周期性。",
+     "跨地产/基础设施/股权/信贷的多资产实物配置，有助分散利率与估值风险。",
+     "私募地产重定价后出现结构性入场机会，尤其在被错杀的优质板块。",
+     "机构更看重管理人纪律、久期匹配与下行保护，而非单纯追逐收益率。"
+   ],
+   comp:["Morgan Stanley","地产","基础设施","私募信贷"]},
+
+  {cat:"macro", pod:"Forward Guidance", host:"Felix Jauvin（Blockworks）",
+   ep:"The AI Unwind And Warsh's Long-End Gamble | Weekly Roundup",
+   guest:"主持人周度综述", date:"2026-08-03",
+   url:"https://blockworks.com/podcast/forwardguidance",
+   pts:[
+     "杠杆驱动的 AI 繁荣正与决心收紧的美联储相撞，引发历史性市场轮动。",
+     "新任美联储主席 Warsh 试图不动短端、通过长端收紧条件，但沟通不清造成困惑。",
+     "杠杆头寸的强制平仓是本轮 AI 交易踩踏的重要触发因素。",
+     "资金从拥挤的 AI/动量交易撤出，价值股与防御性资产或迎轮动，Jackson Hole 是风险点。"
+   ],
+   comp:["美联储/Warsh","长端美债","AI 动量交易","价值股"]},
+
+  {cat:"macro", pod:"The Grant Williams Podcast", host:"Grant Williams",
+   ep:"Ep.128 — Brent Johnson《The Band》",
+   guest:"Brent Johnson（美元奶昔理论）", date:"2026-07（约）",
+   url:"https://ttmygh.podbean.com/",
+   pts:[
+     "以'The Band'框架理解美元强弱边界：既不会无限走强也不会崩溃，而在区间内运行。",
+     "美元奶昔理论：全球美元债务需求会在危机时推升美元，美元信用仍是体系命脉。",
+     "美元强势会持续对新兴市场与全球流动性施压，警惕流动性收紧引发的去杠杆。",
+     "对冲美元体系风险应兼顾黄金等硬资产，但短期结构性美元需求不容低估。"
+   ],
+   comp:["美元/USD","黄金","新兴市场","全球美元债务"]}
+];
+
+const CATS = [
+  {key:"invest", label:"AI / 科技投资", cls:"cat-invest"},
+  {key:"tech",   label:"AI 技术研究",  cls:"cat-tech"},
+  {key:"macro",  label:"宏观 / 市场",  cls:"cat-macro"}
+];
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function dateValue(value){
+  const hit=String(value).match(/(20\d{2})-(\d{2})(?:-(\d{2}))?/);
+  return hit ? Date.UTC(Number(hit[1]),Number(hit[2])-1,Number(hit[3]||1)) : 0;
+}
+
+function card(d,index){
+  const more = d.pts.slice(1).map(p=>`<li>${esc(p)}</li>`).join("");
+  const chips = d.comp.map(c=>`<span class="chip">${esc(c)}</span>`).join("");
+  const category = CATS.find(c=>c.key===d.cat);
+  return `<article class="card ${d.cat}${index<3?' latest':''}">
+    <div class="pod">${esc(d.pod)}</div>
+    <div class="host">${esc(d.host)}</div>
+    <div class="ep"><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.ep)} ↗</a></div>
+    <div class="epmeta">
+      <time class="date-badge">${esc(d.date)}</time>
+      <span>${esc(category.label)}</span>
+      ${d.guest?`<span>嘉宾：<span class="g">${esc(d.guest)}</span></span>`:""}
+    </div>
+    <p class="takeaway">${esc(d.pts[0])}</p>
+    ${more?`<details class="more"><summary>展开其余 ${d.pts.length-1} 条观点</summary><ul class="pts">${more}</ul></details>`:""}
+    <div class="chips">${chips}</div>
+  </article>`;
+}
+
+function render(filter){
+  const root = document.getElementById("content");
+  const items = DATA.filter(d=>filter==="all"||d.cat===filter).sort((a,b)=>dateValue(b.date)-dateValue(a.date));
+  const category = CATS.find(c=>c.key===filter);
+  const title = filter==="all" ? "全部最新观点" : category.label;
+  const cls = category ? category.cls : "cat-tech";
+  root.innerHTML = `<div class="cat-head ${cls}"><span class="dot"></span>${title}<span class="line"></span><span>${items.length} 期</span></div><div class="grid">${items.map(card).join("")}</div>`;
+}
+
+document.getElementById("tabs").addEventListener("click", e=>{
+  const t = e.target.closest(".tab");
+  if(!t) return;
+  document.querySelectorAll(".tab").forEach(x=>{x.classList.remove("active");x.setAttribute("aria-selected","false")});
+  t.classList.add("active");
+  t.setAttribute("aria-selected","true");
+  render(t.dataset.cat);
+});
+
+render("all");
+</script>
+</body>
+</html>
