@@ -6,9 +6,9 @@
 <title>AI 播客观点 · 研究工作台</title>
 <style>
   :root{
-    --bg:#f7f8fa; --panel:#ffffff; --panel2:#f1f3f7; --border:#e4e7ec;
-    --text:#111827; --muted:#667085; --faint:#98a2b3;
-    --accent:#4f46e5; --accent2:#0f9f7f;
+    --bg:#faf9f7; --panel:#ffffff; --panel2:#f4f2ee; --border:#e5e2dc;
+    --text:#17304f; --muted:#667487; --faint:#9199a3;
+    --accent:#356df3; --accent2:#269864;
     --invest:#b87318; --tech:#0f8f74; --macro:#7c3eb5;
     --chip:#f2f4f7;
     --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06);
@@ -28,10 +28,10 @@
   .site-links a:hover{color:var(--accent);background:#f0f1ff;}
   .site-links a.active{color:var(--accent);background:#eef0ff;font-weight:700;}
   .site-status{font-size:12px;color:var(--faint);white-space:nowrap;}
-  .ai-section-tabs{display:flex;gap:8px;padding:10px 24px;background:#111827;border-bottom:1px solid #1f2937;}
-  .ai-section-tabs a{color:#9ca3af;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;}
-  .ai-section-tabs a:hover{color:#fff;background:rgba(255,255,255,.08);}
-  .ai-section-tabs a.active{color:#0f172a;background:#fff;}
+  .ai-section-tabs{display:flex;gap:8px;padding:10px 24px;background:#fff;border-bottom:1px solid var(--border);}
+  .ai-section-tabs a{color:#6f7884;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;}
+  .ai-section-tabs a:hover{color:var(--accent);background:#f4f6fb;}
+  .ai-section-tabs a.active{color:var(--accent);background:#eef3ff;}
   .wrap{max-width:1120px; margin:0 auto; padding:32px 22px 80px;}
   header.top{margin-bottom:8px;}
   h1{font-size:28px; margin:0 0 4px; letter-spacing:-.3px;}
@@ -39,6 +39,8 @@
   .meta-row{display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; font-size:13px; color:var(--faint); margin-bottom:24px;}
   .meta-row b{color:var(--muted); font-weight:600;}
   .tabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  .pod-search{flex:1;min-width:220px;border:1px solid var(--border);background:#fff;color:var(--text);padding:8px 12px;border-radius:8px;font-size:13px;outline:none}.pod-search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(53,109,243,.11)}
+  .consensus{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:10px;margin:0 0 24px}.consensus-card{background:#fff;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:14px 16px}.consensus-card small{color:var(--faint);font-weight:700}.consensus-card b{display:block;color:var(--text);font-size:14px;margin:5px 0}.consensus-card p{font-size:12px;color:var(--muted);margin:0}
   .tab{
     border:1px solid var(--border); background:var(--panel); color:var(--muted);
     padding:7px 14px; border-radius:999px; font-size:13.5px; cursor:pointer; user-select:none;
@@ -97,7 +99,7 @@
   footer{margin-top:30px; font-size:12px; color:var(--faint); text-align:center;}
   .hidden{display:none !important;}
   @media(max-width:760px){
-    .site-nav{padding:10px 14px;gap:8px}.site-links{order:3;flex:0 0 100%;justify-content:flex-start;overflow-x:auto}.site-links a{font-size:13px;padding:6px 9px}.site-status{margin-left:auto}.ai-section-tabs{padding:9px 14px}.wrap{padding:24px 16px 56px}.latest-strip{grid-template-columns:1fr}.grid{grid-template-columns:1fr}h1{font-size:24px}
+    .site-nav{padding:10px 14px;gap:8px}.site-links{order:3;flex:0 0 100%;justify-content:flex-start;overflow-x:auto}.site-links a{font-size:13px;padding:6px 9px}.site-status{margin-left:auto}.ai-section-tabs{padding:9px 14px}.wrap{padding:24px 16px 56px}.latest-strip,.consensus{grid-template-columns:1fr}.grid{grid-template-columns:1fr}h1{font-size:24px}
   }
 </style>
 </head>
@@ -129,11 +131,18 @@
     <div class="latest-stat"><b>最新优先</b><span>全部观点统一按日期倒序</span></div>
   </div>
 
+  <div class="consensus" aria-label="本期观点摘要">
+    <div class="consensus-card"><small>本期共识</small><b>算力投入仍强，瓶颈由 GPU 延伸至电力、网络与存储</b><p>多档节目共同强调 AI 资本开支尚未见顶，但产业链约束正在扩散。</p></div>
+    <div class="consensus-card"><small>主要分歧</small><b>Token 成本将继续下降，还是因需求爆发重新上涨</b><p>模型效率改善与算力供需紧张形成两种相反力量。</p></div>
+    <div class="consensus-card"><small>重点映射</small><b>NVIDIA · HBM · CPO · 云厂商 CapEx</b><p>搜索公司或技术名称，可快速定位相关节目和观点。</p></div>
+  </div>
+
   <div class="tabs" id="tabs" role="tablist" aria-label="观点分类">
     <button class="tab active" type="button" role="tab" aria-selected="true" data-cat="all">全部最新</button>
     <button class="tab" type="button" role="tab" aria-selected="false" data-cat="invest">AI / 科技投资</button>
     <button class="tab" type="button" role="tab" aria-selected="false" data-cat="tech">AI 技术研究</button>
     <button class="tab" type="button" role="tab" aria-selected="false" data-cat="macro">宏观 / 市场</button>
+    <input class="pod-search" id="pod-search" type="search" placeholder="搜索播客、嘉宾、公司或观点…" aria-label="搜索播客观点">
   </div>
 
   <div id="content"></div>
@@ -326,9 +335,12 @@ function card(d,index){
   </article>`;
 }
 
+let activeFilter="all";
 function render(filter){
   const root = document.getElementById("content");
-  const items = DATA.filter(d=>filter==="all"||d.cat===filter).sort((a,b)=>dateValue(b.date)-dateValue(a.date));
+  activeFilter=filter;
+  const query=(document.getElementById("pod-search").value||"").trim().toLowerCase();
+  const items = DATA.filter(d=>(filter==="all"||d.cat===filter)&&(!query||[d.pod,d.host,d.ep,d.guest,...d.pts,...d.comp].join(" ").toLowerCase().includes(query))).sort((a,b)=>dateValue(b.date)-dateValue(a.date));
   const category = CATS.find(c=>c.key===filter);
   const title = filter==="all" ? "全部最新观点" : category.label;
   const cls = category ? category.cls : "cat-tech";
@@ -343,6 +355,7 @@ document.getElementById("tabs").addEventListener("click", e=>{
   t.setAttribute("aria-selected","true");
   render(t.dataset.cat);
 });
+document.getElementById("pod-search").addEventListener("input",()=>render(activeFilter));
 
 render("all");
 </script>

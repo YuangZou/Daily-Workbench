@@ -40,4 +40,14 @@
     var legend=el.parentNode.querySelector('.chart-legend');
     if(legend){legend.innerHTML=series.map(function(s,idx){return '<span class="legend-item"><i class="legend-dot" style="background:'+colors[idx%colors.length]+'"></i>'+s.name+'</span>';}).join('');}
   });
+  document.querySelectorAll('[data-filter-target]').forEach(function(bar){
+    var target=document.getElementById(bar.dataset.filterTarget);
+    if(!target)return;
+    bar.addEventListener('click',function(event){
+      var button=event.target.closest('[data-filter]');
+      if(!button)return;
+      bar.querySelectorAll('[data-filter]').forEach(function(item){item.classList.toggle('active',item===button);});
+      target.querySelectorAll('[data-topic]').forEach(function(item){item.classList.toggle('filtered-out',button.dataset.filter!=='all'&&item.dataset.topic!==button.dataset.filter);});
+    });
+  });
 })();
