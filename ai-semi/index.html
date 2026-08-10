@@ -1,56 +1,18 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title data-en="AI Semis · Research Workbench">AI 半导体 · 研究工作台</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/site.css">
-<style>
-  /* 全屏容器：顶栏固定、财报看板铺满其余空间。看板在 iframe 里，与站点 CSS 完全隔离。 */
-  html, body { height: 100%; }
-  body { display: flex; flex-direction: column; overflow: hidden; }
-  .nav { flex: none; }
-  .ai-section-tabs { flex: none; display: flex; gap: 8px; padding: 10px 24px; background: #111827; border-top: 1px solid rgba(255,255,255,.08); }
-  .ai-section-tabs a { color: #9ca3af; text-decoration: none; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; transition: .15s ease; }
-  .ai-section-tabs a:hover { color: #fff; background: rgba(255,255,255,.08); }
-  .ai-section-tabs a.active { color: #0f172a; background: #fff; }
-  .ai-semi-frame { flex: 1 1 auto; width: 100%; border: 0; display: block; background: #FAF8F4; }
-  @media (max-width: 640px) { body { overflow: auto; } .ai-semi-frame { min-height: 82vh; } }
-</style>
-</head>
-<body>
-
-<nav class="nav">
-  <a class="nav-brand" href="../">
-    <span class="nav-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span>
-    <b>研究工作台</b>
-  </a>
-  <div class="nav-links">
-    <a href="../macro/">宏观</a>
-    <a href="../fundamentals/">工业品基本面</a>
-    <a href="../capital/">资金分析</a>
-    <a href="../sentiment/">舆情分析</a>
-    <a href="../knowledge/">知识库</a>
-    <a href="../search/">检索问答</a>
-    <a href="./" class="active">AI 半导体</a>
-  </div>
-  <div class="lang-toggle">
-    <button class="lang-btn" data-lang="zh" type="button" onclick="WRLang.set('zh')">中</button>
-    <button class="lang-btn" data-lang="en" type="button" onclick="WRLang.set('en')">EN</button>
-  </div>
-  <span class="nav-status"><span class="dot"></span>数据截至 2026-07-16</span>
-</nav>
-
-<div class="ai-section-tabs" aria-label="AI 半导体板块子导航">
-  <a href="./" class="active" aria-current="page">财报看板</a>
-  <a href="podcast.html">播客观点</a>
-</div>
-
-<!-- 财报看板：自包含单文件，放 iframe 里原样渲染，样式与站点全局 CSS 互不干扰 -->
-<iframe class="ai-semi-frame" src="dashboard.html" title="AI 半导体业绩跟踪" loading="eager"></iframe>
-
-<script src="../assets/i18n.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title data-en="AI Hardware & Model Indicators">AI硬件与模型领先指标</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../assets/site.css"><link rel="stylesheet" href="research.css"></head><body data-page="hardware">
+<nav class="nav"><a class="nav-brand" href="../"><span class="nav-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span><b>研究工作台</b></a><div class="nav-links"><a href="../macro/">宏观</a><a href="../fundamentals/">工业品基本面</a><a href="../capital/">资金分析</a><a href="../sentiment/">舆情分析</a><a href="../knowledge/">知识库</a><a href="../search/">检索问答</a><a href="./" class="active">AI 半导体</a></div><div class="lang-toggle"><button class="lang-btn" data-lang="zh" onclick="WRLang.set('zh')">中</button><button class="lang-btn" data-lang="en" onclick="WRLang.set('en')">EN</button></div><span class="nav-status"><span class="dot"></span>数据截至 2026-08-06</span></nav><div class="research-nav" id="ai-research-nav"></div>
+<main class="research-wrap"><section class="mast"><div class="mast-main"><div class="eyebrow">AI SUPPLY CHAIN PULSE</div><h1 data-en="AI Hardware & Model Leading Indicators">AI 硬件与模型领先指标</h1><p data-en="Track memory, compute rental, component and inference-cost prices before they appear in company earnings.">跟踪内存、算力租赁、关键零部件和推理成本，把价格变化放在公司业绩之前观察。</p><span class="asof">SNAPSHOT · 2026-08-06</span></div><aside class="mast-side"><div class="eyebrow">THIS WEEK</div><div class="signal" data-en="Memory remains the strongest price signal">内存仍是最强价格信号</div><div class="signal-note" data-en="DDR5 and legacy DDR products rose broadly; the LLM token index continued to fall, showing a divergence between hardware scarcity and inference deflation.">DDR5 与旧代 DDR 普遍上涨；LLM Token 指数继续下降，硬件稀缺与推理通缩形成分化。</div></aside></section>
+<div class="kpis"><div class="kpi"><span>DDR5 24G · 月度</span><b class="up">+11.1%</b></div><div class="kpi"><span>DDR4 16G · 月度</span><b class="up">+11.6%</b></div><div class="kpi"><span>H100 指数 · 月度</span><b class="up">+9.9%</b></div><div class="kpi"><span>LLM Token · 月度</span><b class="down">−23.5%</b></div></div>
+<section class="section"><div class="section-head"><h2 data-en="Price dashboard">价格仪表盘</h2><p data-en="Daily / weekly / monthly change; levels follow the source index methodology.">日/周/月变化；绝对值沿用原始指数口径</p></div><div class="panel table-scroll"><table><thead><tr><th>指标</th><th>最新</th><th>前值</th><th>日度</th><th>周度</th><th>月度</th><th>近四期</th></tr></thead><tbody>
+<tr><td>DDR5 24G</td><td>47.2</td><td>47.0</td><td class="up">+0.4%</td><td class="up">+3.1%</td><td class="up">+11.1%</td><td><span data-spark="42.5,45.8,47,47.2"></span></td></tr>
+<tr><td>DDR5 16G</td><td>49.44</td><td>49.44</td><td class="flat">0.0%</td><td class="up">+1.9%</td><td class="up">+8.7%</td><td><span data-spark="45.48,48.5,49.44,49.44"></span></td></tr>
+<tr><td>DDR4 16G</td><td>77.19</td><td>76.99</td><td class="up">+0.3%</td><td class="up">+2.7%</td><td class="up">+11.6%</td><td><span data-spark="69.19,75.19,76.99,77.19"></span></td></tr>
+<tr><td>DDR4 16G 白牌</td><td>8.53</td><td>8.53</td><td class="flat">0.0%</td><td class="up">+0.5%</td><td class="down">−0.2%</td><td><span data-spark="8.55,8.49,8.53,8.53"></span></td></tr>
+<tr><td>DDR3 4G</td><td>12.11</td><td>12.01</td><td class="up">+0.8%</td><td class="up">+2.0%</td><td class="up">+13.5%</td><td><span data-spark="10.67,11.87,12.01,12.11"></span></td></tr>
+<tr><td>Ornn H100 Index</td><td>2.78</td><td>2.72</td><td class="up">+2.2%</td><td class="up">+1.8%</td><td class="up">+9.9%</td><td><span data-spark="2.53,2.73,2.72,2.78"></span></td></tr>
+<tr><td>SD B200 Rental Index</td><td>5.60</td><td>5.58</td><td class="up">+0.4%</td><td class="down">−1.1%</td><td class="down">−0.5%</td><td><span data-spark="5.63,5.66,5.58,5.60"></span></td></tr>
+<tr><td>Compute Desk Blackwell US</td><td>5.25</td><td>5.24</td><td class="up">+0.2%</td><td class="up">+1.7%</td><td class="up">+4.9%</td><td><span data-spark="5.00,5.16,5.24,5.25"></span></td></tr>
+<tr><td>SD LLM Token Index</td><td>1.27</td><td>1.29</td><td class="down">−1.4%</td><td class="down">−8.7%</td><td class="down">−23.5%</td><td><span data-spark="1.66,1.39,1.29,1.27"></span></td></tr>
+</tbody></table><div class="source-note">来源：董浩提供的 2026-08-06 截图数据。本页暂不对来源指数进行二次估算；下一版补充各指数定义、币种和采样渠道。</div></div></section>
+<section class="section"><div class="section-head"><h2 data-en="How to read the signals">如何读这些信号</h2><p>价格只是线索，需要与交期、库存和公司指引交叉验证</p></div><div class="cards"><article class="research-card"><span class="tag red">上游紧张</span><h3>内存价格</h3><p>DDR 各代际同步上涨时，优先检查供给约束是否向服务器 BOM 和云厂商资本开支传导。</p></article><article class="research-card"><span class="tag blue">算力供需</span><h3>GPU 租赁与整机</h3><p>租赁价格上涨而 Token 成本下降，可能意味着硬件仍紧，但模型效率和竞争正在压低单位推理价格。</p></article><article class="research-card"><span class="tag gold">验证项</span><h3>模型排名</h3><p>后续同时跟踪能力、单位成本、速度、上下文长度和开源可部署性，避免只按单一 benchmark 排名。</p></article></div></section>
+<section class="section"><div class="section-head"><h2 data-en="Model leaderboard framework">LLM 模型排名框架</h2><p>先建立可复核口径，再接入自动榜单</p></div><div class="checklist"><div class="check"><b>能力</b>综合推理、代码、数学与长文本，不以单项冠军替代综合表现。</div><div class="check"><b>经济性</b>输入/输出 Token 价格、缓存折扣、吞吐量和完成同一任务的总成本。</div><div class="check"><b>效率</b>首 Token 延迟、生成速度、上下文长度及工具调用稳定性。</div><div class="check"><b>可部署性</b>开源权重、显存需求、量化损失、许可证与企业数据边界。</div></div></section>
+<div class="callout"><b>研究结论</b><p>本周最值得跟踪的不是“某个价格涨了”，而是内存普涨、H100 指数回升与 Token 成本下降同时发生。这意味着 AI 硬件供给仍有紧张点，但模型层竞争和效率改善正在压低单位使用成本。</p></div><footer class="footer-note">内部研究参考，不构成投资建议。价格指数需进一步核验定义和历史回溯，未经核验不得直接用于交易回测。</footer></main><script src="research.js"></script><script src="../assets/i18n.js"></script></body></html>
