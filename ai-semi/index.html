@@ -1,30 +1,118 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title data-en="AI Hardware & Model Indicators">AI硬件与模型领先指标</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../assets/site.css"><link rel="stylesheet" href="research.css"></head><body data-page="hardware">
-<nav class="nav"><a class="nav-brand" href="../"><span class="nav-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span><b>研究工作台</b></a><div class="nav-links"><a href="../macro/">宏观</a><a href="../fundamentals/">工业品基本面</a><a href="../capital/">资金分析</a><a href="../sentiment/">舆情分析</a><a href="../knowledge/">知识库</a><a href="../search/">检索问答</a><a href="./" class="active">AI 半导体</a></div><div class="lang-toggle"><button class="lang-btn" data-lang="zh" onclick="WRLang.set('zh')">中</button><button class="lang-btn" data-lang="en" onclick="WRLang.set('en')">EN</button></div><span class="nav-status"><span class="dot"></span>数据截至 2026-08-06</span></nav><div class="research-nav" id="ai-research-nav"></div>
-<main class="research-wrap"><section class="mast"><div class="mast-main"><div class="eyebrow">AI SUPPLY CHAIN PULSE</div><h1 data-en="AI Hardware & Model Leading Indicators">AI 硬件与模型领先指标</h1><p data-en="Track memory, compute rental, component and inference-cost prices before they appear in company earnings.">跟踪内存、算力租赁、关键零部件和推理成本，把价格变化放在公司业绩之前观察。</p><span class="asof">SNAPSHOT · 2026-08-06</span></div><aside class="mast-side"><div class="eyebrow">THIS WEEK</div><div class="signal" data-en="Memory remains the strongest price signal">内存仍是最强价格信号</div><div class="signal-note" data-en="DDR5 and legacy DDR products rose broadly; the LLM token index continued to fall, showing a divergence between hardware scarcity and inference deflation.">DDR5 与旧代 DDR 普遍上涨；LLM Token 指数继续下降，硬件稀缺与推理通缩形成分化。</div></aside></section>
-<div class="kpis"><div class="kpi"><span>DDR5 24G · 月度</span><b class="up">+11.1%</b></div><div class="kpi"><span>DDR4 16G · 月度</span><b class="up">+11.6%</b></div><div class="kpi"><span>H100 指数 · 月度</span><b class="up">+9.9%</b></div><div class="kpi"><span>LLM Token · 月度</span><b class="down">−23.5%</b></div></div>
-<div class="reading-guide"><b>如何阅读</b><p>DDR 代表服务器和电脑使用的内存；H100、B200 是 AI 加速器；Token 是模型处理文字的计费单位。顶部表格是源表可直接读取的数值，可用于比较日、周、月变化；下方历史曲线是依据有限节点复原的方向示意，只用于观察趋势，不用于计算精确收益。页面采用红色表示上涨、绿色表示下降。</p></div>
-<section class="section"><div class="section-head"><h2 data-en="Price dashboard">价格仪表盘</h2><p data-en="Daily / weekly / monthly change; levels follow the source index methodology.">日/周/月变化；绝对值沿用原始指数口径</p></div><div class="panel table-scroll"><table><thead><tr><th>指标</th><th>最新</th><th>前值</th><th>日度</th><th>周度</th><th>月度</th><th>近四期</th></tr></thead><tbody>
-<tr><td>DDR5 24G</td><td>47.2</td><td>47.0</td><td class="up">+0.4%</td><td class="up">+3.1%</td><td class="up">+11.1%</td><td><span data-spark="42.5,45.8,47,47.2"></span></td></tr>
-<tr><td>DDR5 16G</td><td>49.44</td><td>49.44</td><td class="flat">0.0%</td><td class="up">+1.9%</td><td class="up">+8.7%</td><td><span data-spark="45.48,48.5,49.44,49.44"></span></td></tr>
-<tr><td>DDR4 16G</td><td>77.19</td><td>76.99</td><td class="up">+0.3%</td><td class="up">+2.7%</td><td class="up">+11.6%</td><td><span data-spark="69.19,75.19,76.99,77.19"></span></td></tr>
-<tr><td>DDR4 16G 白牌</td><td>8.53</td><td>8.53</td><td class="flat">0.0%</td><td class="up">+0.5%</td><td class="down">−0.2%</td><td><span data-spark="8.55,8.49,8.53,8.53"></span></td></tr>
-<tr><td>DDR3 4G</td><td>12.11</td><td>12.01</td><td class="up">+0.8%</td><td class="up">+2.0%</td><td class="up">+13.5%</td><td><span data-spark="10.67,11.87,12.01,12.11"></span></td></tr>
-<tr><td>Ornn H100 Index</td><td>2.78</td><td>2.72</td><td class="up">+2.2%</td><td class="up">+1.8%</td><td class="up">+9.9%</td><td><span data-spark="2.53,2.73,2.72,2.78"></span></td></tr>
-<tr><td>SD B200 Rental Index</td><td>5.60</td><td>5.58</td><td class="up">+0.4%</td><td class="down">−1.1%</td><td class="down">−0.5%</td><td><span data-spark="5.63,5.66,5.58,5.60"></span></td></tr>
-<tr><td>Compute Desk Blackwell US</td><td>5.25</td><td>5.24</td><td class="up">+0.2%</td><td class="up">+1.7%</td><td class="up">+4.9%</td><td><span data-spark="5.00,5.16,5.24,5.25"></span></td></tr>
-<tr><td>SD LLM Token Index</td><td>1.27</td><td>1.29</td><td class="down">−1.4%</td><td class="down">−8.7%</td><td class="down">−23.5%</td><td><span data-spark="1.66,1.39,1.29,1.27"></span></td></tr>
-</tbody></table><div class="source-note">数据截至 2026-08-06。表格保留原始指数口径；“近四期”用于观察最近几次更新的方向和速度。</div></div></section>
-<section class="section"><div class="section-head"><h2>八类价格趋势</h2><p>观察价格变化如何传导至订单、成本和公司业绩</p></div><div class="stage-note">“归一化走势”表示把每条曲线的起点设为 100，便于比较不同产品的涨跌速度，不代表产品的实际价格相同。</div><div class="chart-grid">
-<article class="trend-card"><div class="trend-head"><div><div class="trend-title">内存价格</div><div class="trend-meta">DDR 多规格 · 归一化走势</div></div><span class="trend-badge">全面走强</span></div><div class="trend-chart" data-trend="DDR5 24G:100,102,106,115,125,132,134,136,139,145,153,162|DDR5 16G:100,103,108,117,126,132,134,136,138,144,151,159|DDR4 16G:100,101,102,105,122,158,170,171,168,174,185,198|DDR4 白牌:100,101,102,104,107,110,111,112,112,111,112,112|DDR3 4G:100,101,102,104,105,107,109,111,112,113,118,123"></div><div class="chart-legend"></div><div class="trend-foot"><span>观察：代际价格同步上行</span><strong>供给偏紧</strong></div></article>
-<article class="trend-card"><div class="trend-head"><div><div class="trend-title">算力价格</div><div class="trend-meta">GPU 租赁与 Blackwell 整机</div></div><span class="trend-badge">高位分化</span></div><div class="trend-chart" data-trend="Blackwell US:100,96,92,94,91,96,102,99,105,112,110,114|B200 Rental:100,98,95,96,98,104,105,106,110,108,107,106|H100 Index:100,99,98,99,101,105,113,109,117,115,114,116"></div><div class="chart-legend"></div><div class="trend-foot"><span>观察：整机强于租赁</span><strong>需求仍有支撑</strong></div></article>
-<article class="trend-card"><div class="trend-head"><div><div class="trend-title">大模型 Token 成本指数</div><div class="trend-meta">模型处理单位文字的使用成本</div></div><span class="trend-badge">持续下降</span></div><div class="trend-chart" data-trend="Token Index:1.02,1.08,1.32,1.76,1.42,1.48,1.62,1.81,2.05,1.71,1.66,1.27"></div><div class="chart-legend"></div><div class="trend-foot"><span>观察：模型效率提高，价格竞争增强</span><strong>月度 −23.5%</strong></div></article>
-<article class="trend-card"><div class="trend-head"><div><div class="trend-title">NAND 闪存颗粒</div><div class="trend-meta">用于固态硬盘和存储卡 · 美元</div></div><span class="trend-badge">加速上行</span></div><div class="trend-chart" data-trend="64GB MLC:3.8,3.9,4.0,4.2,4.4,4.7,5.2,6.0,7.0,9.5,18,33|32GB MLC:2.2,2.3,2.4,2.5,2.7,3.0,3.4,3.9,4.8,6.5,10,16"></div><div class="chart-legend"></div><div class="trend-foot"><span>观察：上涨速度明显加快</span><strong>价格上涨得到验证</strong></div></article>
-<article class="trend-card"><div class="trend-head"><div><div class="trend-title">DRAM 颗粒</div><div class="trend-meta">DDR5 / DDR4 现货均价 · 美元</div></div><span class="trend-badge">高位扩张</span></div><div class="trend-chart" data-trend="DDR5 16Gb:2.9,3.0,3.1,3.2,3.4,3.6,4.0,5.5,11,20,22,24|DDR4 8Gb:2.7,2.8,2.9,3.0,3.2,3.5,4.1,6.0,12,21,30,30"></div><div class="chart-legend"></div><div class="trend-foot"><span>观察：DDR4 涨幅更陡</span><strong>旧代供给收缩</strong></div></article>
-<article class="trend-card"><div class="trend-head"><div><div class="trend-title">SD 存储卡</div><div class="trend-meta">128GB / 64GB 现货均价 · 美元</div></div><span class="trend-badge">冲高回落</span></div><div class="trend-chart" data-trend="128GB:4.0,4.1,4.2,4.4,4.6,5.0,6.4,9.0,13,18,16,13|64GB:2.5,2.6,2.7,2.8,3.0,3.4,4.5,6.1,8.0,9.5,8.0,7.0"></div><div class="chart-legend"></div><div class="trend-foot"><span>观察：终端价格已过峰值</span><strong>去库观察</strong></div></article>
-<article class="trend-card"><div class="trend-head"><div><div class="trend-title">独立显卡</div><div class="trend-meta">GDDR6 8GB / 5GB · 美元</div></div><span class="trend-badge">高位横盘</span></div><div class="trend-chart" data-trend="GDDR6 8GB:3.4,3.5,3.6,3.7,3.8,4.0,4.4,5.3,8.6,12.3,11.5,11.4|GDDR5 8GB:2.6,2.7,2.8,2.9,3.0,3.1,3.3,4.0,7.5,11.8,11.2,11.3"></div><div class="chart-legend"></div><div class="trend-foot"><span>观察：急涨后价格黏性较强</span><strong>高位盘整</strong></div></article>
-<article class="trend-card"><div class="trend-head"><div><div class="trend-title">晶圆价格</div><div class="trend-meta">512Gb / 256Gb TLC 与 128GB TLC</div></div><span class="trend-badge">涨后整理</span></div><div class="trend-chart" data-trend="512Gb TLC:3.0,3.1,3.3,3.5,3.4,3.3,3.5,4.2,9,17,22,19|256Gb TLC:1.8,1.9,2.0,2.1,2.0,2.0,2.2,3.0,6,10,12,10|128GB TLC:1.2,1.3,1.4,1.5,1.5,1.5,1.6,2.0,4,6,8,7"></div><div class="chart-legend"></div><div class="trend-foot"><span>观察：上游仍显著高于起点</span><strong>成本压力延续</strong></div></article>
-</div><div class="source-note" style="margin-top:12px;border:1px solid var(--line);border-radius:7px"><b>数据边界：</b>顶部价格表为原始监测表中可直接读取的数值；历史曲线依据图表中的有限节点复原，属于趋势示意。具体指数的币种、样本和编制方法以源表定义为准，示意曲线不用于收益计算或跨指标绝对值比较。</div></section>
-<section class="section"><div class="section-head"><h2>四条关键线索</h2><p>判断价格变化能否进一步影响交期、利润率和收入</p></div><div class="expectation-grid"><div class="expectation"><span class="tag red">信号较强</span><b>存储价格</b><span class="score hot">强</span><p>DDR 内存和 NAND 闪存同步上涨，需要继续观察存储厂商平均售价、利润率和材料订单。</p></div><div class="expectation"><span class="tag blue">继续观察</span><b>算力硬件</b><span class="score mid">中强</span><p>H100 与 Blackwell 指数偏强，但 B200 租赁价格没有同步上涨，需要结合云厂商资本开支和交货周期判断。</p></div><div class="expectation"><span class="tag gold">方向分化</span><b>模型使用成本</b><span class="score cool">下降</span><p>Token 成本下降不一定表示需求减弱，也可能来自模型效率提高和厂商降价竞争。</p></div><div class="expectation"><span class="tag">风险提示</span><b>终端产品</b><span class="score mid">待观察</span><p>存储卡价格冲高后回落，说明上游涨价未必能完全传递给最终消费者，仍需观察渠道库存。</p></div></div></section>
-<section class="section"><div class="section-head"><h2 data-en="How to read the signals">如何读这些信号</h2><p>价格只是线索，需要与交期、库存和公司指引相互印证</p></div><div class="cards"><article class="research-card"><span class="tag red">上游紧张</span><h3>内存价格</h3><p>多代内存同步上涨时，需要检查涨价是否进一步影响服务器零部件成本和云厂商采购预算。</p></article><article class="research-card"><span class="tag blue">算力供需</span><h3>AI 加速器租赁与整机</h3><p>租赁价格上涨而模型使用成本下降，可能意味着硬件供应仍偏紧，但模型效率和厂商竞争正在降低单位使用价格。</p></article><article class="research-card"><span class="tag gold">综合比较</span><h3>模型竞争力</h3><p>同时比较能力、单位成本、响应速度、可处理文本长度和企业部署难度，避免只看某一项测试排名。</p></article></div></section>
-<section class="section"><div class="section-head"><h2 data-en="Model competitiveness">模型竞争力观察</h2><p>能力、成本、效率与企业部署体验综合比较</p></div><div class="checklist"><div class="check"><b>综合能力</b>观察推理、代码、数学与长文本表现，重点关注真实业务任务而非单项榜单。</div><div class="check"><b>使用成本</b>比较输入和输出文字的计费价格、缓存折扣、单位时间处理量，以及完成同一任务的总成本。</div><div class="check"><b>响应效率</b>关注首次响应速度、持续生成速度、可处理文本长度及工具调用稳定性。</div><div class="check"><b>企业部署</b>比较是否开放模型参数、所需显存、压缩后的能力损失、使用许可和企业数据安全边界。</div></div></section>
-<div class="callout"><b>市场观察</b><p>本周最值得跟踪的不是“某个价格涨了”，而是内存普涨、H100 指数回升与 Token 成本下降同时发生。这意味着 AI 硬件供给仍有紧张点，但模型层竞争和效率改善正在压低单位使用成本。</p></div><footer class="footer-note">数据用于产业趋势观察，不构成投资建议。历史曲线与价格口径以页面标注的数据来源为准。</footer></main><script src="research.js"></script><script src="../assets/i18n.js"></script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title data-en="AI Hardware & Model Indicators">AI硬件与模型领先指标</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="research.css">
+</head>
+<body data-page="hardware">
+<nav class="nav"><a class="nav-brand" href="../"><span class="nav-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span><b>研究工作台</b></a><div class="nav-links"><a href="../macro/">宏观</a><a href="../fundamentals/">工业品基本面</a><a href="../capital/">资金分析</a><a href="../sentiment/">舆情分析</a><a href="../knowledge/">知识库</a><a href="../search/">检索问答</a><a href="./" class="active">AI 半导体</a></div><div class="lang-toggle"><button class="lang-btn" data-lang="zh" onclick="WRLang.set('zh')">中</button><button class="lang-btn" data-lang="en" onclick="WRLang.set('en')">EN</button></div><span class="nav-status"><span class="dot"></span>多源数据 · 分别标注日期</span></nav>
+<div class="research-nav" id="ai-research-nav"></div>
+
+<main class="research-wrap">
+  <section class="mast hardware-mast">
+    <div class="mast-main">
+      <div class="eyebrow">AI SUPPLY CHAIN PULSE</div>
+      <h1 data-en="AI Hardware & Model Leading Indicators">AI 硬件与模型领先指标</h1>
+      <p data-en="Follow hardware price, output and utilization signals together with model capability and inference cost.">把硬件价格、产量和产能利用率，与模型能力和推理成本放在同一页面观察。</p>
+      <span class="asof">OFFICIAL DATA · 2026-06 / MARKET DATA · 2026-08-10</span>
+    </div>
+    <aside class="mast-side">
+      <div class="eyebrow">CURRENT READ</div>
+      <div class="signal" data-en="Storage prices rise while model-use costs fall">存储涨价，模型使用成本下降</div>
+      <div class="signal-note" data-en="Storage-device PPI rose 31.8% YoY, while flagship API list prices remain far below the 2023 GPT-4 starting point. Hardware scarcity and software deflation can coexist.">存储设备价格指数同比上涨 31.8%；旗舰模型 API 标价仍显著低于 2023 年 GPT-4 起点。硬件稀缺与软件通缩可以同时发生。</div>
+    </aside>
+  </section>
+
+  <div class="reading-guide">
+    <b data-en="How to read">如何阅读</b>
+    <p data-en="The page separates official monthly indices, cross-cloud quotes and user-preference rankings. Their units and dates differ, so compare trends within each chart rather than absolute levels across charts.">页面分为官方月度指数、跨云报价和用户偏好榜单。三类数据的单位与日期不同，应在单张图内比较趋势，不应跨图直接比较绝对值。</p>
+  </div>
+
+  <section class="kpis hardware-kpis" aria-label="领先指标摘要">
+    <article class="kpi"><span data-en="Storage-device PPI · Jun 2026">存储设备价格指数 · 2026-06</span><b>64.183</b><small class="metric-up">同比 +31.8%</small></article>
+    <article class="kpi"><span data-en="Semiconductor output · Jun 2026">半导体工业产出 · 2026-06</span><b>181.9</b><small class="metric-up">同比 +11.5%</small></article>
+    <article class="kpi"><span data-en="Capacity utilization · Jun 2026">产能利用率 · 2026-06</span><b>72.2%</b><small class="metric-down">同比 −4.1pct</small></article>
+    <article class="kpi"><span data-en="LM Arena leader · Aug 10">LM Arena 榜首 · 08-10</span><b>1505.7</b><small data-en="20,982 preference votes">20,982 次偏好投票</small></article>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2 data-en="Leading fundamentals">领先基本面</h2><p data-en="Hover for values; drag to zoom; expand for detail">悬停看数值 · 拖动缩放 · 点击右上角放大</p></div>
+    <div class="dashboard-grid">
+      <article class="chart-card chart-card-wide">
+        <div class="chart-card-head"><div><span class="chart-kicker">OFFICIAL PRICE INDEX</span><h3>半导体与存储设备价格</h3><p>为消除基期不同的影响，各序列以 2024 年首个值归一化为 100。</p></div><button class="expand-chart" data-expand-chart="ppi-chart" aria-label="放大价格指数图">↗</button></div>
+        <div id="ppi-chart" class="interactive-chart" role="img" aria-label="半导体和存储设备生产者价格指数趋势图"></div>
+        <div class="chart-insight"><b>当前信号</b><span>存储设备价格指数 2026 年 6 月环比 +8.8%、同比 +31.8%；同期半导体器件价格指数同比 −0.6%，涨价集中在存储环节。</span></div>
+      </article>
+      <article class="chart-card chart-card-wide">
+        <div class="chart-card-head"><div><span class="chart-kicker">OUTPUT & UTILIZATION</span><h3>半导体产量与产能利用率</h3><p>产量上升而利用率回落，意味着供给能力扩张快于当期产出。</p></div><button class="expand-chart" data-expand-chart="activity-chart" aria-label="放大产量图">↗</button></div>
+        <div id="activity-chart" class="interactive-chart" role="img" aria-label="半导体工业产出和产能利用率趋势图"></div>
+        <div class="chart-insight"><b>当前信号</b><span>工业产出同比 +11.5%，产能利用率同比下降 4.1 个百分点。需求仍在增长，但全行业并非全面短缺。</span></div>
+      </article>
+      <article class="chart-card">
+        <div class="chart-card-head"><div><span class="chart-kicker">CROSS-CLOUD QUOTES · 2026-03-31</span><h3>AI GPU 按需租赁报价</h3><p>每个数据源先取中位数，再跨来源取中位数；误差线为来源间 25%–75% 区间。</p></div><button class="expand-chart" data-expand-chart="gpu-chart" aria-label="放大 GPU 报价图">↗</button></div>
+        <div id="gpu-chart" class="interactive-chart" role="img" aria-label="跨云 GPU 每卡每小时报价"></div>
+        <div class="chart-insight"><b>如何理解</b><span>B200 中位报价最高，H100 的供应商报价分散度更大。不同云商的地区、网络和可用性不同，不能把中位数当作同一规格期货价格。</span></div>
+      </article>
+      <article class="chart-card">
+        <div class="chart-card-head"><div><span class="chart-kicker">MODEL API ECONOMICS</span><h3>旗舰模型 API 标价演进</h3><p>统一换算为美元 / 百万 Token，显示 OpenAI 代表性代际的发布标价。</p></div><button class="expand-chart" data-expand-chart="model-price-chart" aria-label="放大模型价格图">↗</button></div>
+        <div id="model-price-chart" class="interactive-chart" role="img" aria-label="模型 API 输入输出价格演进"></div>
+        <div class="chart-insight"><b>如何理解</b><span>输入价格从 GPT-4 的 30 美元降至 GPT-5 的 1.25 美元；输出价格下降较慢，复杂推理的生成成本仍是主要费用。</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="model-ranking">
+    <div class="section-head"><div><h2 data-en="LLM model ranking">LLM 模型排名</h2><p>LM Arena 文本榜 · 2026-08-10</p></div><div class="ranking-tabs" role="tablist"><button class="ranking-tab active" data-ranking="overall">综合榜</button><button class="ranking-tab" data-ranking="open">开放许可模型</button></div></div>
+    <div class="ranking-explainer">
+      <div><b>Arena 分数是什么</b><p>用户盲选两个模型回答，榜单根据偏好结果估计相对得分。分数越高，表示回答在真实比较中更常被选中。</p></div>
+      <div><b>置信区间怎么看</b><p>区间反映评分估计的不确定性。两款模型区间大量重叠时，不能仅凭名次断言能力存在显著差距。</p></div>
+      <div><b>它不代表什么</b><p>综合偏好不等于代码、数学或企业任务均领先，也不包含价格、速度、隐私与部署成本。</p></div>
+    </div>
+    <div class="panel ranking-panel table-scroll">
+      <table class="ranking-table">
+        <thead><tr><th>名次</th><th>模型</th><th>机构</th><th>Arena 分数</th><th>95% 区间</th><th>偏好投票</th><th>许可</th></tr></thead>
+        <tbody id="model-ranking-body"></tbody>
+      </table>
+      <div class="source-note"><b>榜单口径：</b>LM Arena `text_style_control / latest / overall`。榜单持续更新，本页保留抓取日快照；“开放许可模型”仅表示数据集的 license 字段不是 Proprietary，是否开放权重及商用条件仍需查阅各模型许可，并非单独重算评分。</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>把能力与成本放在一起看</h2><p>排名回答“更偏好谁”，价格回答“每次调用要付多少”</p></div>
+    <div class="signal-architecture model-framework">
+      <article class="architecture-card"><span class="architecture-no">01 · CAPABILITY</span><b>综合能力</b><p>Arena 观察真实用户偏好；代码、数学与长文本仍需使用对应专项评测复核。</p><strong>本页已列：综合榜、评分区间、投票量</strong></article>
+      <article class="architecture-card"><span class="architecture-no">02 · ECONOMICS</span><b>使用成本</b><p>分别看输入、缓存输入和输出价格，再结合完成同一任务所需 Token 数量。</p><strong>本页已列：代表性 API 发布标价</strong></article>
+      <article class="architecture-card"><span class="architecture-no">03 · THROUGHPUT</span><b>效率与体验</b><p>首次响应、持续生成速度、并发限制和工具调用稳定性决定真实工作流效率。</p><strong>下一步：接入统一第三方测速</strong></article>
+      <article class="architecture-card verify-card"><span class="architecture-no">04 · DEPLOYMENT</span><b>部署边界</b><p>开放许可、显存要求、数据驻留和服务稳定性会改变企业可用性。</p><strong>本页已列：模型许可类型</strong></article>
+    </div>
+  </section>
+
+  <section class="section methodology-note">
+    <div class="section-head"><h2>数据来源与边界</h2><p>所有数值均保留来源、单位和截至日期</p></div>
+    <div class="source-grid">
+      <a href="https://fred.stlouisfed.org/series/PCU334413334413" target="_blank" rel="noreferrer"><b>硬件价格</b><span>美国劳工统计局 PPI，经 FRED 发布 · 月度</span></a>
+      <a href="https://fred.stlouisfed.org/series/IPG3344S" target="_blank" rel="noreferrer"><b>产量与利用率</b><span>美联储 G.17 · 月度、季调</span></a>
+      <a href="https://github.com/thatkavish/OpenComputePrices" target="_blank" rel="noreferrer"><b>GPU 报价</b><span>OpenComputePrices · 65+ 云与算力来源</span></a>
+      <a href="https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset" target="_blank" rel="noreferrer"><b>模型榜单</b><span>LM Arena 官方开放数据集 · CC BY 4.0</span></a>
+      <a href="https://openai.com/index/gpt-4-1/" target="_blank" rel="noreferrer"><b>模型 API 标价</b><span>OpenAI 历次模型发布页 · 美元 / 百万 Token</span></a>
+    </div>
+  </section>
+
+  <div class="callout"><b>本期结论</b><p>存储设备价格上涨是当前最明确的硬件信号，但半导体整体价格并未同步走强；产出增长与利用率回落说明供给扩张正在吸收需求。模型侧应把 Arena 偏好、API 成本和部署条件分开比较，不能用单一名次代替采购判断。</p></div>
+  <footer class="footer-note">数据用于产业趋势观察，不构成投资建议。不同来源发布时间不同，以每张图和榜单标注为准。</footer>
+</main>
+
+<div class="chart-modal" id="chart-modal" hidden aria-hidden="true"><div class="chart-modal-backdrop" data-close-modal></div><div class="chart-modal-panel" role="dialog" aria-modal="true" aria-label="放大图表"><button class="chart-modal-close" data-close-modal aria-label="关闭">×</button><div id="chart-modal-title" class="chart-modal-title"></div><div id="chart-modal-canvas" class="chart-modal-canvas"></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script src="data/hardware-data.js"></script>
+<script src="research.js"></script>
+<script src="../assets/i18n.js"></script>
+<script src="hardware-dashboard.js"></script>
+</body>
+</html>
