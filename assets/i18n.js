@@ -28,7 +28,11 @@
   // 已有该链接的页面（如 AI 半导体页自身）跳过，避免重复。
   function ensureAiSemiNav() {
     var links = document.querySelector('.nav-links');
-    if (!links || links.querySelector('a[href*="ai-semi"]')) return;
+    if (!links) return;
+    var alreadyPresent = Array.prototype.some.call(links.querySelectorAll('a'), function (link) {
+      return link.textContent.trim() === 'AI 半导体' || link.pathname.indexOf('/ai-semi/') !== -1;
+    });
+    if (alreadyPresent) return;
     var a = document.createElement('a');
     a.href = '/ai-semi/';
     a.textContent = 'AI 半导体';
