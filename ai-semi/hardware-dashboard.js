@@ -140,6 +140,16 @@
     return new Intl.NumberFormat('en-US').format(value);
   }
 
+  function renderLeaderKpi() {
+    var row = data.arena && data.arena.overall && data.arena.overall[0];
+    var name = document.getElementById('arena-leader-name');
+    var meta = document.getElementById('arena-leader-meta');
+    if (!row || !name || !meta) return;
+    name.textContent = row.model;
+    var organization = row.organization.charAt(0).toUpperCase() + row.organization.slice(1);
+    meta.textContent = organization + ' · Arena ' + row.rating.toFixed(1) + ' · ' + number(row.votes) + ' ' + tr('票', 'votes');
+  }
+
   function renderRanking(kind) {
     var target = document.getElementById('model-ranking-body');
     if (!target) return;
@@ -207,6 +217,7 @@
       renderActivity();
       renderGpu();
       renderModelPrice();
+      renderLeaderKpi();
       renderRanking(activeRanking);
     }
     if (window.WRLang && window.WRLang.onChange) window.WRLang.onChange(renderForLanguage);

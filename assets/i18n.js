@@ -152,7 +152,8 @@
     document.querySelectorAll('.nav-links a').forEach(function (a) {
       if (a.dataset.zh === undefined) a.dataset.zh = a.textContent;
       var seg = (a.getAttribute('href') || '').replace(/\.\.\//g, '').replace(/^\.\//, '').replace(/\//g, '');
-      a.textContent = (l === 'en' && NAV[seg]) ? NAV[seg] : a.dataset.zh;
+      var englishLabel = NAV[seg] || a.dataset.en;
+      a.textContent = (l === 'en' && englishLabel) ? englishLabel : a.dataset.zh;
     });
 
     // —— 导航状态（数据截至 …）——
@@ -162,7 +163,11 @@
       if (node && node.nodeType === 3) {
         if (status.dataset.zhText === undefined) status.dataset.zhText = node.nodeValue;
         node.nodeValue = (l === 'en')
-          ? status.dataset.zhText.replace('数据截至', 'Data as of').replace('更新', 'Updated')
+          ? status.dataset.zhText
+              .replace('数据截至', 'Data as of')
+              .replace('更新', 'Updated')
+              .replace('多源数据', 'Multi-source data')
+              .replace('分别标注日期', 'dates shown separately')
           : status.dataset.zhText;
       }
     }

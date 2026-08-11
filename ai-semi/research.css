@@ -19,6 +19,8 @@
 .hardware-kpis .kpi:after{content:"";position:absolute;right:-25px;top:-35px;width:86px;height:86px;border:1px solid #e8eefc;border-radius:50%}
 .hardware-kpis small{position:relative;z-index:1;display:block;margin-top:8px;color:var(--muted);font-size:10px;font-weight:700}
 .hardware-kpis .metric-up{color:var(--red)}.hardware-kpis .metric-down{color:var(--green)}
+.hardware-kpis .kpi-model{font-family:"Inter","PingFang SC",sans-serif;font-size:16px;line-height:1.25;overflow-wrap:anywhere;padding-right:28px}
+.snapshot-table{min-width:980px}.snapshot-table th,.snapshot-table td{text-align:right;white-space:nowrap}.snapshot-table th:first-child,.snapshot-table td:first-child{text-align:left}.snapshot-table td:nth-child(2){color:var(--muted);font-size:10px}.snapshot-table td small{display:block;color:#9aa2ad;font-size:9px;font-weight:500}.snapshot-table .change-up{background:#fbe9e7;color:var(--red);font-weight:700}.snapshot-table .change-down{background:#e7f4ee;color:var(--green);font-weight:700}.snapshot-table .change-flat{background:#f2f3f5;color:var(--muted);font-weight:700}.snapshot-table .strong{font-weight:900}
 .dashboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .chart-card{position:relative;min-width:0;background:#fff;border:1px solid var(--line);border-radius:8px;padding:20px;box-shadow:0 8px 26px rgba(23,48,79,.025)}
 .chart-card-wide{grid-column:span 2}
