@@ -14,6 +14,15 @@
     grid: '#edf0f4'
   };
   var charts = {};
+  var activeRanking = 'overall';
+
+  function isEnglish() {
+    return window.WRLang && window.WRLang.get && window.WRLang.get() === 'en';
+  }
+
+  function tr(zh, en) {
+    return isEnglish() ? en : zh;
+  }
 
   function baseOption() {
     return {
@@ -49,19 +58,20 @@
   function initChart(id, option) {
     var el = document.getElementById(id);
     if (!el || !window.echarts) return;
-    var chart = echarts.init(el, null, { renderer: 'canvas' });
-    chart.setOption(option);
+    var chart = charts[id];
+    if (!chart) chart = echarts.init(el, null, { renderer: 'canvas' });
+    chart.setOption(option, true);
     charts[id] = chart;
   }
 
   function renderPpi() {
     var option = baseOption();
     option.xAxis = { type: 'category', boundaryGap: false, data: data.ppi.map(function (r) { return r.date; }), axisLabel: { formatter: monthLabel, fontSize: 9 }, axisLine: { lineStyle: { color: '#dfe4ec' } } };
-    option.yAxis = { type: 'value', name: '2024起点=100', nameTextStyle: { fontSize: 9 }, scale: true, axisLabel: { fontSize: 9 }, splitLine: { lineStyle: { color: colors.grid } } };
+    option.yAxis = { type: 'value', name: tr('2024起点=100', '2024 baseline = 100'), nameTextStyle: { fontSize: 9 }, scale: true, axisLabel: { fontSize: 9 }, splitLine: { lineStyle: { color: colors.grid } } };
     option.series = [
-      { name: '存储设备 PPI', type: 'line', smooth: .2, symbol: 'none', lineStyle: { width: 2.5 }, areaStyle: { opacity: .06 }, data: normalize(data.ppi, 'storage') },
-      { name: '半导体器件 PPI', type: 'line', smooth: .2, symbol: 'none', lineStyle: { width: 2.2 }, data: normalize(data.ppi, 'semiconductor') },
-      { name: '电子计算机 PPI', type: 'line', smooth: .2, symbol: 'none', lineStyle: { width: 2 }, data: normalize(data.ppi, 'computer') }
+      { name: tr('存储设备 PPI', 'Storage-device PPI'), type: 'line', smooth: .2, symbol: 'none', lineStyle: { width: 2.5 }, areaStyle: { opacity: .06 }, data: normalize(data.ppi, 'storage') },
+      { name: tr('半导体器件 PPI', 'Semiconductor-device PPI'), type: 'line', smooth: .2, symbol: 'none', lineStyle: { width: 2.2 }, data: normalize(data.ppi, 'semiconductor') },
+      { name: tr('电子计算机 PPI', 'Electronic-computer PPI'), type: 'line', smooth: .2, symbol: 'none', lineStyle: { width: 2 }, data: normalize(data.ppi, 'computer') }
     ];
     initChart('ppi-chart', option);
   }
@@ -70,12 +80,12 @@
     var option = baseOption();
     option.xAxis = { type: 'category', boundaryGap: false, data: data.activity.map(function (r) { return r.date; }), axisLabel: { formatter: monthLabel, fontSize: 9 }, axisLine: { lineStyle: { color: '#dfe4ec' } } };
     option.yAxis = [
-      { type: 'value', name: '产出指数', scale: true, axisLabel: { fontSize: 9 }, splitLine: { lineStyle: { color: colors.grid } } },
-      { type: 'value', name: '利用率 %', scale: true, axisLabel: { fontSize: 9 }, splitLine: { show: false } }
+      { type: 'value', name: tr('产出指数', 'Output Index'), scale: true, axisLabel: { fontSize: 9 }, splitLine: { lineStyle: { color: colors.grid } } },
+      { type: 'value', name: tr('利用率 %', 'Utilization %'), scale: true, axisLabel: { fontSize: 9 }, splitLine: { show: false } }
     ];
     option.series = [
-      { name: '工业产出', type: 'line', symbol: 'none', smooth: .18, lineStyle: { width: 2.5 }, areaStyle: { opacity: .07 }, data: data.activity.map(function (r) { return r.production; }) },
-      { name: '产能利用率', type: 'line', yAxisIndex: 1, symbol: 'none', smooth: .18, lineStyle: { width: 2.2, type: 'dashed' }, data: data.activity.map(function (r) { return r.capacity; }) }
+      { name: tr('工业产出', 'Industrial Output'), type: 'line', symbol: 'none', smooth: .18, lineStyle: { width: 2.5 }, areaStyle: { opacity: .07 }, data: data.activity.map(function (r) { return r.production; }) },
+      { name: tr('产能利用率', 'Capacity Utilization'), type: 'line', yAxisIndex: 1, symbol: 'none', smooth: .18, lineStyle: { width: 2.2, type: 'dashed' }, data: data.activity.map(function (r) { return r.capacity; }) }
     ];
     initChart('activity-chart', option);
   }
@@ -87,13 +97,13 @@
     option.dataZoom = [];
     option.tooltip.formatter = function (items) {
       var row = rows[items[0].dataIndex];
-      return '<b>' + row.gpu + '</b><br>跨来源中位数：$' + row.median.toFixed(2) + '/卡·小时<br>25%–75%：$' + row.p25.toFixed(2) + '–$' + row.p75.toFixed(2) + '<br>来源数：' + row.sources;
+      return '<b>' + row.gpu + '</b><br>' + tr('跨来源中位数', 'Cross-source median') + '：$' + row.median.toFixed(2) + tr('/卡·小时', ' / GPU-hour') + '<br>25%–75%：$' + row.p25.toFixed(2) + '–$' + row.p75.toFixed(2) + '<br>' + tr('来源数', 'Sources') + '：' + row.sources;
     };
     option.xAxis = { type: 'category', data: rows.map(function (r) { return r.gpu; }), axisLabel: { fontSize: 10, fontWeight: 700 }, axisLine: { lineStyle: { color: '#dfe4ec' } } };
     option.yAxis = { type: 'value', name: 'USD / GPU·hour', axisLabel: { formatter: '${value}', fontSize: 9 }, splitLine: { lineStyle: { color: colors.grid } } };
     option.series = [
-      { name: '跨来源中位数', type: 'bar', barWidth: 28, data: rows.map(function (r) { return r.median; }), itemStyle: { borderRadius: [5, 5, 0, 0], color: colors.blue }, label: { show: true, position: 'top', formatter: function (p) { return '$' + p.value.toFixed(2); }, fontSize: 9, color: colors.ink } },
-      { name: '25%–75% 区间', type: 'custom', silent: true, renderItem: function (params, api) {
+      { name: tr('跨来源中位数', 'Cross-source median'), type: 'bar', barWidth: 28, data: rows.map(function (r) { return r.median; }), itemStyle: { borderRadius: [5, 5, 0, 0], color: colors.blue }, label: { show: true, position: 'top', formatter: function (p) { return '$' + p.value.toFixed(2); }, fontSize: 9, color: colors.ink } },
+      { name: tr('25%–75% 区间', '25th–75th percentile'), type: 'custom', silent: true, renderItem: function (params, api) {
           var low = api.coord([api.value(0), api.value(1)]);
           var high = api.coord([api.value(0), api.value(2)]);
           var half = 7;
@@ -115,13 +125,13 @@
     option.dataZoom = [];
     option.tooltip.formatter = function (items) {
       var row = rows[items[0].dataIndex];
-      return '<b>' + row.model + '</b> · ' + row.date + '<br>输入：$' + row.input + ' / 1M Token<br>输出：$' + row.output + ' / 1M Token';
+      return '<b>' + row.model + '</b> · ' + row.date + '<br>' + tr('输入', 'Input') + '：$' + row.input + ' / 1M Token<br>' + tr('输出', 'Output') + '：$' + row.output + ' / 1M Token';
     };
     option.xAxis = { type: 'category', boundaryGap: false, data: labels, axisLabel: { interval: 0, fontSize: 9, lineHeight: 13 }, axisLine: { lineStyle: { color: '#dfe4ec' } } };
     option.yAxis = { type: 'value', name: 'USD / 1M Token', axisLabel: { formatter: '${value}', fontSize: 9 }, splitLine: { lineStyle: { color: colors.grid } } };
     option.series = [
-      { name: '输入价格', type: 'line', symbolSize: 7, step: 'end', lineStyle: { width: 2.4 }, areaStyle: { opacity: .06 }, data: rows.map(function (r) { return r.input; }) },
-      { name: '输出价格', type: 'line', symbolSize: 7, step: 'end', lineStyle: { width: 2.4 }, data: rows.map(function (r) { return r.output; }) }
+      { name: tr('输入价格', 'Input Price'), type: 'line', symbolSize: 7, step: 'end', lineStyle: { width: 2.4 }, areaStyle: { opacity: .06 }, data: rows.map(function (r) { return r.input; }) },
+      { name: tr('输出价格', 'Output Price'), type: 'line', symbolSize: 7, step: 'end', lineStyle: { width: 2.4 }, data: rows.map(function (r) { return r.output; }) }
     ];
     initChart('model-price-chart', option);
   }
@@ -145,11 +155,12 @@
   }
 
   function initRanking() {
-    renderRanking('overall');
+    renderRanking(activeRanking);
     document.querySelectorAll('[data-ranking]').forEach(function (button) {
       button.addEventListener('click', function () {
         document.querySelectorAll('[data-ranking]').forEach(function (item) { item.classList.toggle('active', item === button); });
-        renderRanking(button.dataset.ranking);
+        activeRanking = button.dataset.ranking;
+        renderRanking(activeRanking);
       });
     });
   }
@@ -189,12 +200,17 @@
       document.querySelectorAll('.interactive-chart').forEach(function (el) { el.innerHTML = '<p class="empty">图表组件加载失败，请刷新页面。</p>'; });
       return;
     }
-    renderPpi();
-    renderActivity();
-    renderGpu();
-    renderModelPrice();
     initRanking();
     initModal();
+    function renderForLanguage() {
+      renderPpi();
+      renderActivity();
+      renderGpu();
+      renderModelPrice();
+      renderRanking(activeRanking);
+    }
+    if (window.WRLang && window.WRLang.onChange) window.WRLang.onChange(renderForLanguage);
+    else renderForLanguage();
     window.addEventListener('resize', function () { Object.keys(charts).forEach(function (key) { charts[key].resize(); }); });
   }
 

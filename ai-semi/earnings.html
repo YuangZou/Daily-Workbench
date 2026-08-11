@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AI产业链业绩验证</title>
+  <title data-en="AI Earnings Verification">AI产业链业绩验证</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/site.css">
   <link rel="stylesheet" href="research.css">
@@ -50,11 +50,11 @@
   </section>
 
   <section class="section">
-    <div class="section-head"><h2>收入预期差</h2><p>只画有实际收入与一致预期的公司；悬停查看口径</p></div>
+    <div class="section-head"><h2 data-en="Revenue Surprise">收入预期差</h2><p data-en="Only companies with both actual revenue and consensus estimates are plotted; hover for details.">只画有实际收入与一致预期的公司；悬停查看口径</p></div>
     <div class="chart-card chart-card-wide">
-      <div class="chart-card-head"><div><span class="chart-kicker">REVENUE SURPRISE</span><h3>最新季度实际收入相对市场预期</h3><p>右侧为超预期，左侧为低于预期。该图只比较收入，不代表 EPS、指引或股价反应。</p></div><button class="expand-chart" type="button" data-expand-chart="earnings-surprise-chart" aria-label="放大图表">↗</button></div>
+      <div class="chart-card-head"><div><span class="chart-kicker">REVENUE SURPRISE</span><h3 data-en="Latest Quarterly Revenue vs. Consensus">最新季度实际收入相对市场预期</h3><p data-en="Bars to the right beat consensus; bars to the left miss. This chart compares revenue only, not EPS, guidance or share-price reaction.">右侧为超预期，左侧为低于预期。该图只比较收入，不代表 EPS、指引或股价反应。</p></div><button class="expand-chart" type="button" data-expand-chart="earnings-surprise-chart" aria-label="放大图表">↗</button></div>
       <div id="earnings-surprise-chart" class="interactive-chart earnings-chart" role="img" aria-label="公司收入预期差横向柱状图"></div>
-      <div class="chart-insight"><b>最强验证</b><span>Micron 收入较一致预期高约 15.5%，Palantir 高约 6.9%；Vertiv 收入低约 3.1%，但 EPS 与全年指引较强，因此归为“结果分化”而非简单看空。</span></div>
+      <div class="chart-insight"><b data-en="Strongest evidence">最强验证</b><span data-en="Micron revenue beat consensus by about 15.5% and Palantir by 6.9%. Vertiv missed revenue by about 3.1%, but stronger EPS and full-year guidance make the result mixed rather than simply bearish.">Micron 收入较一致预期高约 15.5%，Palantir 高约 6.9%；Vertiv 收入低约 3.1%，但 EPS 与全年指引较强，因此归为“结果分化”而非简单看空。</span></div>
     </div>
   </section>
 
@@ -111,7 +111,7 @@
 <div class="chart-modal" id="earnings-chart-modal" hidden><div class="chart-modal-backdrop" data-close-modal></div><div class="chart-modal-panel"><button class="chart-modal-close" type="button" data-close-modal aria-label="关闭">×</button><div class="chart-modal-title" id="earnings-modal-title"></div><div class="chart-modal-canvas" id="earnings-modal-chart"></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 <script src="research.js"></script>
-<script src="earnings-dashboard.js"></script>
 <script src="../assets/i18n.js"></script>
+<script src="earnings-dashboard.js"></script>
 </body>
 </html>

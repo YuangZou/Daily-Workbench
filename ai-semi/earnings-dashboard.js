@@ -1,4 +1,6 @@
 (function(){
+  function isEnglish(){return window.WRLang&&window.WRLang.get&&window.WRLang.get()==='en';}
+  function tr(zh,en){return isEnglish()?en:zh;}
   var rows=[
     {segment:'hardware',sub:'gpu',label:'GPU',company:'NVIDIA',period:'Q1 FY27',revenue:['$81.62B','$78.91B',3.4],eps:['$1.87','$1.75',6.9],detail:'数据中心 $75.2B（同比 +92%）；Q2 收入指引 $91B ±2%。',status:'beat',statusText:'收入与EPS双超预期',actual:'https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-First-Quarter-Fiscal-2027/default.aspx',consensus:'https://apnews.com/article/955c699a0c91c423edc81b7903b80f85'},
     {segment:'hardware',sub:'cpu',label:'CPU / GPU',company:'AMD',period:'Q2 2026',revenue:['$11.54B','$11.30B',2.1],eps:['$1.66','$1.61',3.1],detail:'数据中心 $6.72B（同比 +107%）；公司未拆分 EPYC CPU 与 Instinct GPU 收入；Q3 收入指引中值 $13.0B，高于预期 $12.52B 约 3.8%。',status:'beat',statusText:'收入、EPS与指引均超预期',actual:'https://ir.amd.com/news-events/press-releases/detail/1295/amd-reports-second-quarter-2026-financial-results',consensus:'https://www.marketbeat.com/instant-alerts/advanced-micro-devices-amd-to-post-earnings-on-tuesday-2026-07-28/'},
@@ -70,18 +72,20 @@
   function surpriseOption(){return {
     animationDuration:700,
     grid:{left:96,right:40,top:24,bottom:34},
-    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},backgroundColor:'#17304f',borderWidth:0,textStyle:{color:'#fff',fontSize:12},formatter:function(params){var p=params[0],row=chartRows[p.dataIndex];return '<b>'+row.company+'</b><br>实际收入 '+row.revenue[0]+'<br>一致预期 '+row.revenue[1]+'<br>预期差 '+(row.revenue[2]>0?'+':'')+row.revenue[2].toFixed(1)+'%';}},
-    xAxis:{type:'value',name:'收入预期差 (%)',nameLocation:'middle',nameGap:25,axisLabel:{formatter:'{value}%',color:'#7b8490'},splitLine:{lineStyle:{color:'#eceff4'}},axisLine:{lineStyle:{color:'#cfd5df'}}},
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},backgroundColor:'#17304f',borderWidth:0,textStyle:{color:'#fff',fontSize:12},formatter:function(params){var p=params[0],row=chartRows[p.dataIndex];return '<b>'+row.company+'</b><br>'+tr('实际收入','Actual revenue')+' '+row.revenue[0]+'<br>'+tr('一致预期','Consensus')+' '+row.revenue[1]+'<br>'+tr('预期差','Surprise')+' '+(row.revenue[2]>0?'+':'')+row.revenue[2].toFixed(1)+'%';}},
+    xAxis:{type:'value',name:tr('收入预期差 (%)','Revenue surprise (%)'),nameLocation:'middle',nameGap:25,axisLabel:{formatter:'{value}%',color:'#7b8490'},splitLine:{lineStyle:{color:'#eceff4'}},axisLine:{lineStyle:{color:'#cfd5df'}}},
     yAxis:{type:'category',data:chartRows.map(function(row){return row.company;}),axisLabel:{color:'#273548',fontWeight:600},axisTick:{show:false},axisLine:{show:false}},
     series:[{type:'bar',data:chartRows.map(function(row){return {value:row.revenue[2],itemStyle:{color:row.revenue[2]>1?'#d64a43':row.revenue[2]<-1?'#269864':'#b98527',borderRadius:row.revenue[2]>=0?[0,4,4,0]:[4,0,0,4]}};}),barMaxWidth:18,label:{show:true,position:function(p){return p.value>=0?'right':'left';},formatter:function(p){return (p.value>0?'+':'')+p.value.toFixed(1)+'%';},color:'#596579',fontSize:10}}]
   };}
 
   var chartHost=document.getElementById('earnings-surprise-chart'),chart;
-  if(chartHost&&window.echarts){chart=echarts.init(chartHost);chart.setOption(surpriseOption());window.addEventListener('resize',function(){chart.resize();});}
+  function renderChart(){if(!chartHost||!window.echarts)return;if(!chart)chart=echarts.init(chartHost);chart.setOption(surpriseOption(),true);if(modalChart)modalChart.setOption(surpriseOption(),true);var modalTitle=document.getElementById('earnings-modal-title');if(modalTitle&&modal&&!modal.hidden)modalTitle.textContent=tr('最新季度收入预期差','Latest Quarterly Revenue Surprise');}
+  if(chartHost&&window.echarts){window.addEventListener('resize',function(){chart.resize();});}
   var modal=document.getElementById('earnings-chart-modal'),modalChart;
-  document.querySelectorAll('[data-expand-chart]').forEach(function(button){button.addEventListener('click',function(){if(!modal||!window.echarts)return;modal.hidden=false;document.body.classList.add('modal-open');document.getElementById('earnings-modal-title').textContent='最新季度收入预期差';modalChart=echarts.init(document.getElementById('earnings-modal-chart'));modalChart.setOption(surpriseOption());});});
+  document.querySelectorAll('[data-expand-chart]').forEach(function(button){button.addEventListener('click',function(){if(!modal||!window.echarts)return;modal.hidden=false;document.body.classList.add('modal-open');document.getElementById('earnings-modal-title').textContent=tr('最新季度收入预期差','Latest Quarterly Revenue Surprise');modalChart=echarts.init(document.getElementById('earnings-modal-chart'));modalChart.setOption(surpriseOption());});});
   function closeModal(){if(!modal)return;if(modalChart){modalChart.dispose();modalChart=null;}modal.hidden=true;document.body.classList.remove('modal-open');}
   document.querySelectorAll('#earnings-chart-modal [data-close-modal]').forEach(function(item){item.addEventListener('click',closeModal);});
   document.addEventListener('keydown',function(event){if(event.key==='Escape'&&modal&&!modal.hidden)closeModal();});
   renderRows();
+  if(window.WRLang&&window.WRLang.onChange)window.WRLang.onChange(renderChart);else renderChart();
 })();
