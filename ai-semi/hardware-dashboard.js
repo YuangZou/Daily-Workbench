@@ -140,6 +140,64 @@
     return new Intl.NumberFormat('en-US').format(value);
   }
 
+  function latestSeriesValues(rows, key) {
+    var valid = rows.filter(function (row) { return row[key] != null; });
+    var latest = valid[valid.length - 1];
+    return {
+      latest: latest,
+      prior: valid[valid.length - 2],
+      yearAgo: valid.find(function (row) {
+        return row.date === String(Number(latest.date.slice(0, 4)) - 1) + latest.date.slice(4);
+      })
+    };
+  }
+
+  function formatValue(value, decimals) {
+    if (value == null) return '—';
+    return Number(value).toLocaleString('en-US', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+  }
+
+  function formatChange(current, comparison, mode) {
+    if (current == null || comparison == null) return '—';
+    var value = mode === 'ppt' ? current - comparison : (current / comparison - 1) * 100;
+    var suffix = mode === 'ppt' ? 'ppt' : '%';
+    var sign = value > 0 ? '+' : '';
+    var className = value > 0 ? 'change-up' : value < 0 ? 'change-down' : 'change-flat';
+    return '<span class="' + className + '">' + sign + value.toFixed(1) + suffix + '</span>';
+  }
+
+  function renderVerifiedSnapshot() {
+    var target = document.getElementById('verified-snapshot-body');
+    if (!target) return;
+    var official = [
+      { name: tr('存储设备 PPI', 'Storage-device PPI'), rows: data.ppi, key: 'storage', code: 'PCU3341123341121', source: 'BLS / FRED', decimals: 3, unit: tr('2004-12=100 · 月度 · 未季调', 'Dec 2004=100 · monthly · NSA') },
+      { name: tr('半导体器件 PPI', 'Semiconductor-device PPI'), rows: data.ppi, key: 'semiconductor', code: 'PCU334413334413', source: 'BLS / FRED', decimals: 3, unit: tr('1998-12=100 · 月度 · 未季调', 'Dec 1998=100 · monthly · NSA') },
+      { name: tr('电子计算机 PPI', 'Electronic-computer PPI'), rows: data.ppi, key: 'computer', code: 'PCU334111334111', source: 'BLS / FRED', decimals: 3, unit: tr('2023-02=100 · 月度 · 未季调', 'Feb 2023=100 · monthly · NSA') },
+      { name: tr('半导体工业产出', 'Semiconductor industrial output'), rows: data.activity, key: 'production', code: 'IPG3344S', source: tr('美联储 G.17 / FRED', 'Federal Reserve G.17 / FRED'), decimals: 1, unit: tr('2017=100 · 月度 · 季调', '2017=100 · monthly · SA') },
+      { name: tr('半导体产能利用率', 'Semiconductor capacity utilization'), rows: data.activity, key: 'capacity', code: 'CAPUTLG3344S', source: tr('美联储 G.17 / FRED', 'Federal Reserve G.17 / FRED'), decimals: 1, mode: 'ppt', unit: tr('% · 月度 · 季调', '% · monthly · SA') }
+    ].map(function (item) {
+      var values = latestSeriesValues(item.rows, item.key);
+      return '<tr><td><b>' + item.name + '</b></td>' +
+        '<td><a class="snapshot-source-link" href="https://fred.stlouisfed.org/series/' + item.code + '" target="_blank" rel="noreferrer">' + item.code + ' ↗</a><small>' + item.source + '</small></td>' +
+        '<td>' + values.latest.date.slice(0, 7) + '</td>' +
+        '<td><b>' + formatValue(values.latest[item.key], item.decimals) + '</b></td>' +
+        '<td>' + formatValue(values.prior[item.key], item.decimals) + '</td>' +
+        '<td>' + formatChange(values.latest[item.key], values.prior[item.key], item.mode) + '</td>' +
+        '<td>' + formatChange(values.latest[item.key], values.yearAgo && values.yearAgo[item.key], item.mode) + '</td>' +
+        '<td>' + item.unit + '</td></tr>';
+    });
+    var gpu = data.gpu.rows.map(function (row) {
+      return '<tr><td><b>' + row.gpu + ' ' + tr('按需 GPU 报价', 'on-demand GPU quote') + '</b></td>' +
+        '<td><a class="snapshot-source-link" href="https://github.com/thatkavish/OpenComputePrices" target="_blank" rel="noreferrer">OpenComputePrices ↗</a><small>' + row.sources + ' ' + tr('个报价来源', 'quote sources') + '</small></td>' +
+        '<td>' + data.gpu.latestDate + '</td><td><b>$' + formatValue(row.median, 2) + '</b></td><td>—</td><td>—</td><td>—</td>' +
+        '<td>USD / GPU-hour<small>P25–P75: $' + formatValue(row.p25, 2) + '–$' + formatValue(row.p75, 2) + '</small></td></tr>';
+    });
+    target.innerHTML = official.concat(gpu).join('');
+  }
+
   function renderLeaderKpi() {
     var row = data.arena && data.arena.overall && data.arena.overall[0];
     var name = document.getElementById('arena-leader-name');
@@ -217,6 +275,7 @@
       renderActivity();
       renderGpu();
       renderModelPrice();
+      renderVerifiedSnapshot();
       renderLeaderKpi();
       renderRanking(activeRanking);
     }

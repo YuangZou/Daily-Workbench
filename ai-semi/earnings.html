@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="research.css">
 </head>
 <body data-page="earnings">
-<nav class="nav"><a class="nav-brand" href="../"><span class="nav-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span><b>研究工作台</b></a><div class="nav-links"><a href="../macro/">宏观</a><a href="../fundamentals/">工业品基本面</a><a href="../capital/">资金分析</a><a href="../sentiment/">舆情分析</a><a href="../knowledge/">知识库</a><a href="../search/">检索问答</a><a href="./" class="active">AI 半导体</a></div><div class="lang-toggle"><button class="lang-btn" data-lang="zh" onclick="WRLang.set('zh')">中</button><button class="lang-btn" data-lang="en" onclick="WRLang.set('en')">EN</button></div><span class="nav-status"><span class="dot"></span>数据更新 2026-08-11</span></nav>
+<nav class="nav"><a class="nav-brand" href="../"><span class="nav-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span><b>研究工作台</b></a><div class="nav-links"><a href="../macro/">宏观</a><a href="../fundamentals/">工业品基本面</a><a href="../capital/">资金分析</a><a href="../sentiment/">舆情分析</a><a href="../knowledge/">知识库</a><a href="../search/">检索问答</a><a href="./" class="active">AI 半导体</a></div><div class="lang-toggle"><button class="lang-btn" data-lang="zh" onclick="WRLang.set('zh')">中</button><button class="lang-btn" data-lang="en" onclick="WRLang.set('en')">EN</button></div><span class="nav-status"><span class="dot"></span>数据更新 2026-08-14</span></nav>
 <div class="research-nav" id="ai-research-nav"></div>
 
 <main class="research-wrap">
@@ -18,31 +18,37 @@
       <div class="eyebrow">AI EARNINGS VERIFICATION</div>
       <h1>AI 产业链业绩验证</h1>
       <p>不用“景气向上”代替数据。逐家公司核对实际收入、市场一致预期、每股收益、下一期指引及 AI 业务经营指标。</p>
-      <span class="asof">LATEST VERIFIED · 2026-08-11</span>
+      <span class="asof">LATEST VERIFIED · 2026-08-14</span>
     </div>
     <aside class="mast-side">
       <div class="eyebrow">CURRENT READ</div>
-      <div class="signal">10 家明确超预期，3 家结果分化</div>
-      <div class="signal-note">芯片、存储与下游软件均有收入和利润的正向验证；Broadcom、Vertiv、Meta 的收入与利润表现方向不一致，不能简单归入“全面超预期”。</div>
+      <div class="signal">9 家当季明确超预期，3 家结果分化</div>
+      <div class="signal-note">已覆盖 20 条公司与业务样本。新增三星、SK 海力士、闪迪和 Coherent 的官方披露，用于补齐存储与光互连；没有可比一致预期的样本只展示实际值，不判断“超预期”。</div>
     </aside>
   </section>
 
   <div class="kpis earnings-kpis">
-    <div class="kpi"><span>可计算预期差</span><b>13 家</b><small>有实际值与一致预期</small></div>
-    <div class="kpi"><span>明确超预期</span><b class="up">10 家</b><small>至少一项明显高于预期，且无反向项</small></div>
+    <div class="kpi"><span>公司与业务样本</span><b>20 条</b><small>其中 12 条具备可比一致预期</small></div>
+    <div class="kpi"><span>当季明确超预期</span><b class="up">9 家</b><small>只根据已公布收入与 EPS 判断</small></div>
     <div class="kpi"><span>结果分化</span><b class="mixed-text">3 家</b><small>收入与 EPS 方向相反</small></div>
-    <div class="kpi"><span>不可计算</span><b class="flat">3 家</b><small>模型收入均未单独披露</small></div>
+    <div class="kpi"><span>暂不判断方向</span><b class="flat">8 条</b><small>缺少可比预期或独立披露</small></div>
   </div>
 
   <div class="reading-guide earnings-guide">
     <b>判断口径</b>
-    <p><code>预期差 = (实际值 / 一致预期 - 1) × 100%</code>。高于 +1% 记为超预期，低于 -1% 记为低于预期，介于 -1% 与 +1% 记为基本符合。收入与 EPS 一正一负时标为“结果分化”；没有可比预期时明确标为“不可计算”。</p>
+    <p><code>预期差 = (实际值 / 一致预期 - 1) × 100%</code>。高于 +1% 记为超预期，低于 -1% 记为低于预期，介于 -1% 与 +1% 记为基本符合。收入与 EPS 一正一负时标为“结果分化”；没有可比预期时明确标为“不可计算”。自然年报告期用于跨公司检索，公司财年季度保留原始披露名称；未来指引在独立表格中判断，不计入当季业绩结论。</p>
   </div>
 
   <section class="section">
-    <div class="section-head"><h2>四大板块验证结果</h2><p>每个结论均可下钻至公司和原始来源</p></div>
+    <div class="section-head"><h2>三层产业链覆盖</h2><p>先定位利润与需求发生在哪一层，再下钻至四类业务</p></div>
+    <div class="earnings-layers">
+      <article><span>UPSTREAM</span><h3>上游基础设施</h3><b>10 条样本</b><p>GPU、CPU、定制芯片、存储、光互连与液冷，直接验证 AI 资本开支如何转化为硬件收入。</p></article>
+      <article><span>MIDSTREAM</span><h3>中游云与模型</h3><b>7 条样本</b><p>云厂商验证算力租用与资本开支，模型业务用付费席位、用户和调用量观察商业化。</p></article>
+      <article><span>DOWNSTREAM</span><h3>下游应用</h3><b>3 条样本</b><p>企业软件和生产力工具，验证 AI 能否转化为订阅收入、合同余额和利润。</p></article>
+    </div>
+    <div class="section-head earnings-business-head"><h2>四类业务验证结果</h2><p>每个结论均可下钻至公司公告和单独列示的预期来源</p></div>
     <div class="earnings-segments">
-      <article class="segment-card"><span>01 · HARDWARE</span><h3>硬件</h3><b>6 家 · 4 超预期 / 2 分化</b><p>芯片分为 GPU、CPU/加速器、定制芯片；并单列光互连、存储和液冷。</p></article>
+      <article class="segment-card"><span>01 · HARDWARE</span><h3>硬件</h3><b>10 条 · 3 超预期 / 2 分化 / 5 暂不判断</b><p>芯片分为 GPU、CPU/加速器、定制芯片；并单列光互连、存储和液冷。</p></article>
       <article class="segment-card"><span>02 · CLOUD</span><h3>云厂商</h3><b>4 家 · 3 超预期 / 1 分化</b><p>同时看集团收入、云业务增速和 AI 资本开支，避免只看总营收。</p></article>
       <article class="segment-card"><span>03 · MODEL</span><h3>模型商业化</h3><b>3 家 · 均未单独披露模型收入</b><p>只展示付费席位、用户或调用等代理指标，不冒充独立模型财报。</p></article>
       <article class="segment-card"><span>04 · APPLICATION</span><h3>下游应用</h3><b>3 家 · 3 家双超预期</b><p>验证企业软件与创意工具能否把 AI 使用量转化为合同、ARR 和利润。</p></article>
@@ -59,7 +65,21 @@
   </section>
 
   <section class="section" id="company-verification">
-    <div class="section-head"><h2>公司级业绩核验</h2><p>筛选后仍保留实际值、预期值和差额，不隐藏不利项</p></div>
+    <div class="section-head"><h2>公司级业绩与指引</h2><p>自然年报告期用于横向检索，公司财年季度保留原始披露口径</p></div>
+    <div class="earnings-period-tools">
+      <div class="explorer-bar earnings-period-filter" data-earnings-filter="calendarPeriod">
+        <button class="explore-btn active" data-value="all">全部报告期</button>
+        <button class="explore-btn" data-value="2026Q1">2026 Q1</button>
+        <button class="explore-btn" data-value="2026Q2">2026 Q2</button>
+      </div>
+      <label class="earnings-search"><span>检索公司 / 细分赛道</span><input id="earnings-search" type="search" placeholder="例如 NVIDIA、存储、云厂商" autocomplete="off"></label>
+    </div>
+    <div class="explorer-bar earnings-layer-filter" data-earnings-filter="layer">
+      <button class="explore-btn active" data-value="all">全部产业链</button>
+      <button class="explore-btn" data-value="upstream">上游基础设施</button>
+      <button class="explore-btn" data-value="midstream">中游云与模型</button>
+      <button class="explore-btn" data-value="downstream">下游应用</button>
+    </div>
     <div class="explorer-bar earnings-primary-filter" data-earnings-filter="segment">
       <button class="explore-btn active" data-value="all">全部</button>
       <button class="explore-btn" data-value="hardware">硬件</button>
@@ -76,12 +96,21 @@
       <button class="explore-btn" data-value="memory">存储</button>
       <button class="explore-btn" data-value="cooling">液冷</button>
     </div>
+    <div class="earnings-table-heading"><div><span>01 · REPORTED RESULTS</span><h3>当季实际业绩</h3></div><p>仅比较已经公布的当季实际值与当时一致预期，不把未来指引计入当季结论。</p></div>
     <div class="panel table-scroll earnings-panel">
       <table class="earnings-table">
-        <thead><tr><th>板块 / 公司</th><th>报告期</th><th>收入：实际 / 预期</th><th>收入预期差</th><th>EPS：实际 / 预期</th><th>EPS预期差</th><th>指引与 AI 经营验证</th><th>结论</th></tr></thead>
+        <thead><tr><th>板块 / 公司</th><th>自然年归属 / 公司报告期</th><th>收入：实际 / 预期</th><th>收入预期差</th><th>EPS：实际 / 预期</th><th>EPS预期差</th><th>当季 AI 经营验证</th><th>当季结论</th></tr></thead>
         <tbody id="earnings-detail-rows"></tbody>
       </table>
-      <div class="source-note">一致预期来自 FactSet、LSEG、Visible Alpha、Zacks、S&amp;P Capital IQ 或分析师汇总；实际值来自公司公告。不同来源的 non-GAAP / GAAP 口径不可混算，遇到不可比项目以 N/C 标注。点击公司名可查看实际值来源，点击“预期来源”可查看一致预期来源。</div>
+      <div class="source-note"><b>数据来源</b> 实际值与公司报告期来自每行“实际值来源”链接；一致预期来自每行“预期来源”。不同来源的 non-GAAP / GAAP 口径不可混算，遇到不可比项目以 N/C 标注。美元与韩元按原币披露，不跨币种汇总。</div>
+    </div>
+    <div class="earnings-table-heading guidance-heading"><div><span>02 · FORWARD GUIDANCE</span><h3>管理层未来指引</h3></div><p>单列指引目标期、公司区间与市场预期；没有一致预期时不计算“指引超预期”。</p></div>
+    <div class="panel table-scroll earnings-panel guidance-panel">
+      <table class="earnings-table guidance-table">
+        <thead><tr><th>板块 / 公司</th><th>指引发布自</th><th>指引目标期</th><th>公司指引</th><th>市场一致预期</th><th>指引预期差</th><th>指引结论</th><th>来源</th></tr></thead>
+        <tbody id="guidance-detail-rows"></tbody>
+      </table>
+      <div class="source-note"><b>数据来源</b> 公司指引来自对应季度财报或业绩会材料；市场预期来自每行单独列示的外部来源。未取得可比一致预期的记录只展示公司指引，不做方向判断。</div>
     </div>
   </section>
 
@@ -104,14 +133,14 @@
     </div>
   </section>
 
-  <div class="callout earnings-callout"><b>当前结论</b><p>本轮财报最清晰的正向验证来自 Micron、NVIDIA、AMD、Microsoft、Amazon、Palantir、ServiceNow 与 Adobe；Broadcom、Vertiv、Meta 需要拆分收入与利润看待。模型商业化仍缺独立财务披露，现阶段只能用付费席位、用户和云业务增长做代理，不应给出伪精确的“模型收入超预期”。</p></div>
-  <footer class="footer-note">数据截至 2026-08-11。实际值以公司公告为准，一致预期可能随统计时点变化；本页为研究验证，不构成投资建议。</footer>
+  <div class="callout earnings-callout"><b>当前结论</b><p>本轮财报最清晰的正向验证来自 Micron、NVIDIA、AMD、Microsoft、Amazon、Palantir、ServiceNow 与 Adobe；Broadcom、Vertiv、Meta 需要拆分收入与利润看待。三星、SK 海力士、闪迪和 Coherent 补齐了存储与光互连的官方实际值，但由于尚无同口径一致预期，当前只用于验证产业景气，不参与“超预期”排名。</p></div>
+  <footer class="footer-note">数据截至 2026-08-14。实际值以公司公告为准，一致预期可能随统计时点变化；本页为研究验证，不构成投资建议。</footer>
 </main>
 
 <div class="chart-modal" id="earnings-chart-modal" hidden><div class="chart-modal-backdrop" data-close-modal></div><div class="chart-modal-panel"><button class="chart-modal-close" type="button" data-close-modal aria-label="关闭">×</button><div class="chart-modal-title" id="earnings-modal-title"></div><div class="chart-modal-canvas" id="earnings-modal-chart"></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 <script src="research.js"></script>
 <script src="../assets/i18n.js"></script>
-<script src="earnings-dashboard.js"></script>
+<script src="earnings-dashboard.js?v=20260814-1"></script>
 </body>
 </html>

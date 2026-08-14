@@ -41,23 +41,13 @@
   </section>
 
   <section class="section market-snapshot" id="market-snapshot">
-    <div class="section-head"><h2 data-en="Market price snapshot">市场价格快照</h2><p data-en="Latest value versus the prior day, week and month">最新值与前一日、前一周、前一月对比</p></div>
+    <div class="section-head"><div><h2 data-en="Hardware indicator snapshot">硬件领先指标快照</h2><p data-en="Latest verified observations from official series and reproducible public quote snapshots">官方序列与可复现公开报价的最新观察值</p></div><span class="verification-chip verified" data-en="Source-linked">逐项可溯源</span></div>
     <div class="panel table-scroll">
-      <table class="snapshot-table">
-        <thead><tr><th data-en="Indicator">指标</th><th data-en="Unit">单位</th><th data-en="Latest">最新</th><th data-en="Prior day">前一日</th><th data-en="Prior week">前一周</th><th data-en="Prior month">前一月</th><th data-en="Daily">日变化</th><th data-en="Weekly">周变化</th><th data-en="Monthly">月变化</th></tr></thead>
-        <tbody>
-          <tr><td><b>DDR5 24G</b></td><td data-en="Source quote">原始报价</td><td><b>47.20</b><small>08-06</small></td><td>47.00<small>08-05</small></td><td>45.80<small>07-31</small></td><td>42.50<small>07-08</small></td><td class="change-up">+0.4%</td><td class="change-up">+3.1%</td><td class="change-up strong">+11.1%</td></tr>
-          <tr><td><b>DDR5 16G</b></td><td data-en="Source quote">原始报价</td><td><b>49.44</b><small>08-06</small></td><td>49.44<small>08-05</small></td><td>48.50<small>07-31</small></td><td>45.48<small>07-08</small></td><td class="change-flat">0.0%</td><td class="change-up">+1.9%</td><td class="change-up strong">+8.7%</td></tr>
-          <tr><td><b>DDR4 16G</b></td><td data-en="Source quote">原始报价</td><td><b>77.1889</b><small>08-06</small></td><td>76.99<small>08-05</small></td><td>75.19<small>07-31</small></td><td>69.19<small>07-08</small></td><td class="change-up">+0.3%</td><td class="change-up">+2.7%</td><td class="change-up strong">+11.6%</td></tr>
-          <tr><td><b>DDR4 16G <span data-en="White-label">白牌</span></b></td><td data-en="Source quote">原始报价</td><td><b>8.5312</b><small>08-06</small></td><td>8.53<small>08-05</small></td><td>8.49<small>07-31</small></td><td>8.55<small>07-08</small></td><td class="change-flat">0.0%</td><td class="change-up">+0.5%</td><td class="change-down">−0.2%</td></tr>
-          <tr><td><b>DDR3 4G</b></td><td data-en="Source quote">原始报价</td><td><b>12.1103</b><small>08-06</small></td><td>12.01<small>08-05</small></td><td>11.87<small>07-31</small></td><td>10.67<small>07-08</small></td><td class="change-up">+0.8%</td><td class="change-up">+2.0%</td><td class="change-up strong">+13.5%</td></tr>
-          <tr><td><b>Ornn H100 Index</b></td><td data-en="Index">指数</td><td><b>2.78</b><small>07-28</small></td><td>2.72<small>07-27</small></td><td>2.73<small>07-21</small></td><td>2.53<small>06-27</small></td><td class="change-up">+2.2%</td><td class="change-up">+1.8%</td><td class="change-up strong">+9.9%</td></tr>
-          <tr><td><b>SD B200 Rental Index</b></td><td data-en="Index">指数</td><td><b>5.60</b><small>08-05</small></td><td>5.58<small>08-04</small></td><td>5.66<small>07-29</small></td><td>5.63<small>07-04</small></td><td class="change-up">+0.4%</td><td class="change-down">−1.1%</td><td class="change-down">−0.5%</td></tr>
-          <tr><td><b>ComputeDesk Blackwell US</b><small>B200 / B300 / GB200 / GB300</small></td><td data-en="Index">指数</td><td><b>5.25</b><small>08-06</small></td><td>5.24<small>08-05</small></td><td>5.16<small>07-30</small></td><td>5.00<small>07-06</small></td><td class="change-up">+0.2%</td><td class="change-up">+1.7%</td><td class="change-up strong">+4.9%</td></tr>
-          <tr><td><b>SD LLM Token Index</b></td><td data-en="Index">指数</td><td><b>1.27</b><small>08-04</small></td><td>1.29<small>08-03</small></td><td>1.39<small>07-28</small></td><td>1.66<small>07-01</small></td><td class="change-down">−1.4%</td><td class="change-down">−8.7%</td><td class="change-down strong">−23.5%</td></tr>
-        </tbody>
+      <table class="snapshot-table verified-snapshot-table">
+        <thead><tr><th data-en="Indicator">指标</th><th data-en="Source / series">来源 / 系列</th><th data-en="Latest period">最新观察期</th><th data-en="Latest value">最新值</th><th data-en="Prior period">上期值</th><th data-en="MoM change">环比变化</th><th data-en="YoY change">同比变化</th><th data-en="Unit / method">单位 / 方法</th></tr></thead>
+        <tbody id="verified-snapshot-body"></tbody>
       </table>
-      <div class="source-note" data-en="Reading note: units and specifications differ by source. Compare changes across time within the same row; do not compare absolute levels across rows. Dates shown in each cell are the observation dates in the supplied snapshot."><b>阅读提示：</b>不同来源的单位和规格不同，只比较同一行的时间变化，不横向比较各行绝对值。单元格日期为该快照对应的观察日。</div>
+      <div class="source-note snapshot-source"><b data-en="Sources">数据来源</b><span data-en="BLS Producer Price Index and Federal Reserve G.17 series distributed through FRED; GPU quotes from OpenComputePrices. Click each series name in the table to open the original source.">BLS 生产者价格指数与美联储 G.17（经 FRED 发布）；GPU 报价来自 OpenComputePrices。点击表内系列名称可打开原始出处。</span></div>
     </div>
   </section>
 
@@ -68,21 +58,25 @@
         <div class="chart-card-head"><div><span class="chart-kicker">OFFICIAL PRICE INDEX</span><h3 data-en="Semiconductor & Storage-Device Prices">半导体与存储设备价格</h3><p data-en="Each series is rebased to 100 at its first observation in 2024 to remove differences in base periods.">为消除基期不同的影响，各序列以 2024 年首个值归一化为 100。</p></div><button class="expand-chart" data-expand-chart="ppi-chart" aria-label="放大价格指数图">↗</button></div>
         <div id="ppi-chart" class="interactive-chart" role="img" aria-label="半导体和存储设备生产者价格指数趋势图"></div>
         <div class="chart-insight"><b data-en="Current signal">当前信号</b><span data-en="The storage-device price index rose 8.8% MoM and 31.8% YoY in June 2026, while the semiconductor-device PPI fell 0.6% YoY. Price increases remain concentrated in storage.">存储设备价格指数 2026 年 6 月环比 +8.8%、同比 +31.8%；同期半导体器件价格指数同比 −0.6%，涨价集中在存储环节。</span></div>
+        <div class="source-note inline-source"><b data-en="Data source">数据来源</b><span><a href="https://fred.stlouisfed.org/series/PCU3341123341121" target="_blank" rel="noreferrer">BLS/FRED PCU3341123341121</a> · <a href="https://fred.stlouisfed.org/series/PCU334413334413" target="_blank" rel="noreferrer">PCU334413334413</a> · <a href="https://fred.stlouisfed.org/series/PCU334111334111" target="_blank" rel="noreferrer">PCU334111334111</a><small data-en="Monthly, not seasonally adjusted; each line is rebased to 100 at its first 2024 observation for comparability.">月度、未季调；为便于比较，图中各序列以 2024 年首个观察值归一化为 100。</small></span></div>
       </article>
       <article class="chart-card chart-card-wide">
         <div class="chart-card-head"><div><span class="chart-kicker">OUTPUT & UTILIZATION</span><h3 data-en="Semiconductor Output & Capacity Utilization">半导体产量与产能利用率</h3><p data-en="Output is rising while utilization is falling, indicating that supply capacity is expanding faster than current production.">产量上升而利用率回落，意味着供给能力扩张快于当期产出。</p></div><button class="expand-chart" data-expand-chart="activity-chart" aria-label="放大产量图">↗</button></div>
         <div id="activity-chart" class="interactive-chart" role="img" aria-label="半导体工业产出和产能利用率趋势图"></div>
         <div class="chart-insight"><b data-en="Current signal">当前信号</b><span data-en="Industrial output rose 11.5% YoY, while capacity utilization fell 4.1 percentage points. Demand is still growing, but the industry is not facing a broad-based shortage.">工业产出同比 +11.5%，产能利用率同比下降 4.1 个百分点。需求仍在增长，但全行业并非全面短缺。</span></div>
+        <div class="source-note inline-source"><b data-en="Data source">数据来源</b><span><a href="https://fred.stlouisfed.org/series/IPG3344S" target="_blank" rel="noreferrer">Federal Reserve G.17 / FRED IPG3344S</a> · <a href="https://fred.stlouisfed.org/series/CAPUTLG3344S" target="_blank" rel="noreferrer">CAPUTLG3344S</a><small data-en="NAICS 3344 semiconductor and other electronic components; monthly, seasonally adjusted.">NAICS 3344 半导体及其他电子元件；月度、季调。</small></span></div>
       </article>
       <article class="chart-card">
         <div class="chart-card-head"><div><span class="chart-kicker">CROSS-CLOUD QUOTES · 2026-03-31</span><h3 data-en="On-Demand AI GPU Rental Quotes">AI GPU 按需租赁报价</h3><p data-en="Take the median within each source, then the median across sources; error bars show the 25th–75th percentile across sources.">每个数据源先取中位数，再跨来源取中位数；误差线为来源间 25%–75% 区间。</p></div><button class="expand-chart" data-expand-chart="gpu-chart" aria-label="放大 GPU 报价图">↗</button></div>
         <div id="gpu-chart" class="interactive-chart" role="img" aria-label="跨云 GPU 每卡每小时报价"></div>
         <div class="chart-insight"><b data-en="How to read">如何理解</b><span data-en="B200 has the highest median quote, while H100 quotes vary more across providers. Region, networking and availability differ by cloud, so the median is not a futures price for identical specifications.">B200 中位报价最高，H100 的供应商报价分散度更大。不同云商的地区、网络和可用性不同，不能把中位数当作同一规格期货价格。</span></div>
+        <div class="source-note inline-source"><b data-en="Data source">数据来源</b><span><a href="https://github.com/thatkavish/OpenComputePrices" target="_blank" rel="noreferrer">OpenComputePrices</a><small data-en="Public cross-provider quote snapshots. This page first takes the median within each provider and then the median across providers; the whisker shows the 25th–75th percentile.">公开云商报价快照。本页先取各供应商内部中位数，再取跨供应商中位数；误差线显示 25%–75% 分位区间。</small></span></div>
       </article>
       <article class="chart-card">
         <div class="chart-card-head"><div><span class="chart-kicker">MODEL API ECONOMICS</span><h3 data-en="Flagship Model API List-Price History">旗舰模型 API 标价演进</h3><p data-en="Converted to USD per 1M tokens, using representative OpenAI launch prices.">统一换算为美元 / 百万 Token，显示 OpenAI 代表性代际的发布标价。</p></div><button class="expand-chart" data-expand-chart="model-price-chart" aria-label="放大模型价格图">↗</button></div>
         <div id="model-price-chart" class="interactive-chart" role="img" aria-label="模型 API 输入输出价格演进"></div>
         <div class="chart-insight"><b data-en="How to read">如何理解</b><span data-en="Input prices fell from $30 for GPT-4 to $1.25 for GPT-5; output prices declined more slowly, so generation remains the main cost for complex reasoning.">输入价格从 GPT-4 的 30 美元降至 GPT-5 的 1.25 美元；输出价格下降较慢，复杂推理的生成成本仍是主要费用。</span></div>
+        <div class="source-note inline-source"><b data-en="Data source">数据来源</b><span><a href="https://openai.com/api/pricing/" target="_blank" rel="noreferrer">OpenAI API Pricing</a><small data-en="Official launch list prices, normalized to USD per 1 million tokens; the chart preserves the price stated at each model launch.">官方发布标价，统一换算为美元 / 百万 Token；图中保留各代模型发布时的标价。</small></span></div>
       </article>
     </div>
   </section>
@@ -100,6 +94,7 @@
         <tbody id="model-ranking-body"></tbody>
       </table>
       <div class="source-note" data-en="Methodology: LM Arena `text_style_control / latest / overall`. The leaderboard is continuously updated; this page preserves a snapshot from the stated date. “Open-license Models” means only that the dataset's license field is not Proprietary. Check each model's license for weight availability and commercial terms; scores are not recalculated separately."><b>榜单口径：</b>LM Arena `text_style_control / latest / overall`。榜单持续更新，本页保留抓取日快照；“开放许可模型”仅表示数据集的 license 字段不是 Proprietary，是否开放权重及商用条件仍需查阅各模型许可，并非单独重算评分。</div>
+      <div class="source-note inline-source"><b data-en="Data source">数据来源</b><span><a href="https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset" target="_blank" rel="noreferrer">LM Arena Official Leaderboard Dataset</a><small data-en="text_style_control / latest / overall snapshot; publication date shown above.">text_style_control / latest / overall 快照；抓取日期见本表标题。</small></span></div>
     </div>
   </section>
 
@@ -113,17 +108,6 @@
     </div>
   </section>
 
-  <section class="section methodology-note">
-    <div class="section-head"><h2 data-en="Data sources and limitations">数据来源与边界</h2><p data-en="Every figure retains its source, unit and as-of date.">所有数值均保留来源、单位和截至日期</p></div>
-    <div class="source-grid">
-      <a href="https://fred.stlouisfed.org/series/PCU334413334413" target="_blank" rel="noreferrer"><b data-en="Hardware prices">硬件价格</b><span data-en="U.S. Bureau of Labor Statistics PPI via FRED · Monthly">美国劳工统计局 PPI，经 FRED 发布 · 月度</span></a>
-      <a href="https://fred.stlouisfed.org/series/IPG3344S" target="_blank" rel="noreferrer"><b data-en="Output and utilization">产量与利用率</b><span data-en="Federal Reserve G.17 · Monthly, seasonally adjusted">美联储 G.17 · 月度、季调</span></a>
-      <a href="https://github.com/thatkavish/OpenComputePrices" target="_blank" rel="noreferrer"><b data-en="GPU quotes">GPU 报价</b><span data-en="OpenComputePrices · 65+ cloud and compute sources">OpenComputePrices · 65+ 云与算力来源</span></a>
-      <a href="https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset" target="_blank" rel="noreferrer"><b data-en="Model leaderboard">模型榜单</b><span data-en="Official LM Arena open dataset · CC BY 4.0">LM Arena 官方开放数据集 · CC BY 4.0</span></a>
-      <a href="https://openai.com/index/gpt-4-1/" target="_blank" rel="noreferrer"><b data-en="Model API list prices">模型 API 标价</b><span data-en="OpenAI model launch pages · USD per 1M tokens">OpenAI 历次模型发布页 · 美元 / 百万 Token</span></a>
-    </div>
-  </section>
-
   <div class="callout"><b data-en="Current conclusion">本期结论</b><p data-en="Rising storage-device prices are the clearest hardware signal, but semiconductor prices have not strengthened broadly. Output growth alongside lower utilization indicates that supply expansion is absorbing demand. On the model side, Arena preferences, API cost and deployment conditions should be assessed separately; a single rank cannot replace procurement analysis.">存储设备价格上涨是当前最明确的硬件信号，但半导体整体价格并未同步走强；产出增长与利用率回落说明供给扩张正在吸收需求。模型侧应把 Arena 偏好、API 成本和部署条件分开比较，不能用单一名次代替采购判断。</p></div>
   <footer class="footer-note" data-en="Data is provided for industry-trend analysis and does not constitute investment advice. Publication dates vary by source; refer to the date shown on each chart and leaderboard.">数据用于产业趋势观察，不构成投资建议。不同来源发布时间不同，以每张图和榜单标注为准。</footer>
 </main>
@@ -131,9 +115,9 @@
 <div class="chart-modal" id="chart-modal" hidden aria-hidden="true"><div class="chart-modal-backdrop" data-close-modal></div><div class="chart-modal-panel" role="dialog" aria-modal="true" aria-label="放大图表"><button class="chart-modal-close" data-close-modal aria-label="关闭">×</button><div id="chart-modal-title" class="chart-modal-title"></div><div id="chart-modal-canvas" class="chart-modal-canvas"></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
-<script src="data/hardware-data.js"></script>
+<script src="data/hardware-data.js?v=20260813"></script>
 <script src="research.js"></script>
 <script src="../assets/i18n.js"></script>
-<script src="hardware-dashboard.js"></script>
+<script src="hardware-dashboard.js?v=20260813-2"></script>
 </body>
 </html>
