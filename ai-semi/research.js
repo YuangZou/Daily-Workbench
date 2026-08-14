@@ -7,7 +7,8 @@
       ['earnings','earnings.html','产业链业绩','Earnings Chain'],
       ['korea','korea.html','韩国交易热度','Korea Crowding'],
       ['frontier','frontier.html','前沿技术','Frontier Tech'],
-      ['podcast','podcast.html','播客观点','Podcast Views']
+      ['podcast','podcast.html','播客观点','Podcast Views'],
+      ['neocloud','neocloud.html','NeoCloud 利润','NeoCloud Economics']
     ];
     host.innerHTML=links.map(function(x){return '<a href="'+x[1]+'"'+(page===x[0]?' class="active" aria-current="page"':'')+' data-en="'+x[3]+'">'+x[2]+'</a>';}).join('');
   }

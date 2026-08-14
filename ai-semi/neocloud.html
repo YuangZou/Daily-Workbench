@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title data-en="NeoCloud GPU Unit Economics">NeoCloud GPU 单位经济性</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="research.css?v=20260814-2">
+</head>
+<body data-page="neocloud">
+<nav class="nav"><a class="nav-brand" href="../"><span class="nav-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></span><b>研究工作台</b></a><div class="nav-links"><a href="../macro/">宏观</a><a href="../fundamentals/">工业品基本面</a><a href="../capital/">资金分析</a><a href="../sentiment/">舆情分析</a><a href="../knowledge/">知识库</a><a href="../search/">检索问答</a><a href="./" class="active">AI 半导体</a></div><div class="lang-toggle"><button class="lang-btn" data-lang="zh" onclick="WRLang.set('zh')">中</button><button class="lang-btn" data-lang="en" onclick="WRLang.set('en')">EN</button></div><span class="nav-status"><span class="dot"></span>数据更新 2026-08-14</span></nav>
+<div class="research-nav" id="ai-research-nav"></div>
+
+<main class="research-wrap neocloud-wrap">
+  <section class="mast neocloud-mast">
+    <div class="mast-main">
+      <div class="eyebrow">NEOCLOUD GPU UNIT ECONOMICS</div>
+      <h1 data-en="NeoCloud GPU Profitability Tracker">NeoCloud GPU 即时利润追踪</h1>
+      <p data-en="Convert GPU rental rates, utilization and infrastructure costs into cash, EBIT and after-financing economics per billed GPU-hour. Public quotes and operating assumptions are kept separate.">把 GPU 租金、利用率与基础设施成本统一折算为每计费 GPU 小时的现金、EBIT 与融资后经济性，并将公开报价与经营假设分开。</p>
+      <span class="asof" data-en="PUBLIC QUOTES VERIFIED · 2026-08-14">公开报价核验 · 2026-08-14</span>
+    </div>
+    <aside class="mast-side neo-control">
+      <div class="eyebrow" data-en="SCENARIO CONTROL">情景控制</div>
+      <div class="scenario-switch" role="group" aria-label="情景切换"><button data-scenario="bear" type="button">Bear</button><button data-scenario="base" type="button" class="active">Base</button><button data-scenario="bull" type="button">Bull</button></div>
+      <div class="scenario-summary" id="scenario-summary"></div>
+      <label class="sku-picker"><span data-en="Focus GPU">重点 GPU</span><select id="focus-sku"></select></label>
+    </aside>
+  </section>
+
+  <div class="kpis neo-kpis">
+    <div class="kpi"><span data-en="Selected rent">选定租金</span><b id="kpi-rent">—</b><small id="kpi-rent-note">—</small></div>
+    <div class="kpi"><span data-en="Cash EBITDA margin">现金 EBITDA 利润率</span><b id="kpi-cash-margin">—</b><small data-en="Before depreciation and financing">折旧与融资成本前</small></div>
+    <div class="kpi"><span data-en="After-financing margin">融资后利润率</span><b id="kpi-full-margin">—</b><small data-en="After depreciation and interest">扣除折旧与利息</small></div>
+    <div class="kpi"><span data-en="Hurdle rent">资本回报门槛租金</span><b id="kpi-hurdle">—</b><small id="kpi-hurdle-note">—</small></div>
+  </div>
+
+  <div class="reading-guide neo-guide"><b data-en="How to read">阅读顺序</b><p data-en="Compare rent with cash cost first, then deduct economic depreciation to estimate EBIT, and finally deduct interest for the after-financing spread. Hurdle rent adds the target capital return and is higher than strict break-even.">先比较租金与现金成本，再扣除经济折旧观察 EBIT，最后扣除利息观察融资后价差。资本回报门槛租金还加入目标资本回报，因此高于严格盈亏平衡线。</p></div>
+
+  <section class="section">
+    <div class="section-head"><div><h2 data-en="GPU unit economics dashboard">GPU 单位经济性总览</h2><p data-en="USD per billed GPU-hour; scenario changes update rent, utilization and depreciation life.">美元 / 计费 GPU 小时；情景切换同步调整租金、利用率和折旧年限</p></div><div class="tracker-actions"><button type="button" id="export-csv" data-en="Export CSV">导出 CSV</button><button type="button" onclick="window.print()" data-en="Print / PDF">打印 / PDF</button></div></div>
+    <div class="panel table-scroll neo-panel"><table class="unit-table"><thead><tr><th>GPU</th><th data-en="Selected rent">选定租金</th><th data-en="Public benchmark">公开基准</th><th data-en="Cash cost">现金成本</th><th data-en="Cash EBITDA margin">现金 EBITDA</th><th data-en="EBIT margin">EBIT</th><th data-en="After-financing margin">融资后</th><th data-en="Hurdle rent">门槛租金</th><th data-en="Cash ROIC">现金 ROIC</th><th data-en="Payback">回收期</th><th data-en="Status">状态</th></tr></thead><tbody id="unit-economics-body"></tbody></table><div class="source-note" data-en="Public benchmark is the simple average of comparable verified on-demand quotes below. It is not a transaction price and is not adjusted for SLA, cluster size or contract length. Manual rent is the default model input."><b>公开基准口径：</b>下方同 SKU、可比按需价格的简单平均，不代表实际成交价，也未对 SLA、集群规模和合约期限作调整；模型默认使用手动租金。</div></div>
+  </section>
+
+  <section class="section dashboard-grid">
+    <article class="chart-card"><div class="chart-card-head"><div><span class="chart-kicker">RENT VS. COST</span><h3 data-en="Rent and three cost layers">租金与三层成本</h3><p data-en="Cash, EBIT and after-financing spreads are shown separately.">现金、EBIT 与融资后价差分开呈现。</p></div></div><div id="rent-cost-chart" class="interactive-chart"></div></article>
+    <article class="chart-card"><div class="chart-card-head"><div><span class="chart-kicker">COST STACK</span><h3 data-en="Per-hour cost stack">每小时成本堆栈</h3><p data-en="Electricity, facilities, operations, depreciation and interest.">电力、设施、运维、折旧与利息逐项拆分。</p></div></div><div id="cost-stack-chart" class="interactive-chart"></div></article>
+    <article class="chart-card chart-card-wide"><div class="chart-card-head"><div><span class="chart-kicker">MARGIN CURVE</span><h3 data-en="After-financing margin across rental rates">不同租金下的融资后利润率</h3><p data-en="Strict break-even and target-return hurdle are separate thresholds.">严格盈亏平衡与目标资本回报门槛是两条不同阈值。</p></div></div><div id="margin-curve-chart" class="interactive-chart"></div><div class="chart-insight"><b data-en="Current read">当前观察</b><span id="margin-insight"></span></div></article>
+  </section>
+
+  <section class="section"><div class="section-head"><div><h2 data-en="Rent × utilization sensitivity">租金 × 利用率敏感性</h2><p data-en="After-financing margin for the selected GPU.">重点 GPU 的融资后利润率</p></div><span class="sensitivity-label" id="sensitivity-label"></span></div><div class="sensitivity-shell"><div class="sensitivity-axis" data-en="Rental rate → / Utilization ↓">租金 → / 利用率 ↓</div><div id="sensitivity-grid" class="sensitivity-grid"></div></div></section>
+
+  <section class="section"><div class="section-head"><div><h2 data-en="Verified public market quotes">已核验公开市场报价</h2><p data-en="On-demand and spot products are separated; all values are USD per GPU-hour.">按需与 Spot 产品分列；统一为美元 / GPU 小时</p></div></div><div class="panel table-scroll neo-panel"><table class="quote-table"><thead><tr><th data-en="Provider">服务商</th><th>GPU</th><th data-en="Product / scale">产品 / 规模</th><th data-en="Rate type">价格类型</th><th data-en="Published price">公开价格</th><th data-en="Per GPU-hour">折算 / GPU 小时</th><th data-en="Benchmark">计入基准</th><th data-en="Source">来源</th></tr></thead><tbody id="market-quotes-body"></tbody></table><div class="source-note" data-en="Quote date: Aug 14, 2026. Prices may exclude tax, storage, networking, egress and enterprise support. Availability and committed-contract rates may differ materially."><b>报价日期：</b>2026-08-14。价格可能不含税、存储、网络、流量和企业支持；实际可用性与长期合约成交价可能显著不同。</div></div></section>
+
+  <section class="section assumptions-section"><div class="section-head"><div><h2 data-en="Editable operating assumptions">可编辑经营假设</h2><p data-en="Blue values are model inputs and are stored only in this browser.">蓝色数值为模型输入，仅保存在当前浏览器</p></div><div class="tracker-actions"><button type="button" id="reset-assumptions" data-en="Reset defaults">恢复默认值</button></div></div>
+    <div class="assumption-toolbar"><label><span data-en="Rent source">租金来源</span><select id="rent-source"><option value="manual">手动经营假设</option><option value="public">公开按需均价</option></select></label><label><span data-en="Electricity ($/kWh)">电价（$/kWh）</span><input id="global-electricity" type="number" min="0" step="0.001"></label><label><span>PUE</span><input id="global-pue" type="number" min="1" step="0.01"></label><label><span data-en="Facility ($/kW-month)">设施费（$/kW-月）</span><input id="global-facility" type="number" min="0" step="1"></label><label><span data-en="Interest rate (%)">利率（%）</span><input id="global-interest" type="number" min="0" step="0.1"></label><label><span data-en="Target return (%)">目标资本回报（%）</span><input id="global-target" type="number" min="0" step="0.1"></label></div>
+    <div class="panel table-scroll assumption-panel"><table class="assumption-table"><thead><tr><th>GPU</th><th data-en="Manual rent">手动租金</th><th data-en="Slot Capex">单槽 Capex</th><th data-en="Full-slot load (kW)">满载功率（kW）</th><th data-en="Direct Opex / billed hr">直接运维 / 计费小时</th><th data-en="Base utilization">基础利用率</th><th data-en="Depreciation years">折旧年限</th><th data-en="Residual value">残值率</th><th data-en="Debt share">债务比例</th></tr></thead><tbody id="assumptions-body"></tbody></table></div>
+  </section>
+
+  <section class="section methodology-note"><div class="section-head"><h2 data-en="Calculation framework">计算框架</h2><p data-en="All costs are converted to each billed GPU-hour.">所有成本统一折算至每个计费 GPU 小时</p></div><div class="formula-clean"><b data-en="Cash cost">现金成本</b><p><code data-en="Electricity + facility allocation + direct operations">电费 + 设施分摊 + 直接运维</code></p><b data-en="Economic depreciation">经济折旧</b><p><code>Capex × (1 − residual value) ÷ depreciation years ÷ annual billed hours</code></p><b data-en="Financing cost">融资成本</b><p><code>Capex × debt share × interest rate ÷ annual billed hours</code></p><b data-en="Hurdle rent">资本回报门槛租金</b><p><code data-en="After-financing full cost + target return × Capex ÷ annual billed hours">融资后全成本 + 目标资本回报 × Capex ÷ 年计费小时</code></p></div></section>
+
+  <div class="callout neo-callout"><b data-en="Research conclusion">研究结论</b><p id="research-conclusion"></p></div>
+  <footer class="footer-note" data-en="This is a scenario model, not audited company guidance. Public cloud list prices, enterprise contract rates and realized utilization are not interchangeable. Results do not constitute investment advice.">本页为情景模型，不是经审计的公司指引。公开云标价、企业合约成交价和实际利用率不可混用；测算结果不构成投资建议。</footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script src="research.js?v=20260814"></script><script src="../assets/i18n.js"></script><script src="neocloud-dashboard.js?v=20260814-3"></script>
+</body></html>
